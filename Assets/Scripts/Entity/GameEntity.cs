@@ -4,26 +4,40 @@ public enum GameEntityType
 {
     Player,
     Enemy,
+    Boss,
     DroppedItem,
     Block
 }
 
-public abstract class GameEntity : MonoBehaviour
+public class GameEntity : MonoBehaviour
 {
-    [SerializeField]
-    protected LayerMask _groundLayer;
+    public EntityDataContainer entityData;
+    private IBehaviourSystem _behaviourSystem;
+    private IMovementSystem _movementSystem;
 
-    protected GameEntityType _entityType;
-
-
-    protected abstract void Awake();
-
-    protected abstract void Start();
-
-    protected abstract void Update();
-
-    protected bool IsGrounded()
+    private void Awake()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, 0.2f, _groundLayer);
+        entityData = new EntityDataContainer();
+    }
+
+    private void Update()
+    {
+        _behaviourSystem?.Update();
+        _movementSystem?.Update();
+    }
+
+    public void SetBehaviourSystem(IBehaviourSystem newBehaviourSystem)
+    {
+        _behaviourSystem = newBehaviourSystem;
+        _behaviourSystem.SetContext(this);
+    }
+
+    public void SetMovementSystem(IMovementSystem newMovementSystem)
+    {
+        if(_movementSystem != null)
+            _movementSystem.Dispose();
+
+        _movementSystem = newMovementSystem;
+        _movementSystem.SetContext(this);
     }
 }

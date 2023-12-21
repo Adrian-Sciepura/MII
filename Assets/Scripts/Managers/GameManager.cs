@@ -8,14 +8,24 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    private GameState _gameState;
+    public static GameManager instance { get; private set; }
+    public GameState gameState { get; private set; }
 
-    void Start()
+    private void Awake()
     {
-        
+        if(instance != null && instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        instance = this;
+        gameState = GameState.PLAYING;
+        GameDataManager.InitEntityData();
+        GameDataManager.input.Enable();
     }
 
-    void Update()
+    private void OnDestroy()
     {
         
     }

@@ -1,49 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
+public static class EventABCD
+{
+    private static readonly List<int> a = new List<int>();
+}
+
+
+[System.Serializable]
 public class PlayerMovementSystem : IMovementSystem
 {
+    private GameEntity _context;
+
     private PlayerInputController _input;
-    
     private Transform _transform;
     private Rigidbody2D _rigidBody;
     private Animator _animator;
 
-    private LayerMask _groundLayer;
-
-    private int _moveSpeed;
-    private int _jumpForce;
+    private LandEntityData _movementData;
 
     private bool _isFacingRight;
-
-    public PlayerMovementSystem(int moveSpeed, int jumpForce, LayerMask groundLayer, Transform transform, Rigidbody2D rigidBody, Animator animator)
-    {
-        _transform = transform;
-        _rigidBody = rigidBody;
-        _animator = animator;
-        _groundLayer = groundLayer;
-
-        _moveSpeed = moveSpeed;
-        _jumpForce = jumpForce;
-
-        _isFacingRight = true;
-
-        _input = new PlayerInputController();
-        _input.Enable();
-
-        _input.Player.Jump.performed += Jump;
-    }
-
-    ~PlayerMovementSystem()
-    {
-        _input.Disable();
-    }
 
     public void Update()
     {
         float horizontal = _input.Player.Move.ReadValue<Vector2>().x;
 
-        _rigidBody.velocity = new Vector2(horizontal * _moveSpeed, _rigidBody.velocity.y);
+        _rigidBody.velocity = new Vector2(horizontal * _movementData.speed, _rigidBody.velocity.y);
 
         if ((!_isFacingRight && horizontal > 0f) || (_isFacingRight && horizontal < 0f))
             Flip();
@@ -52,10 +35,29 @@ public class PlayerMovementSystem : IMovementSystem
         _animator.SetBool("isGrounded", IsGrounded());
     }
 
+    public void SetContext(GameEntity entity)
+    {
+        _context = entity;
+
+        _input = GameDataManager.input;
+        _input.Player.Jump.performed += Jump;
+
+        _isFacingRight = true;
+        _transform = _context.transform;
+        _rigidBody = _context.GetComponent<Rigidbody2D>();
+        _animator = _context.GetComponent<Animator>();
+        _movementData = _context.entityData.GetEntityData<LandEntityData>();
+    }
+
+    public void Dispose()
+    {
+        _input.Player.Jump.performed -= Jump;
+    }
+
     private void Jump(InputAction.CallbackContext context)
     {
         if(IsGrounded())
-            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _jumpForce);
+            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _movementData.jumpForce);
     }
 
     private void Flip()
@@ -68,6 +70,6 @@ public class PlayerMovementSystem : IMovementSystem
 
     protected bool IsGrounded()
     {
-        return Physics2D.Raycast(_transform.position, Vector2.down, 1.45f, _groundLayer);
+        return Physics2D.Raycast(_transform.position, Vector2.down, 1.45f, _movementData.groundLayer);
     }
 }
