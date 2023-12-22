@@ -17,6 +17,10 @@ MonoBehaviour:
   entityData:
   - rid: 5385340255301271561
   - rid: 5385340255301271562
+  behaviourSystem:
+    rid: 5385340277076262917
+  movementSystem:
+    rid: 5385340277076262918
   references:
     version: 2
     RefIds:
@@ -28,8 +32,14 @@ MonoBehaviour:
     - rid: 5385340255301271562
       type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 0
-        jumpForce: 0
+        speed: 10
+        jumpForce: 8
         groundLayer:
           serializedVersion: 2
-          m_Bits: 0
+          m_Bits: 64
+    - rid: 5385340277076262917
+      type: {class: PlayerBehaviourSystem, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5385340277076262918
+      type: {class: PlayerMovementSystem, ns: , asm: Assembly-CSharp}
+      data: 

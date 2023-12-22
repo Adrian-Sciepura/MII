@@ -1,32 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public static class LevelManager
 {
-    public LevelManager instance { get; private set; }
-
-    private void Awake()
+    public static void Setup()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-            return;
-        }
-
-        instance = this;
+        EventManager.Subscribe<OnLevelLoadEvent>(SetupEntitiesOnScene);
     }
 
-    private void Start()
+    private static void SetupEntitiesOnScene(OnLevelLoadEvent e)
     {
-        SpawnInfo[] spawnInfos = FindObjectsOfType<SpawnInfo>();
+        SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
 
         foreach(SpawnInfo spawnInfo in spawnInfos)
         {
             GameEntityFactory.Build(spawnInfo.entityName, spawnInfo.gameObject.transform.position);
-            Destroy(spawnInfo.gameObject);
+            Object.Destroy(spawnInfo.gameObject);
         }
     }
 }

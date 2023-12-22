@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class OverlayManager : MonoBehaviour
+public static class OverlayManager
 {
 
 }

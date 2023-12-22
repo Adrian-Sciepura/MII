@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         gameState = GameState.PLAYING;
+
         GameDataManager.InitEntityData();
         GameDataManager.input.Enable();
+
+        LevelManager.Setup();
     }
 
-    private void OnDestroy()
-    {
-        
-    }
+    private void Start() => EventManager.Publish(new OnLevelLoadEvent());
 }

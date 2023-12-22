@@ -27,10 +27,6 @@ public class EntityDataContainer
         if(_data.FirstOrDefault(x => x.GetType() == dataType) != null)
             return false;
 
-        /*foreach (var x in _data)
-            if (x.GetType() == dataType)
-                return false;*/
-
         _data.Add(data);
         return true;
     }
