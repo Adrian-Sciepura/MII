@@ -12,10 +12,10 @@ public static class GameEntityFactory
         GameEntity gameEntity = newEntity.AddComponent<GameEntity>();
 
         foreach(EntityData data in entityPrefab.entityData)
-            gameEntity.entityData.AddEntityData(data);
+            gameEntity.entityData.AddData(data);
 
-        gameEntity.SetBehaviourSystem(entityPrefab.behaviourSystem);
-        gameEntity.SetMovementSystem(entityPrefab.movementSystem);
+        gameEntity.BehaviourSystem = entityPrefab.behaviourSystem;
+        gameEntity.MovementSystem = entityPrefab.movementSystem;
         return newEntity;
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/EntityPrefab", order = 1)]
+[CreateAssetMenu(fileName = "EntityPrefab", menuName = "ScriptableObjects/EntityPrefab", order = 1)]
 public class EntityPrefabSO : ScriptableObject
 {
     [SerializeField]
@@ -18,4 +18,10 @@ public class EntityPrefabSO : ScriptableObject
 
     [SerializeReference, SubclassSelector]
     public IMovementSystem movementSystem;
+
+    /// <summary>
+    /// NOTICE - first item in list is default held item
+    /// </summary>
+    [SerializeField]
+    public List<ItemPrefabSO> inventoryItems;
 }

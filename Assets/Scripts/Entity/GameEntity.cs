@@ -11,13 +11,44 @@ public enum GameEntityType
 
 public class GameEntity : MonoBehaviour
 {
-    public EntityDataContainer entityData;
+    public readonly DataContainer<EntityData> entityData = new DataContainer<EntityData>();
+    public readonly Inventory inventory = new Inventory();
+
+    private int _heldItemInventorySlot = 0;
     private IBehaviourSystem _behaviourSystem;
     private IMovementSystem _movementSystem;
 
-    private void Awake()
+    public int HeldItemInventorySlot 
+    { 
+        get => _heldItemInventorySlot;
+        set
+        {
+            if(value >= 0 && value < inventory.size)
+                _heldItemInventorySlot = value;
+        }
+    }
+
+    public IBehaviourSystem BehaviourSystem
     {
-        entityData = new EntityDataContainer();
+        get => _behaviourSystem;
+        set
+        {
+            _behaviourSystem = value;
+            _behaviourSystem.SetContext(this);
+        }
+    }
+
+    public IMovementSystem MovementSystem
+    {
+        get => _movementSystem;
+        set
+        {
+            if (_movementSystem != null)
+                _movementSystem.Dispose();
+
+            _movementSystem = value;
+            _movementSystem.SetContext(this);
+        }
     }
 
     private void Update()
@@ -26,18 +57,19 @@ public class GameEntity : MonoBehaviour
         _movementSystem?.Update();
     }
 
-    public void SetBehaviourSystem(IBehaviourSystem newBehaviourSystem)
+    public void NextItem()
     {
-        _behaviourSystem = newBehaviourSystem;
-        _behaviourSystem.SetContext(this);
+        if (_heldItemInventorySlot >= inventory.size)
+            _heldItemInventorySlot = 0;
+        else
+            _heldItemInventorySlot++;
     }
 
-    public void SetMovementSystem(IMovementSystem newMovementSystem)
+    public void PreviousItem()
     {
-        if(_movementSystem != null)
-            _movementSystem.Dispose();
-
-        _movementSystem = newMovementSystem;
-        _movementSystem.SetContext(this);
+        if (_heldItemInventorySlot <= 0)
+            _heldItemInventorySlot = inventory.size - 1;
+        else
+            _heldItemInventorySlot--;
     }
 }

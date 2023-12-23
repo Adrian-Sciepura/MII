@@ -46,7 +46,7 @@ public class PlayerMovementSystem : IMovementSystem
         _transform = _context.transform;
         _rigidBody = _context.GetComponent<Rigidbody2D>();
         _animator = _context.GetComponent<Animator>();
-        _movementData = _context.entityData.GetEntityData<LandEntityData>();
+        _movementData = _context.entityData.GetData<LandEntityData>();
     }
 
     public void Dispose()
