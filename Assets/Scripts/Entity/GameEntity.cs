@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum GameEntityType
+public enum GameEntityCategory
 {
     Player,
     Enemy,

@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEngine;
 
 public static class GameDataManager
 {
     private static readonly string SO_PATH = "Assets/ScriptableObjects";
 
     public static readonly PlayerInputController input = new PlayerInputController();
-    public static readonly Dictionary<string, EntityPrefabSO> entityRegistry = new Dictionary<string, EntityPrefabSO>();
+    public static readonly Dictionary<GameEntityType, EntityPrefabSO> entityRegistry = new Dictionary<GameEntityType, EntityPrefabSO>();
 
     public static void InitEntityData()
     {
@@ -16,9 +16,15 @@ public static class GameDataManager
         foreach (string asset in assets)
         {
             EntityPrefabSO entityPrefab = AssetDatabase.LoadAssetAtPath<EntityPrefabSO>(AssetDatabase.GUIDToAssetPath(asset));
-            if (entityPrefab != null && entityPrefab.entityName != null && !entityRegistry.ContainsKey(entityPrefab.entityName))
-                if (entityPrefab != null && entityPrefab.entityName != null && !entityRegistry.ContainsKey(entityPrefab.entityName))
-                    entityRegistry.Add(entityPrefab.entityName, entityPrefab);
+            if (Validator.Validate(entityPrefab))
+            {
+                GameEntityType entityType;
+                if (Enum.TryParse<GameEntityType>(entityPrefab.entityName, out entityType) &&
+                    !entityRegistry.ContainsKey(entityType))
+                {
+                    entityRegistry.Add(entityType, entityPrefab);
+                }
+            }
         }
     }
 }

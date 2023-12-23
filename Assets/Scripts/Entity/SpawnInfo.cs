@@ -2,5 +2,5 @@
 
 public class SpawnInfo : MonoBehaviour
 {
-    public string entityName;
+    public GameEntityType entityType;
 }

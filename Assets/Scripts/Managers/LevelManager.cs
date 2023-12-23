@@ -13,7 +13,7 @@ public static class LevelManager
 
         foreach(SpawnInfo spawnInfo in spawnInfos)
         {
-            GameEntityFactory.Build(spawnInfo.entityName, spawnInfo.gameObject.transform.position);
+            Factory.Build(spawnInfo.entityType, spawnInfo.gameObject.transform.position);
             Object.Destroy(spawnInfo.gameObject);
         }
     }

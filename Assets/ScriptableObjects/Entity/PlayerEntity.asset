@@ -21,8 +21,7 @@ MonoBehaviour:
     rid: 5385340277076262917
   movementSystem:
     rid: 5385340277076262918
-  inventoryItems:
-  - {fileID: 0}
+  inventoryItems: []
   references:
     version: 2
     RefIds:
