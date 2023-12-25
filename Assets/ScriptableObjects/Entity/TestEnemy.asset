@@ -10,39 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bda0bee7217bb8241ba68928c2cdb6c3, type: 3}
-  m_Name: PlayerEntity
+  m_Name: TestEnemy
   m_EditorClassIdentifier: 
-  entityName: Player
-  displayName: Player
+  entityName: TestEnemy
+  displayName: TEST
   prefab: {fileID: 7303109128018231030, guid: 79f2ac2be8d94b547a09456f045e1771, type: 3}
   entityData:
-  - rid: 5385340255301271561
-  - rid: 5385340255301271562
+  - rid: 1933934880122732545
   behaviourSystem:
-    rid: 5385340277076262917
+    rid: 1933934880122732547
   movementSystem:
-    rid: 5385340277076262918
-  interactions: []
+    rid: 1933934880122732549
+  interactions:
+  - interactionParams:
+      Priority: 0
+      freezeGameTime: 0
+    conditions: []
+    content:
+    - rid: 1933934880122732550
   inventoryItems: []
   references:
     version: 2
     RefIds:
-    - rid: 5385340255301271561
-      type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
-      data:
-        health: 0
-        maxHealth: 0
-    - rid: 5385340255301271562
+    - rid: 1933934880122732545
       type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
       data:
         speed: 10
-        jumpForce: 8
+        jumpForce: 5
         groundLayer:
           serializedVersion: 2
           m_Bits: 64
-    - rid: 5385340277076262917
-      type: {class: PlayerBehaviourSystem, ns: , asm: Assembly-CSharp}
+    - rid: 1933934880122732547
+      type: {class: DoNothingBehaviourSystem, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 5385340277076262918
-      type: {class: PlayerMovementSystem, ns: , asm: Assembly-CSharp}
+    - rid: 1933934880122732549
+      type: {class: BasicEnemyMovementSystem, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 1933934880122732550
+      type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        speakerGUID: 
+        message: Test message

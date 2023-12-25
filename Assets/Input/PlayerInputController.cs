@@ -44,6 +44,15 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""47dae4f4-860c-4753-8dbb-083cf1ea8a54"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,45 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24e01769-b9dc-44ba-b1cf-65e66a34de79"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Overlay"",
+            ""id"": ""07ef7ee9-cafb-4da9-9407-61cead333c0c"",
+            ""actions"": [
+                {
+                    ""name"": ""ContinueDialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""da01dd7e-d3d0-441b-955b-64e935c8e8f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b3f1f825-9af7-47fb-969b-39c8cec3c4ee"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ContinueDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +170,10 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        // Overlay
+        m_Overlay = asset.FindActionMap("Overlay", throwIfNotFound: true);
+        m_Overlay_ContinueDialogue = m_Overlay.FindAction("ContinueDialogue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +237,14 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Interaction;
     public struct PlayerActions
     {
         private @PlayerInputController m_Wrapper;
         public PlayerActions(@PlayerInputController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +260,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -216,6 +273,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -233,9 +293,60 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Overlay
+    private readonly InputActionMap m_Overlay;
+    private List<IOverlayActions> m_OverlayActionsCallbackInterfaces = new List<IOverlayActions>();
+    private readonly InputAction m_Overlay_ContinueDialogue;
+    public struct OverlayActions
+    {
+        private @PlayerInputController m_Wrapper;
+        public OverlayActions(@PlayerInputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ContinueDialogue => m_Wrapper.m_Overlay_ContinueDialogue;
+        public InputActionMap Get() { return m_Wrapper.m_Overlay; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OverlayActions set) { return set.Get(); }
+        public void AddCallbacks(IOverlayActions instance)
+        {
+            if (instance == null || m_Wrapper.m_OverlayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OverlayActionsCallbackInterfaces.Add(instance);
+            @ContinueDialogue.started += instance.OnContinueDialogue;
+            @ContinueDialogue.performed += instance.OnContinueDialogue;
+            @ContinueDialogue.canceled += instance.OnContinueDialogue;
+        }
+
+        private void UnregisterCallbacks(IOverlayActions instance)
+        {
+            @ContinueDialogue.started -= instance.OnContinueDialogue;
+            @ContinueDialogue.performed -= instance.OnContinueDialogue;
+            @ContinueDialogue.canceled -= instance.OnContinueDialogue;
+        }
+
+        public void RemoveCallbacks(IOverlayActions instance)
+        {
+            if (m_Wrapper.m_OverlayActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IOverlayActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OverlayActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OverlayActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public OverlayActions @Overlay => new OverlayActions(this);
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
+    }
+    public interface IOverlayActions
+    {
+        void OnContinueDialogue(InputAction.CallbackContext context);
     }
 }

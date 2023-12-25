@@ -1,4 +1,9 @@
-public class OnLevelLoadEvent
+public class OnHighPriorityLevelLoadEvent
+{
+
+}
+
+public class OnHighPriorityUpdateEvent
 {
 
 }

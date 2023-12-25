@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameEntityCategory
@@ -13,6 +14,8 @@ public class GameEntity : MonoBehaviour
 {
     public readonly DataContainer<EntityData> entityData = new DataContainer<EntityData>();
     public readonly Inventory inventory = new Inventory();
+    public readonly InteractionContainer interactionContainer = new InteractionContainer();
+    public GameEntityType entityType;
 
     private int _heldItemInventorySlot = 0;
     private IBehaviourSystem _behaviourSystem;
@@ -55,6 +58,22 @@ public class GameEntity : MonoBehaviour
     {
         _behaviourSystem?.Update();
         _movementSystem?.Update();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
+        
+        if (entity != null)
+            _behaviourSystem.OnInteractionAreaEnter(entity);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
+
+        if (entity != null)
+            _behaviourSystem.OnInteractionAreaExit(entity);
     }
 
     public void NextItem()

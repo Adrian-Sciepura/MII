@@ -23,10 +23,13 @@ public class GameManager : MonoBehaviour
         gameState = GameState.PLAYING;
 
         GameDataManager.InitEntityData();
-        GameDataManager.input.Enable();
+        GameDataManager.input.Player.Enable();
 
         LevelManager.Setup();
+        OverlayManager.Setup();
+        InteractionManager.Setup();
     }
 
-    private void Start() => EventManager.Publish(new OnLevelLoadEvent());
+    private void Start() => EventManager.Publish(new OnHighPriorityLevelLoadEvent());
+    private void Update() => EventManager.Publish(new OnHighPriorityUpdateEvent());
 }
