@@ -22,8 +22,8 @@ public class Factory
 
         gameEntity.BehaviourSystem = entityPrefab.behaviourSystem;
         gameEntity.MovementSystem = entityPrefab.movementSystem;
-        
-        if(entityPrefab.interactions != null)
+
+        if (entityPrefab.interactions != null)
             gameEntity.interactionContainer.AddInteractions(entityPrefab.interactions);
 
         gameEntity.entityType = Enum.Parse<GameEntityType>(entityPrefab.entityName);

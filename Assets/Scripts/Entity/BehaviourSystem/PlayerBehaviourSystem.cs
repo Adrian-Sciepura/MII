@@ -5,7 +5,7 @@ public class PlayerBehaviourSystem : IBehaviourSystem
 {
     public void Update()
     {
-        
+
     }
 
     public void SetContext(GameEntity context)
@@ -15,6 +15,7 @@ public class PlayerBehaviourSystem : IBehaviourSystem
 
     public void OnInteractionAreaEnter(GameEntity other)
     {
+
         InteractionManager.AddPossibleInteraction(other);
     }
 

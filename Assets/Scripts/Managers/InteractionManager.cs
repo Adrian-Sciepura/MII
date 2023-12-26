@@ -14,20 +14,23 @@ public static class InteractionManager
         if (entity.interactionContainer.GetInteraction() != null)
         {
             _possibleInteractions.Add(entity);
-            GameObject tag = new GameObject("interactionTag");
-            tag.transform.parent = entity.transform;
+            GameObject tag = UnityEngine.Object.Instantiate(
+                GameDataManager.prefabRegistry["InteractionTag"], 
+                new Vector3(entity.transform.position.x, entity.transform.position.y + 1.0f), 
+                Quaternion.identity, 
+                entity.transform);
         }
     }
 
     public static void RemovePossibleInteraction(GameEntity entity)
     {
-        for(int i = 0; i < _possibleInteractions.Count; i++)
+        for (int i = 0; i < _possibleInteractions.Count; i++)
         {
             if (_possibleInteractions[i] == entity)
             {
-                GameObject interactionTag  = entity.transform.Find("interactionTag")?.gameObject;
-                
-                if(interactionTag != null)
+                GameObject interactionTag = entity.transform.Find("InteractionTag(Clone)")?.gameObject;
+
+                if (interactionTag != null)
                     Object.Destroy(interactionTag);
 
                 _possibleInteractions.RemoveAt(i);
@@ -49,7 +52,7 @@ public static class InteractionManager
 
         bool succeded = false;
 
-        while(!succeded && _possibleInteractions.Count > 0)
+        while (!succeded && _possibleInteractions.Count > 0)
         {
             GameEntity nearestInteraction = LevelManager.FindNearest(LevelManager.playerEntity, _possibleInteractions);
             if (nearestInteraction != null)
@@ -57,7 +60,7 @@ public static class InteractionManager
                 InteractionSystem nearestInteractionSystem = nearestInteraction.interactionContainer.GetInteraction();
                 succeded = StartInteraction(nearestInteractionSystem);
 
-                if (!succeded) 
+                if (!succeded)
                     RemovePossibleInteraction(nearestInteraction);
             }
         }
@@ -97,7 +100,7 @@ public static class InteractionManager
 
         _currentInteractionIndex++;
 
-        if(_currentInteractionIndex != _currentInteractionLength)
+        if (_currentInteractionIndex != _currentInteractionLength)
             _currentInteraction.content[_currentInteractionIndex].Perform();
     }
 }

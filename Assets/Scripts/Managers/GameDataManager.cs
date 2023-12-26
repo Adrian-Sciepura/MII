@@ -1,30 +1,33 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
+using UnityEngine;
 
 public static class GameDataManager
 {
-    private static readonly string SO_PATH = "Assets/ScriptableObjects";
-
     public static readonly PlayerInputController input = new PlayerInputController();
     public static readonly Dictionary<GameEntityType, EntityPrefabSO> entityRegistry = new Dictionary<GameEntityType, EntityPrefabSO>();
-
-    public static void InitEntityData()
+    public static readonly Dictionary<string, GameObject> prefabRegistry = new Dictionary<string, GameObject>();
+    public static void InitGameData()
     {
-        string[] assets = AssetDatabase.FindAssets("t:EntityPrefabSO", new[] { SO_PATH + "/Entity" });
+        EntityPrefabSO[] prefabs = Resources.LoadAll<EntityPrefabSO>("Entity");
 
-        foreach (string asset in assets)
+        foreach (var prefab in prefabs)
         {
-            EntityPrefabSO entityPrefab = AssetDatabase.LoadAssetAtPath<EntityPrefabSO>(AssetDatabase.GUIDToAssetPath(asset));
-            if (Validator.Validate(entityPrefab))
+            if (prefab.Validate())
             {
                 GameEntityType entityType;
-                if (Enum.TryParse<GameEntityType>(entityPrefab.entityName, out entityType) &&
+                if (Enum.TryParse(prefab.entityName, out entityType) &&
                     !entityRegistry.ContainsKey(entityType))
                 {
-                    entityRegistry.Add(entityType, entityPrefab);
+                    entityRegistry.Add(entityType, prefab);
                 }
             }
         }
+
+
+        GameObject[] canvasPrefabs = Resources.LoadAll<GameObject>("Prefabs");
+        
+        foreach (var canvas in canvasPrefabs)
+            prefabRegistry.Add(canvas.name, canvas);
     }
 }

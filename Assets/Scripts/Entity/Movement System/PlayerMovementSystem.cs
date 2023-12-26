@@ -2,12 +2,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public static class EventABCD
-{
-    private static readonly List<int> a = new List<int>();
-}
-
-
 [System.Serializable]
 public class PlayerMovementSystem : IMovementSystem
 {
@@ -56,7 +50,7 @@ public class PlayerMovementSystem : IMovementSystem
 
     private void Jump(InputAction.CallbackContext context)
     {
-        if(IsGrounded())
+        if (IsGrounded())
             _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _movementData.jumpForce);
     }
 

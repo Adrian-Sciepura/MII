@@ -10,7 +10,7 @@ public class DataContainer<T> where T : class
         _data = new List<T>();
     }
 
-    public T2 GetData<T2>() where T2 : class, T  => _data.FirstOrDefault(data => data is T2) as T2;
+    public T2 GetData<T2>() where T2 : class, T => _data.FirstOrDefault(data => data is T2) as T2;
 
     public bool AddData<T2>(T data) where T2 : class, T
     {

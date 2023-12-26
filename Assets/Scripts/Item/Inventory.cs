@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class Inventory
 {
     private int _itemsCount;
@@ -22,12 +20,12 @@ public class Inventory
 
         int addedCount = 0;
 
-        foreach(Item item in items)
-            if(item != null)
+        foreach (Item item in items)
+            if (item != null)
                 newItems[addedCount++] = item;
 
-        this.size = newSize;
-        this.items = newItems;
+        size = newSize;
+        items = newItems;
     }
 
     public void AddItem(Item item, int slot = -1)
@@ -56,7 +54,7 @@ public class Inventory
 
     public void RemoveItem(Item item)
     {
-        for(int  i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
             if (items[i].Equals(item))
             {

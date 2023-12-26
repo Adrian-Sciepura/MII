@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
             return;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         gameState = GameState.PLAYING;
 
-        GameDataManager.InitEntityData();
+        GameDataManager.InitGameData();
         GameDataManager.input.Player.Enable();
 
         LevelManager.Setup();

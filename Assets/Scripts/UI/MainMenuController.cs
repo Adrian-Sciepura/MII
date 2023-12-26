@@ -4,16 +4,16 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField]
-    Button newGameButton;
+    private Button newGameButton;
 
     [SerializeField]
-    Button continueGameButton;
+    private Button continueGameButton;
 
     [SerializeField]
-    Button settingsButton;
+    private Button settingsButton;
 
     [SerializeField]
-    Button quitButton;
+    private Button quitButton;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class MainMenuController : MonoBehaviour
 
     public void NewGame()
     {
-        
+
     }
 
 
@@ -41,6 +41,6 @@ public class MainMenuController : MonoBehaviour
 
     public void Quit()
     {
-        
+
     }
 }

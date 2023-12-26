@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class EventManager
 {
@@ -10,7 +9,7 @@ public static class EventManager
     {
         Type eventType = typeof(TEvent);
 
-        if(!_eventSubscribers.ContainsKey(eventType))
+        if (!_eventSubscribers.ContainsKey(eventType))
             _eventSubscribers.Add(eventType, new List<Action<object>>());
 
         _eventSubscribers[eventType].Add(e => handler((TEvent)e));
@@ -24,7 +23,7 @@ public static class EventManager
             return;
 
         _eventSubscribers[eventType].Remove(e => handler((TEvent)e));
-    }    
+    }
 
     public static void Publish<TEvent>(TEvent e)
     {

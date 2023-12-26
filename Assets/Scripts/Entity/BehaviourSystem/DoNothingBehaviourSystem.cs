@@ -13,14 +13,14 @@ public class DoNothingBehaviourSystem : IBehaviourSystem
 
     public void OnInteractionAreaEnter(GameEntity other)
     {
-        
+
     }
 
     public void OnInteractionAreaExit(GameEntity other)
     {
-        
+
     }
-    
+
     public void Dispose()
     {
 

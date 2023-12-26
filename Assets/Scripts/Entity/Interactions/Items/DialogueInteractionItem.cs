@@ -17,7 +17,7 @@ public class DialogueInteractionItem : IInteractionItem
 
     public void Update()
     {
-        
+
     }
 
     public bool Finished()

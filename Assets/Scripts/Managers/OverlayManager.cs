@@ -1,6 +1,5 @@
-﻿using UnityEditor;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.InputSystem;
 
 public static class OverlayManager
@@ -21,18 +20,7 @@ public static class OverlayManager
 
     public static void Setup()
     {
-        var searchForCanvas = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Prefabs/Canvas" });
-
-        foreach(var asset in searchForCanvas)
-        {
-            GameObject canvas = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(asset));
-
-            if(canvas != null)
-            {
-                if(canvas.name == "DialogueCanvas")
-                    _dialogueCanvasInfo.Prefab = canvas;
-            }
-        }
+        _dialogueCanvasInfo.Prefab = GameDataManager.prefabRegistry["DialogueCanvas"];
 
         EventManager.Subscribe<OnHighPriorityLevelLoadEvent>(SetupOverlayForLevel);
         EventManager.Subscribe<OnInteractionStartEvent>(SetupOverlayForInteraction);
