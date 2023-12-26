@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameEntityCategory
@@ -21,12 +20,12 @@ public class GameEntity : MonoBehaviour
     private IBehaviourSystem _behaviourSystem;
     private IMovementSystem _movementSystem;
 
-    public int HeldItemInventorySlot 
-    { 
+    public int HeldItemInventorySlot
+    {
         get => _heldItemInventorySlot;
         set
         {
-            if(value >= 0 && value < inventory.size)
+            if (value >= 0 && value < inventory.size)
                 _heldItemInventorySlot = value;
         }
     }
@@ -36,6 +35,9 @@ public class GameEntity : MonoBehaviour
         get => _behaviourSystem;
         set
         {
+            if (_behaviourSystem != null)
+                _behaviourSystem.Dispose();
+
             _behaviourSystem = value;
             _behaviourSystem.SetContext(this);
         }
@@ -56,20 +58,26 @@ public class GameEntity : MonoBehaviour
 
     private void Update()
     {
-        _behaviourSystem?.Update();
-        _movementSystem?.Update();
+        _behaviourSystem.Update();
+        _movementSystem.Update();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.isTrigger)
+            return;
+
         GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
-        
+
         if (entity != null)
             _behaviourSystem.OnInteractionAreaEnter(entity);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.isTrigger)
+            return;
+
         GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
 
         if (entity != null)
