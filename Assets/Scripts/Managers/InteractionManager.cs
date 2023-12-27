@@ -1,34 +1,35 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class InteractionManager
 {
-    private static InteractionSystem _currentInteraction = null;
+    private static InteractionTrigger _currentInteraction = null;
     private static int _currentInteractionLength = 0;
     private static int _currentInteractionIndex = 0;
 
-    private static readonly List<GameEntity> _possibleInteractions = new List<GameEntity>();
+    private static readonly List<InteractionTrigger> _possibleInteractions = new List<InteractionTrigger>();
 
-    public static void AddPossibleInteraction(GameEntity entity)
+    public static void AddPossibleInteraction(InteractionTrigger trigger)
     {
-        if (entity.interactionContainer.GetInteraction() != null)
+        if (trigger.CheckConditions())
         {
-            _possibleInteractions.Add(entity);
+            _possibleInteractions.Add(trigger);
             GameObject tag = UnityEngine.Object.Instantiate(
-                GameDataManager.prefabRegistry["InteractionTag"], 
-                new Vector3(entity.transform.position.x, entity.transform.position.y + 1.0f), 
-                Quaternion.identity, 
-                entity.transform);
+                GameDataManager.prefabRegistry["InteractionTag"],
+                new Vector3(trigger.transform.position.x, trigger.transform.position.y + 1.0f),
+                Quaternion.identity,
+                trigger.transform);
         }
     }
 
-    public static void RemovePossibleInteraction(GameEntity entity)
+    public static void RemovePossibleInteraction(InteractionTrigger trigger)
     {
         for (int i = 0; i < _possibleInteractions.Count; i++)
         {
-            if (_possibleInteractions[i] == entity)
+            if (_possibleInteractions[i] == trigger)
             {
-                GameObject interactionTag = entity.transform.Find("InteractionTag(Clone)")?.gameObject;
+                GameObject interactionTag = trigger.transform.Find("InteractionTag(Clone)")?.gameObject;
 
                 if (interactionTag != null)
                     Object.Destroy(interactionTag);
@@ -47,26 +48,26 @@ public static class InteractionManager
 
     public static void StartNearestInteraction()
     {
-        if (_possibleInteractions.Count == 0 && LevelManager.playerEntity == null)
+        if (_possibleInteractions.Count == 0 || LevelManager.playerEntity == null)
             return;
 
         bool succeded = false;
+        SortInteractions();
 
         while (!succeded && _possibleInteractions.Count > 0)
         {
-            GameEntity nearestInteraction = LevelManager.FindNearest(LevelManager.playerEntity, _possibleInteractions);
+            InteractionTrigger nearestInteraction = _possibleInteractions.FirstOrDefault();
             if (nearestInteraction != null)
             {
-                InteractionSystem nearestInteractionSystem = nearestInteraction.interactionContainer.GetInteraction();
-                succeded = StartInteraction(nearestInteractionSystem);
-
-                if (!succeded)
+                if (StartInteraction(nearestInteraction))
+                    succeded = true;
+                else
                     RemovePossibleInteraction(nearestInteraction);
             }
         }
     }
 
-    public static bool StartInteraction(InteractionSystem interactionSystem)
+    public static bool StartInteraction(InteractionTrigger interactionSystem)
     {
         if (_currentInteraction != null || interactionSystem.content.Count == 0)
             return false;
@@ -102,5 +103,20 @@ public static class InteractionManager
 
         if (_currentInteractionIndex != _currentInteractionLength)
             _currentInteraction.content[_currentInteractionIndex].Perform();
+    }
+
+    private static void SortInteractions()
+    {
+        Vector3 playerPos = LevelManager.playerEntity.transform.position;
+
+        _possibleInteractions.Sort((x1, x2) =>
+        {
+            int compareDistance = Vector3.Distance(playerPos, x1.transform.position).CompareTo(Vector3.Distance(playerPos, x2.transform.position));
+
+            if(compareDistance != 0)
+                return compareDistance;
+
+            return x1.interactionParams.Priority.CompareTo(x2.interactionParams.Priority);
+        });
     }
 }

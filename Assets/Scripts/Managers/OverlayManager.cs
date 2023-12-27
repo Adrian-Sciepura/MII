@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public static class OverlayManager
 {
@@ -10,6 +11,7 @@ public static class OverlayManager
         public GameObject Canvas;
         public TextMeshProUGUI SenderNameText;
         public TextMeshProUGUI MessageText;
+        public Image speakerImage;
     }
 
 
@@ -36,6 +38,7 @@ public static class OverlayManager
 
         _dialogueCanvasInfo.MessageText = panelTransform.Find("MessageText").gameObject.GetComponent<TextMeshProUGUI>();
         _dialogueCanvasInfo.SenderNameText = panelTransform.Find("SpeakerNameText").gameObject.GetComponent<TextMeshProUGUI>();
+        _dialogueCanvasInfo.speakerImage = _dialogueCanvasInfo.Canvas.transform.Find("SpeakerImage").gameObject.GetComponent<Image>();
 
         _dialogueCanvasInfo.Canvas.SetActive(false);
     }
@@ -62,10 +65,12 @@ public static class OverlayManager
         _dialogueCanvasInfo.Canvas.SetActive(false);
     }
 
-    public static void ShowDialogue(string message)
+    public static void ShowDialogue(Sprite speakerSprite, string senderName, string message)
     {
         _dialogueCanvasInfo.Canvas.SetActive(true);
+        _dialogueCanvasInfo.SenderNameText.text = senderName;
         _dialogueCanvasInfo.MessageText.text = message;
+        _dialogueCanvasInfo.speakerImage.sprite = speakerSprite;
     }
 
 

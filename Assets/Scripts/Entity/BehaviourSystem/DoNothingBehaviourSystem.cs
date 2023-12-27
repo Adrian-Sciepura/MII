@@ -1,3 +1,5 @@
+using UnityEngine;
+
 [System.Serializable]
 public class DoNothingBehaviourSystem : IBehaviourSystem
 {
@@ -11,12 +13,12 @@ public class DoNothingBehaviourSystem : IBehaviourSystem
 
     }
 
-    public void OnInteractionAreaEnter(GameEntity other)
+    public void OnInteractionAreaEnter(Collider2D other)
     {
 
     }
 
-    public void OnInteractionAreaExit(GameEntity other)
+    public void OnInteractionAreaExit(Collider2D other)
     {
 
     }

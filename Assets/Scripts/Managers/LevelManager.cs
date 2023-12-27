@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class LevelManager
 {
-    public static readonly List<GameEntity> SpawnedEntities = new List<GameEntity>();
+    public static readonly Dictionary<string, GameEntity> spawnedEntities = new Dictionary<string, GameEntity>();
     public static GameEntity playerEntity { get; private set; }
 
     public static void Setup()
@@ -11,69 +11,22 @@ public static class LevelManager
         EventManager.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
     }
 
-    public static GameEntity FindNearest(GameEntity entity, List<GameEntity> entityList = null)
-    {
-        List<GameEntity> listToSearch = entityList ?? SpawnedEntities;
-
-        Vector3 position = entity.transform.position;
-
-        float nearestDistance = 99999f;
-        GameEntity currentNearest = null;
-
-        foreach (var spawnedEntity in listToSearch)
-        {
-            if (spawnedEntity != entity)
-            {
-                float distance = Vector3.Distance(position, spawnedEntity.gameObject.transform.position);
-
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    currentNearest = spawnedEntity;
-                }
-            }
-        }
-
-        return currentNearest;
-    }
-
-    public static GameEntity FindNearest(GameEntity entity, GameEntityType search, List<GameEntity> entityList = null)
-    {
-        List<GameEntity> listToSearch = entityList ?? SpawnedEntities;
-
-        Vector3 position = entity.transform.position;
-
-        float nearestDistance = 99999f;
-        GameEntity currentNearest = null;
-
-        foreach (var spawnedEntity in listToSearch)
-        {
-            if (spawnedEntity.entityType == search && spawnedEntity != entity)
-            {
-                float distance = Vector3.Distance(position, spawnedEntity.gameObject.transform.position);
-
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    currentNearest = spawnedEntity;
-                }
-            }
-        }
-
-        return currentNearest;
-    }
-
     private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)
     {
+        spawnedEntities.Clear();
+
         SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
 
         foreach (SpawnInfo spawnInfo in spawnInfos)
         {
             GameEntity createdEntity = Factory.Build(spawnInfo.entityType, spawnInfo.gameObject.transform.position);
-            SpawnedEntities.Add(createdEntity);
+            spawnedEntities.Add(spawnInfo.guid, createdEntity);
 
             if (spawnInfo.entityType == GameEntityType.Player)
                 playerEntity = createdEntity;
+
+            for(int i = spawnInfo.transform.childCount - 1; i >= 0 ; i--)
+                spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
 
             Object.Destroy(spawnInfo.gameObject);
         }

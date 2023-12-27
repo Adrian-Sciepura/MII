@@ -13,7 +13,6 @@ public class GameEntity : MonoBehaviour
 {
     public readonly DataContainer<EntityData> entityData = new DataContainer<EntityData>();
     public readonly Inventory inventory = new Inventory();
-    public readonly InteractionContainer interactionContainer = new InteractionContainer();
     public GameEntityType entityType;
 
     private int _heldItemInventorySlot = 0;
@@ -62,27 +61,15 @@ public class GameEntity : MonoBehaviour
         _movementSystem.Update();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnDestroy()
     {
-        if (collision.isTrigger)
-            return;
-
-        GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
-
-        if (entity != null)
-            _behaviourSystem.OnInteractionAreaEnter(entity);
+        _behaviourSystem.Dispose();
+        _movementSystem.Dispose();
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.isTrigger)
-            return;
+    private void OnTriggerEnter2D(Collider2D collision) => _behaviourSystem.OnInteractionAreaEnter(collision);
 
-        GameEntity entity = collision.gameObject.GetComponent<GameEntity>();
-
-        if (entity != null)
-            _behaviourSystem.OnInteractionAreaExit(entity);
-    }
+    private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnInteractionAreaExit(collision);
 
     public void NextItem()
     {

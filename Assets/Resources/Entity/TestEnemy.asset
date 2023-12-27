@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestEnemy
   m_EditorClassIdentifier: 
   entityName: TestEnemy
-  displayName: TESTx
+  displayName: First Enemy
   prefab: {fileID: 7303109128018231030, guid: 79f2ac2be8d94b547a09456f045e1771, type: 3}
   entityData:
   - rid: 1933934880122732545
@@ -21,13 +21,6 @@ MonoBehaviour:
     rid: 1933934880122732547
   movementSystem:
     rid: 1933934880122732549
-  interactions:
-  - interactionParams:
-      Priority: 0
-      freezeGameTime: 0
-    conditions: []
-    content:
-    - rid: 1933934880122732550
   inventoryItems: []
   references:
     version: 2
@@ -46,8 +39,3 @@ MonoBehaviour:
     - rid: 1933934880122732549
       type: {class: BasicEnemyMovementSystem, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 1933934880122732550
-      type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
-      data:
-        speakerGUID: 
-        message: Test message

@@ -3,16 +3,16 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class InteractionSystem
+public class InteractionTrigger : MonoBehaviour
 {
     [SerializeField]
-    public InteractionParams interactionParams = new InteractionParams();
+    public InteractionParams interactionParams;
 
     [SerializeReference, SubclassSelector]
-    public List<IInteractionCondition> conditions = new List<IInteractionCondition>();
+    public List<IInteractionCondition> conditions;
 
     [SerializeReference, SubclassSelector]
-    public List<IInteractionItem> content = new List<IInteractionItem>();
+    public List<IInteractionItem> content;
 
     public bool CheckConditions() => !conditions.Any(condition => !condition.CheckCondition());
 }
