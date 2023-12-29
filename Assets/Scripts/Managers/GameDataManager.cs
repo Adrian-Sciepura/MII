@@ -6,12 +6,13 @@ public static class GameDataManager
 {
     public static readonly PlayerInputController input = new PlayerInputController();
     public static readonly Dictionary<GameEntityType, EntityPrefabSO> entityRegistry = new Dictionary<GameEntityType, EntityPrefabSO>();
+    public static readonly Dictionary<ItemType, ItemPrefabSO> itemRegistry = new Dictionary<ItemType, ItemPrefabSO>();
     public static readonly Dictionary<string, GameObject> prefabRegistry = new Dictionary<string, GameObject>();
     public static void InitGameData()
     {
-        EntityPrefabSO[] prefabs = Resources.LoadAll<EntityPrefabSO>("Entity");
+        EntityPrefabSO[] entityPrefabs = Resources.LoadAll<EntityPrefabSO>("Entity");
 
-        foreach (var prefab in prefabs)
+        foreach (var prefab in entityPrefabs)
         {
             if (prefab.Validate())
             {
@@ -20,6 +21,21 @@ public static class GameDataManager
                     !entityRegistry.ContainsKey(entityType))
                 {
                     entityRegistry.Add(entityType, prefab);
+                }
+            }
+        }
+
+        ItemPrefabSO[] itemPrefabs = Resources.LoadAll<ItemPrefabSO>("Item");
+
+        foreach (var itemPrefab in itemPrefabs)
+        {
+            if(itemPrefab.Validate())
+            {
+                ItemType itemType;
+                if(Enum.TryParse(itemPrefab.itemName, out itemType) &&
+                    !itemRegistry.ContainsKey(itemType))
+                {
+                    itemRegistry.Add(itemType, itemPrefab);
                 }
             }
         }

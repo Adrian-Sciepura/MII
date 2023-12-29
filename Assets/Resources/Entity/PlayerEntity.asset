@@ -22,16 +22,15 @@ MonoBehaviour:
     rid: 5385340277076262917
   movementSystem:
     rid: 5385340277076262918
-  interactions: []
-  inventoryItems: []
+  inventoryItems: 00000000
   references:
     version: 2
     RefIds:
     - rid: 5385340255301271561
       type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
       data:
-        health: 0
-        maxHealth: 0
+        health: 25
+        maxHealth: 50
     - rid: 5385340255301271562
       type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
       data:

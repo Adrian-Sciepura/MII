@@ -7,3 +7,8 @@ public class OnHighPriorityUpdateEvent
 {
 
 }
+
+public class OnLevelSetupComplete
+{
+
+}

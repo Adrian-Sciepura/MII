@@ -14,6 +14,8 @@ public class PlayerBehaviourSystem : IBehaviourSystem
     public void SetContext(GameEntity context)
     {
         GameDataManager.input.Player.Interaction.performed += InteractionButtonClicked;
+        GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
+        GameDataManager.input.Player.UseItem.performed += UseItem;
 
         _player = context;
 
@@ -39,11 +41,31 @@ public class PlayerBehaviourSystem : IBehaviourSystem
     public void Dispose()
     {
         GameDataManager.input.Player.Interaction.performed -= InteractionButtonClicked;
+        GameDataManager.input.Player.Inventory.performed -= InventorySlotButtonClicked;
+        GameDataManager.input.Player.UseItem.performed -= UseItem;
         //Object.Destroy(_interactionTrigger);
     }
 
     private void InteractionButtonClicked(InputAction.CallbackContext context)
     {
         InteractionManager.StartNearestInteraction();
+    }
+
+    private void InventorySlotButtonClicked(InputAction.CallbackContext context)
+    {
+        int slotIndex = int.Parse(context.control.name) - 1;
+
+        if (slotIndex == _player.HeldItemInventorySlot)
+            return;
+
+        int oldIndex = _player.HeldItemInventorySlot;
+        _player.HeldItemInventorySlot = slotIndex;
+
+        EventManager.Instance.Publish(new OnEntityChangeHeldItemEvent(_player, oldIndex));
+    }
+
+    private void UseItem(InputAction.CallbackContext context)
+    {
+        _player.GetComponent<Animator>().SetTrigger("swing");
     }
 }

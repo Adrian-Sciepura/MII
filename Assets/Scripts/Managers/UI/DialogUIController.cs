@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class DialogUIManager : MonoBehaviour
+public class DialogUIController : MonoBehaviour
 {
     [SerializeField]
     private GameObject _canvas;

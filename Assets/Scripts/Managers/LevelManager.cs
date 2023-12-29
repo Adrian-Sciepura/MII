@@ -23,12 +23,17 @@ public static class LevelManager
             spawnedEntities.Add(spawnInfo.guid, createdEntity);
 
             if (spawnInfo.entityType == GameEntityType.Player)
+            {
                 playerEntity = createdEntity;
+                playerEntity.inventory.Resize(4);
+            }
 
             for(int i = spawnInfo.transform.childCount - 1; i >= 0 ; i--)
                 spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
 
             Object.Destroy(spawnInfo.gameObject);
         }
+
+        EventManager.Instance.Publish(new OnLevelSetupComplete());
     }
 }

@@ -25,7 +25,11 @@ public class GameEntity : MonoBehaviour
         set
         {
             if (value >= 0 && value < inventory.size)
+            {
+                inventory.items[_heldItemInventorySlot]?.gameObject.SetActive(false);
                 _heldItemInventorySlot = value;
+                inventory.items[_heldItemInventorySlot]?.gameObject?.SetActive(true);
+            }
         }
     }
 
@@ -71,7 +75,7 @@ public class GameEntity : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnTriggerLeave(collision);
 
-    public void NextItem()
+/*    public void NextItem()
     {
         if (_heldItemInventorySlot >= inventory.size)
             _heldItemInventorySlot = 0;
@@ -85,5 +89,5 @@ public class GameEntity : MonoBehaviour
             _heldItemInventorySlot = inventory.size - 1;
         else
             _heldItemInventorySlot--;
-    }
+    }*/
 }

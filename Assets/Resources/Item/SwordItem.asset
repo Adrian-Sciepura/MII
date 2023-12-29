@@ -12,15 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa2c0ba2858ea34783f371d85504e53, type: 3}
   m_Name: SwordItem
   m_EditorClassIdentifier: 
-  itemName: ddd
-  itemPrefab: {fileID: 0}
-  attackAction:
-    rid: -2
+  itemName: Sword
+  displayName: Basic Sword
+  itemPrefab: {fileID: 1038106785149150224, guid: 746e6c6f877bee04ca4fb8804f7afd33, type: 3}
   useAction:
-    rid: -2
-  data: []
+    rid: 1933934977593901057
+  prefferedAnimation: 1
+  data:
+  - rid: 1933934977593901056
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 1933934977593901056
+      type: {class: WhiteWeaponItemData, ns: , asm: Assembly-CSharp}
+      data:
+        damage: 20
+    - rid: 1933934977593901057
+      type: {class: DoNothingUseAction, ns: , asm: Assembly-CSharp}
+      data: 
