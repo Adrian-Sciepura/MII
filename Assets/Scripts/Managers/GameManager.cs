@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
         GameDataManager.input.Player.Enable();
 
         LevelManager.Setup();
-        OverlayManager.Setup();
         InteractionManager.Setup();
     }
 
