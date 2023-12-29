@@ -8,7 +8,7 @@ public static class LevelManager
 
     public static void Setup()
     {
-        EventManager.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
+        EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
     }
 
     private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)

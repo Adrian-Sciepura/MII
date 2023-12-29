@@ -182,12 +182,12 @@ MonoBehaviour:
       type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
-        _message: Test message from TestEntity
+        message: Test message
     - rid: 1933934907192770562
       type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
-        _message: Second sentence
+        message: next
 --- !u!58 &10979792
 CircleCollider2D:
   m_ObjectHideFlags: 0

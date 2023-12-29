@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public static class InteractionManager
 {
+    private static readonly List<InteractionTrigger> _possibleInteractions = new List<InteractionTrigger>();
+
     private static InteractionTrigger _currentInteraction = null;
+    private static Type _currentInteractionItemType = null;
     private static int _currentInteractionLength = 0;
     private static int _currentInteractionIndex = 0;
-
-    private static readonly List<InteractionTrigger> _possibleInteractions = new List<InteractionTrigger>();
+    
 
     public static void AddPossibleInteraction(InteractionTrigger trigger)
     {
@@ -32,7 +35,7 @@ public static class InteractionManager
                 GameObject interactionTag = trigger.transform.Find("InteractionTag(Clone)")?.gameObject;
 
                 if (interactionTag != null)
-                    Object.Destroy(interactionTag);
+                    UnityEngine.Object.Destroy(interactionTag);
 
                 _possibleInteractions.RemoveAt(i);
                 return;
@@ -42,7 +45,7 @@ public static class InteractionManager
 
     public static void Setup()
     {
-        EventManager.Subscribe<OnHighPriorityUpdateEvent>(UpdateInteraction);
+        EventManager.Instance.Subscribe<OnInteractionItemFinishEvent<DialogueInteractionItem>>(NextInteractionItem);
     }
 
 
@@ -75,34 +78,34 @@ public static class InteractionManager
         _currentInteraction = interactionSystem;
         _currentInteractionLength = _currentInteraction.content.Count;
         _currentInteractionIndex = 0;
-        _currentInteraction.content[0].Perform();
-        EventManager.Publish(new OnInteractionStartEvent());
+
+        EventManager.Instance.Publish(new OnInteractionStartEvent(_currentInteraction));
+        StartInteractionItem();
+
         return true;
     }
 
-    private static void UpdateInteraction(OnHighPriorityUpdateEvent updateEvent)
+    private static void NextInteractionItem(object e)
     {
         if (_currentInteraction == null)
             return;
 
-        IInteractionItem currentItem = _currentInteraction.content[_currentInteractionIndex];
-
-        if (!currentItem.Finished())
+        if(_currentInteractionIndex >= _currentInteractionLength - 1)
         {
-            currentItem.Update();
-            return;
-        }
-        else if (_currentInteractionIndex == _currentInteractionLength - 1)
-        {
+            EventManager.Instance.Publish(new OnInteractionFinishEvent());
             _currentInteraction = null;
-            EventManager.Publish(new OnInteractionEndEvent());
             return;
         }
 
         _currentInteractionIndex++;
+        StartInteractionItem();
+    }
 
-        if (_currentInteractionIndex != _currentInteractionLength)
-            _currentInteraction.content[_currentInteractionIndex].Perform();
+    private static void StartInteractionItem()
+    {
+        _currentInteractionItemType = _currentInteraction.content[_currentInteractionIndex].GetType();
+        Type eventStartType = typeof(OnInteractionItemStartEvent<>).MakeGenericType(_currentInteractionItemType);
+        EventManager.Instance.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { _currentInteraction.content[_currentInteractionIndex] }));
     }
 
     private static void SortInteractions()

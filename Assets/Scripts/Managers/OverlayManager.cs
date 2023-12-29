@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -18,17 +19,28 @@ public static class OverlayManager
     private static readonly DialogueCanvasInfo _dialogueCanvasInfo = new DialogueCanvasInfo();
     public static bool IsDialogueBoxShown { get => _dialogueCanvasInfo.Canvas.activeSelf; }
 
-
-
     public static void Setup()
     {
         _dialogueCanvasInfo.Prefab = GameDataManager.prefabRegistry["DialogueCanvas"];
 
-        EventManager.Subscribe<OnHighPriorityLevelLoadEvent>(SetupOverlayForLevel);
-        EventManager.Subscribe<OnInteractionStartEvent>(SetupOverlayForInteraction);
-        EventManager.Subscribe<OnInteractionEndEvent>(RestoreDefaultOverlay);
+        EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupOverlayForLevel);
+        EventManager.Instance.Subscribe<OnInteractionStartEvent>(SetupOverlayForInteraction);
+        EventManager.Instance.Subscribe<OnInteractionFinishEvent>(RestoreDefaultOverlay);
+        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<DialogueInteractionItem>>(DialogueEvent);
 
         GameDataManager.input.Overlay.ContinueDialogue.performed += ContinueDialogue;
+    }
+
+    private static void DialogueEvent(OnInteractionItemStartEvent<DialogueInteractionItem> dialogueInteraction)
+    {
+        GameEntity sender;
+        if (!LevelManager.spawnedEntities.TryGetValue(dialogueInteraction.data.performerGUID, out sender))
+            return;
+
+        _dialogueCanvasInfo.Canvas.SetActive(true);
+        _dialogueCanvasInfo.SenderNameText.text = GameDataManager.entityRegistry[sender.entityType].displayName;
+        _dialogueCanvasInfo.MessageText.text = dialogueInteraction.data.message;
+        _dialogueCanvasInfo.speakerImage.sprite = sender.GetComponent<SpriteRenderer>().sprite;
     }
 
     private static void SetupOverlayForLevel(OnHighPriorityLevelLoadEvent levelLoadEvent)
@@ -50,7 +62,7 @@ public static class OverlayManager
         // TODO: If interaction event has hideOverlay turned on -> turn off every default canvas
     }
 
-    private static void RestoreDefaultOverlay(OnInteractionEndEvent interactionEndEvent)
+    private static void RestoreDefaultOverlay(OnInteractionFinishEvent interactionEndEvent)
     {
         GameDataManager.input.Overlay.Disable();
         GameDataManager.input.Player.Enable();
@@ -63,14 +75,7 @@ public static class OverlayManager
             return;
 
         _dialogueCanvasInfo.Canvas.SetActive(false);
-    }
-
-    public static void ShowDialogue(Sprite speakerSprite, string senderName, string message)
-    {
-        _dialogueCanvasInfo.Canvas.SetActive(true);
-        _dialogueCanvasInfo.SenderNameText.text = senderName;
-        _dialogueCanvasInfo.MessageText.text = message;
-        _dialogueCanvasInfo.speakerImage.sprite = speakerSprite;
+        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<DialogueInteractionItem>());
     }
 
 

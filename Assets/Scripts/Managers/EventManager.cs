@@ -1,11 +1,44 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public static class EventManager
+public class EventManager : MonoBehaviour
 {
-    private static readonly Dictionary<Type, List<Action<object>>> _eventSubscribers = new Dictionary<Type, List<Action<object>>>();
+    public static EventManager Instance { get; private set; }
 
-    public static void Subscribe<TEvent>(Action<TEvent> handler)
+    private readonly Dictionary<Type, List<Action<object>>> _eventSubscribers = new Dictionary<Type, List<Action<object>>>();
+
+    private readonly Queue<Tuple<Type, object>> _eventQueue = new Queue<Tuple<Type, object>>();
+
+    public void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void Update()
+    {
+        Tuple<Type, object> currentElement;
+
+        while(_eventQueue.Count > 0)
+        {
+            currentElement = _eventQueue.Dequeue();
+            List<Action<object>> subscribers;
+
+            if (!_eventSubscribers.TryGetValue(currentElement.Item1, out subscribers))
+                continue;
+
+            foreach (var subscriber in subscribers)
+                subscriber(currentElement.Item2);
+        }
+    }
+
+    public void Subscribe<TEvent>(Action<TEvent> handler)
     {
         Type eventType = typeof(TEvent);
 
@@ -15,7 +48,7 @@ public static class EventManager
         _eventSubscribers[eventType].Add(e => handler((TEvent)e));
     }
 
-    public static void Unsubscribe<TEvent>(Action<TEvent> handler)
+    public void Unsubscribe<TEvent>(Action<TEvent> handler)
     {
         Type eventType = typeof(TEvent);
 
@@ -25,14 +58,20 @@ public static class EventManager
         _eventSubscribers[eventType].Remove(e => handler((TEvent)e));
     }
 
-    public static void Publish<TEvent>(TEvent e)
+    public void Publish<TEvent>(TEvent e)
     {
         Type eventType = typeof(TEvent);
+        _eventQueue.Enqueue(new(eventType, e));
+    }
 
-        if (!_eventSubscribers.ContainsKey(eventType))
-            return;
+    public void Publish(object e)
+    {
+        Type eventType = e.GetType();
+        _eventQueue.Enqueue(new(eventType, e));
+    }
 
-        foreach (var subscriber in _eventSubscribers[eventType])
-            subscriber(e);
+    public void Publish(Type eventType, object e)
+    {
+        _eventQueue.Enqueue(new(eventType, e));
     }
 }

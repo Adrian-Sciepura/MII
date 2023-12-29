@@ -24,13 +24,13 @@ public class PlayerBehaviourSystem : IBehaviourSystem
         _interactionTrigger.isTrigger = true;*/
     }
 
-    public void OnInteractionAreaEnter(Collider2D other)
+    public void OnTriggerEnter(Collider2D other)
     {
         if(other.CompareTag("InteractionTrigger"))
             InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
     }
 
-    public void OnInteractionAreaExit(Collider2D other)
+    public void OnTriggerLeave(Collider2D other)
     {
         if (other.CompareTag("InteractionTrigger"))
             InteractionManager.RemovePossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());

@@ -67,9 +67,9 @@ public class GameEntity : MonoBehaviour
         _movementSystem.Dispose();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) => _behaviourSystem.OnInteractionAreaEnter(collision);
+    private void OnTriggerEnter2D(Collider2D collision) => _behaviourSystem.OnTriggerEnter(collision);
 
-    private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnInteractionAreaExit(collision);
+    private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnTriggerLeave(collision);
 
     public void NextItem()
     {

@@ -13,12 +13,12 @@ public class DoNothingBehaviourSystem : IBehaviourSystem
 
     }
 
-    public void OnInteractionAreaEnter(Collider2D other)
+    public void OnTriggerEnter(Collider2D other)
     {
 
     }
 
-    public void OnInteractionAreaExit(Collider2D other)
+    public void OnTriggerLeave(Collider2D other)
     {
 
     }

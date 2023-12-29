@@ -30,6 +30,6 @@ public class GameManager : MonoBehaviour
         InteractionManager.Setup();
     }
 
-    private void Start() => EventManager.Publish(new OnHighPriorityLevelLoadEvent());
-    private void Update() => EventManager.Publish(new OnHighPriorityUpdateEvent());
+    private void Start() => EventManager.Instance.Publish(new OnHighPriorityLevelLoadEvent());
+    private void Update() => EventManager.Instance.Publish(new OnHighPriorityUpdateEvent());
 }
