@@ -1,24 +1,22 @@
 using System;
 using UnityEngine;
 
-public class Factory
+public static class Factory
 {
-    public static GameEntity Build(GameEntityType entityType, Vector3 position)
+    public static GameEntity Build(string GUID, GameEntityType entityType, Vector3 position)
     {
         EntityPrefabSO entityPrefab;
         if (!GameDataManager.entityRegistry.TryGetValue(entityType, out entityPrefab))
             return null;
 
+        entityPrefab = UnityEngine.Object.Instantiate(entityPrefab);
+
         GameObject newEntity = UnityEngine.Object.Instantiate(entityPrefab.prefab, position, Quaternion.identity);
         GameEntity gameEntity = newEntity.AddComponent<GameEntity>();
+        gameEntity.GUID = GUID;
 
-        foreach (EntityData data in entityPrefab.entityData)
-            gameEntity.entityData.AddData(data);
-
-        gameEntity.BehaviourSystem = entityPrefab.behaviourSystem;
-        gameEntity.MovementSystem = entityPrefab.movementSystem;
-
-        gameEntity.entityType = Enum.Parse<GameEntityType>(entityPrefab.entityName);
+        gameEntity.EntityType = Enum.Parse<GameEntityType>(entityPrefab.entityName);
+        entityPrefab.entityData.ForEach(data => gameEntity.entityData.AddData(data));
 
         GameObject handObject = newEntity.transform.Find("hand").gameObject;
         if(handObject != null)
@@ -39,6 +37,11 @@ public class Factory
                 gameEntity.inventory.items[0].gameObject.SetActive(true);
         }
 
+        gameEntity.BehaviourSystem = entityPrefab.behaviourSystem;
+        gameEntity.MovementSystem = entityPrefab.movementSystem;
+
+        FlashEffect flashEffect = newEntity.AddComponent<FlashEffect>();
+        flashEffect.flashMaterial = GameDataManager.resourcesRegistry[("FlashMaterial", typeof(Material))] as Material;
         return gameEntity;
     }
 
@@ -54,7 +57,7 @@ public class Factory
         foreach (var data in itemPrefab.data)
             gameItem.itemData.AddData(data);
 
-        gameItem.useAction = itemPrefab.useAction;
+        gameItem.itemBehaviour = itemPrefab.itemBehaviour;
 
         return gameItem;
     }

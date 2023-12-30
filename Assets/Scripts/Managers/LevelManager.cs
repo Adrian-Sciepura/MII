@@ -9,6 +9,7 @@ public static class LevelManager
     public static void Setup()
     {
         EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
+        EventManager.Instance.Subscribe<OnEntityDieEvent>(EntityDeath);
     }
 
     private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)
@@ -19,7 +20,7 @@ public static class LevelManager
 
         foreach (SpawnInfo spawnInfo in spawnInfos)
         {
-            GameEntity createdEntity = Factory.Build(spawnInfo.entityType, spawnInfo.gameObject.transform.position);
+            GameEntity createdEntity = Factory.Build(spawnInfo.guid, spawnInfo.entityType, spawnInfo.gameObject.transform.position);
             spawnedEntities.Add(spawnInfo.guid, createdEntity);
 
             if (spawnInfo.entityType == GameEntityType.Player)
@@ -35,5 +36,13 @@ public static class LevelManager
         }
 
         EventManager.Instance.Publish(new OnLevelSetupComplete());
+    }
+
+    private static void EntityDeath(OnEntityDieEvent entityDieEvent)
+    {
+        spawnedEntities[entityDieEvent.Entity.GUID] = null;
+        Object.Destroy(entityDieEvent.Entity.gameObject);
+
+        Debug.Log("Entity died");
     }
 }

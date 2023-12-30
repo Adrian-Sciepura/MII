@@ -31,6 +31,8 @@ MonoBehaviour:
       data:
         health: 25
         maxHealth: 50
+        isImmortal: 0
+        isKnockbackResistant: 0
     - rid: 5385340255301271562
       type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
       data:

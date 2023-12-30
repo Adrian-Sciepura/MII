@@ -19,7 +19,7 @@ public static class InteractionManager
         {
             _possibleInteractions.Add(trigger);
             GameObject tag = UnityEngine.Object.Instantiate(
-                GameDataManager.prefabRegistry["InteractionTag"],
+                GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject,
                 new Vector3(trigger.transform.position.x, trigger.transform.position.y + 1.0f),
                 Quaternion.identity,
                 trigger.transform);

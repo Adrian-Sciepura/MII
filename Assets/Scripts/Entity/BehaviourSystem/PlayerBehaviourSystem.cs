@@ -4,26 +4,25 @@ using UnityEngine.InputSystem;
 [System.Serializable]
 public class PlayerBehaviourSystem : IBehaviourSystem
 {
-    private CircleCollider2D _interactionTrigger;
-    private GameEntity _player;
-    public void Update()
+    private GameEntity _context;
+    private LivingEntityData _healthData;
+
+    public GameEntity context
     {
+        get => _context;
+        set
+        {
+            if (_context != null)
+                return;
 
-    }
+            _context = value;
 
-    public void SetContext(GameEntity context)
-    {
-        GameDataManager.input.Player.Interaction.performed += InteractionButtonClicked;
-        GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
-        GameDataManager.input.Player.UseItem.performed += UseItem;
+            GameDataManager.input.Player.Interaction.performed += InteractionButtonClicked;
+            GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
+            GameDataManager.input.Player.UseItem.performed += UseItem;
 
-        _player = context;
-
-        /*_interactionTrigger = context.gameObject.AddComponent<CircleCollider2D>();
-
-        _interactionTrigger.radius = 2.5f;
-        _interactionTrigger.offset = Vector3.zero;
-        _interactionTrigger.isTrigger = true;*/
+            _healthData = context.entityData.GetData<LivingEntityData>();
+        }
     }
 
     public void OnTriggerEnter(Collider2D other)
@@ -40,10 +39,12 @@ public class PlayerBehaviourSystem : IBehaviourSystem
 
     public void Dispose()
     {
+        if(context == null)
+            return;
+
         GameDataManager.input.Player.Interaction.performed -= InteractionButtonClicked;
         GameDataManager.input.Player.Inventory.performed -= InventorySlotButtonClicked;
         GameDataManager.input.Player.UseItem.performed -= UseItem;
-        //Object.Destroy(_interactionTrigger);
     }
 
     private void InteractionButtonClicked(InputAction.CallbackContext context)
@@ -55,17 +56,17 @@ public class PlayerBehaviourSystem : IBehaviourSystem
     {
         int slotIndex = int.Parse(context.control.name) - 1;
 
-        if (slotIndex == _player.HeldItemInventorySlot)
+        if (slotIndex == _context.HeldItemInventorySlot)
             return;
 
-        int oldIndex = _player.HeldItemInventorySlot;
-        _player.HeldItemInventorySlot = slotIndex;
+        int oldIndex = _context.HeldItemInventorySlot;
+        _context.HeldItemInventorySlot = slotIndex;
 
-        EventManager.Instance.Publish(new OnEntityChangeHeldItemEvent(_player, oldIndex));
+        EventManager.Instance.Publish(new OnEntityChangeHeldItemEvent(_context, oldIndex));
     }
 
     private void UseItem(InputAction.CallbackContext context)
     {
-        _player.GetComponent<Animator>().SetTrigger("swing");
+        _context.inventory.items[_context.HeldItemInventorySlot]?.Use();
     }
 }

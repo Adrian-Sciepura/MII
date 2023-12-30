@@ -11,13 +11,14 @@ public enum GameEntityCategory
 
 public class GameEntity : MonoBehaviour
 {
-    public readonly DataContainer<EntityData> entityData = new DataContainer<EntityData>();
-    public readonly Inventory inventory = new Inventory();
-    public GameEntityType entityType;
+    public DataContainer<EntityData> entityData { get; private set; }
+    public Inventory inventory { get; private set; }
 
     private int _heldItemInventorySlot = 0;
     private IBehaviourSystem _behaviourSystem;
     private IMovementSystem _movementSystem;
+    private GameEntityType _entityType;
+    private string _guid;
 
     public int HeldItemInventorySlot
     {
@@ -42,7 +43,7 @@ public class GameEntity : MonoBehaviour
                 _behaviourSystem.Dispose();
 
             _behaviourSystem = value;
-            _behaviourSystem.SetContext(this);
+            _behaviourSystem.context = this;
         }
     }
 
@@ -57,6 +58,35 @@ public class GameEntity : MonoBehaviour
             _movementSystem = value;
             _movementSystem.SetContext(this);
         }
+    }
+
+    public GameEntityType EntityType
+    {
+        get => _entityType;
+        set
+        {
+            if(_entityType == default)
+                _entityType = value;
+        }
+    }
+
+    public string GUID
+    {
+        get => _guid;
+        set
+        {
+            if(_guid == null)
+                _guid = value;
+        }
+    }
+
+    public void DealDamage(int ammount) => _behaviourSystem.ReceiveDamage(ammount);
+
+
+    private void Awake()
+    {
+        entityData = new DataContainer<EntityData>();
+        inventory = new Inventory(this);
     }
 
     private void Update()
@@ -74,20 +104,4 @@ public class GameEntity : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) => _behaviourSystem.OnTriggerEnter(collision);
 
     private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnTriggerLeave(collision);
-
-/*    public void NextItem()
-    {
-        if (_heldItemInventorySlot >= inventory.size)
-            _heldItemInventorySlot = 0;
-        else
-            _heldItemInventorySlot++;
-    }
-
-    public void PreviousItem()
-    {
-        if (_heldItemInventorySlot <= 0)
-            _heldItemInventorySlot = inventory.size - 1;
-        else
-            _heldItemInventorySlot--;
-    }*/
 }

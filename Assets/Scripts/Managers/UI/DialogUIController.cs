@@ -41,7 +41,7 @@ public class DialogUIController : MonoBehaviour
         GameDataManager.input.Player.Disable();
         GameDataManager.input.Overlay.Enable();
         _canvas.SetActive(true);
-        _senderNameText.text = GameDataManager.entityRegistry[sender.entityType].displayName;
+        _senderNameText.text = GameDataManager.entityRegistry[sender.EntityType].displayName;
         _messageText.text = dialogueInteraction.data.message;
         _speakerImage.sprite = sender.GetComponent<SpriteRenderer>().sprite;
     }

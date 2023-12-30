@@ -3,9 +3,11 @@ public class Inventory
     private int _itemsCount;
     public int size { get; private set; }
     public Item[] items { get; private set; }
+    public GameEntity owner { get; private set; }
 
-    public Inventory(int size = 1)
+    public Inventory(GameEntity owner, int size = 1)
     {
+        this.owner = owner;
         _itemsCount = 0;
         this.size = size;
         items = new Item[size];
@@ -40,6 +42,7 @@ public class Inventory
                 if (items[i] == null)
                 {
                     items[i] = item;
+                    item.inventory = this;
                     break;
                 }
             }
@@ -58,6 +61,7 @@ public class Inventory
         {
             if (items[i].Equals(item))
             {
+                item.inventory = null;
                 items[i] = null;
                 return;
             }
@@ -69,6 +73,8 @@ public class Inventory
         if (slot < 0 || slot > size - 1)
             return;
 
+        items[slot].inventory = null;
         items[slot] = null;
+    
     }
 }

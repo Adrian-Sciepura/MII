@@ -17,11 +17,12 @@ MonoBehaviour:
   prefab: {fileID: 7303109128018231030, guid: 79f2ac2be8d94b547a09456f045e1771, type: 3}
   entityData:
   - rid: 1933934880122732545
+  - rid: 1933934997926051844
   behaviourSystem:
     rid: 1933934880122732547
   movementSystem:
     rid: 1933934880122732549
-  inventoryItems: []
+  inventoryItems: 
   references:
     version: 2
     RefIds:
@@ -39,3 +40,10 @@ MonoBehaviour:
     - rid: 1933934880122732549
       type: {class: BasicEnemyMovementSystem, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 1933934997926051844
+      type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
+      data:
+        health: 50
+        maxHealth: 0
+        isImmortal: 0
+        isKnockbackResistant: 0

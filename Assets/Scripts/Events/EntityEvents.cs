@@ -1,13 +1,27 @@
 public class OnEntityDamageEvent
 {
-    public GameEntity entity;
-    public int damage;
+    public GameEntity entity {  get; private set; }
+    public int damage { get; private set; }
+
+    public OnEntityDamageEvent(GameEntity entity, int damage)
+    {
+        this.entity = entity;
+        this.damage = damage;
+    }
 }
+
+public record OnEntityDieEvent(GameEntity Entity);
 
 public class OnEntityPickupItemEvent
 {
-    public GameEntity entity;
-    public Item item;
+    public GameEntity entity { get; private set; }
+    public Item item { get; private set; }
+
+    public OnEntityPickupItemEvent(GameEntity entity, Item item) 
+    {
+        this.entity = entity;
+        this.item = item;
+    }
 }
 
 public class OnEntityChangeHeldItemEvent

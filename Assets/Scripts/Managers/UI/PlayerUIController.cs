@@ -35,7 +35,7 @@ public class PlayerUIController : MonoBehaviour
 
     private void PlayerChangedHeldItem(OnEntityChangeHeldItemEvent entityChangeHeldItemEvent)
     {
-        if (entityChangeHeldItemEvent.entity.entityType != GameEntityType.Player)
+        if (entityChangeHeldItemEvent.entity.EntityType != GameEntityType.Player)
             return;
 
         foreach (var slot in _inventorySlots)
