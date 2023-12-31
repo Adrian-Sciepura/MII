@@ -48,6 +48,14 @@ public class EventManager : MonoBehaviour
         _eventSubscribers[eventType].Add(e => handler((TEvent)e));
     }
 
+    public void Subscribe(Type eventType, Action<object> handler)
+    {
+        if (!_eventSubscribers.ContainsKey(eventType))
+            _eventSubscribers.Add(eventType, new List<Action<object>>());
+
+        _eventSubscribers[eventType].Add(e => handler(e));
+    }
+
     public void Unsubscribe<TEvent>(Action<TEvent> handler)
     {
         Type eventType = typeof(TEvent);

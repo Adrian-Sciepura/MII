@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public static class InteractionManager
@@ -45,7 +46,19 @@ public static class InteractionManager
 
     public static void Setup()
     {
-        EventManager.Instance.Subscribe<OnInteractionItemFinishEvent<DialogueInteractionItem>>(NextInteractionItem);
+        var interactionItems = Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => 
+                !t.IsAbstract &&
+                t.GetInterfaces().Contains(typeof(IInteractionItem)));
+
+
+        foreach (var interactionItemType in interactionItems)
+        {
+            Type eventFinishType = typeof(OnInteractionItemFinishEvent<>).MakeGenericType(interactionItemType);
+            EventManager.Instance.Subscribe(eventFinishType, NextInteractionItem);
+        }
     }
 
 

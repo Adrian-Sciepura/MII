@@ -177,6 +177,7 @@ MonoBehaviour:
   - rid: 1933934907192770561
   - rid: 1933934907192770562
   - rid: 1933934997926051845
+  - rid: 1933935013388091392
   references:
     version: 2
     RefIds:
@@ -194,6 +195,11 @@ MonoBehaviour:
       type: {class: SpawnEntityInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         spawnObject: {fileID: 488707647}
+    - rid: 1933935013388091392
+      type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
+        message: Enemy spawned
 --- !u!58 &10979792
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -787,7 +793,7 @@ Transform:
   m_GameObject: {fileID: 488707647}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.39, y: 0.25, z: 0.08257436}
+  m_LocalPosition: {x: -0.41, y: 1.2, z: 0.08257436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
