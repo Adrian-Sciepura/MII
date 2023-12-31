@@ -51,6 +51,7 @@ public static class Factory
         if(!GameDataManager.itemRegistry.TryGetValue(itemType, out itemPrefab))
             return null;
 
+        itemPrefab = UnityEngine.Object.Instantiate(itemPrefab);
         GameObject newObject = UnityEngine.Object.Instantiate(itemPrefab.itemPrefab, position + itemPrefab.itemPrefab.transform.position, Quaternion.identity);
         Item gameItem = newObject.AddComponent<Item>();
 
