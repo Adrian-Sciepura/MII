@@ -40,13 +40,13 @@ public class DialogUIController : MonoBehaviour
     private void DialogueEvent(OnInteractionItemStartEvent<DialogueInteractionItem> dialogueInteraction)
     {
         GameEntity sender;
-        if (!LevelManager.spawnedEntities.TryGetValue(dialogueInteraction.data.performerGUID, out sender))
+        if (!LevelManager.spawnedEntities.TryGetValue(dialogueInteraction.Data.performerGUID, out sender))
             return;
 
         GameDataManager.input.Player.Disable();
         GameDataManager.input.Overlay.Enable();
 
-        _currentDialogue = dialogueInteraction.data;
+        _currentDialogue = dialogueInteraction.Data;
 
         _canvas.SetActive(true);
         _senderNameText.text = GameDataManager.entityRegistry[sender.EntityType].displayName;

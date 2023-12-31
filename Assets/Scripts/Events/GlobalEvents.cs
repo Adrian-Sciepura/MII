@@ -1,14 +1,5 @@
-public class OnHighPriorityLevelLoadEvent
-{
+public record OnHighPriorityLevelLoadEvent();
 
-}
+public record OnHighPriorityUpdateEvent();
 
-public class OnHighPriorityUpdateEvent
-{
-
-}
-
-public class OnLevelSetupComplete
-{
-
-}
+public record OnLevelSetupComplete();

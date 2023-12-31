@@ -35,13 +35,13 @@ public class PlayerUIController : MonoBehaviour
 
     private void PlayerChangedHeldItem(OnEntityChangeHeldItemEvent entityChangeHeldItemEvent)
     {
-        if (entityChangeHeldItemEvent.entity.EntityType != GameEntityType.Player)
+        if (entityChangeHeldItemEvent.Entity.EntityType != GameEntityType.Player)
             return;
 
         foreach (var slot in _inventorySlots)
             slot.color = Color.white;
 
-        _inventorySlots[entityChangeHeldItemEvent.entity.HeldItemInventorySlot].color = Color.red;
+        _inventorySlots[entityChangeHeldItemEvent.Entity.HeldItemInventorySlot].color = Color.red;
     }
 
     private void UpdatePlayerHealth()
