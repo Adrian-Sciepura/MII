@@ -6,6 +6,8 @@ public static class LevelManager
     public static readonly Dictionary<string, GameEntity> spawnedEntities = new Dictionary<string, GameEntity>();
     public static GameEntity playerEntity { get; private set; }
 
+    private static GameObject _entityParent;
+
     public static void Setup()
     {
         EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
@@ -17,6 +19,7 @@ public static class LevelManager
     {
         spawnedEntities.Clear();
 
+        _entityParent = GameObject.Find("Entity");
         SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
 
         foreach (SpawnInfo spawnInfo in spawnInfos)
@@ -39,6 +42,7 @@ public static class LevelManager
     private static void BuildFromSpawnInfo(SpawnInfo spawnInfo)
     {
         GameEntity createdEntity = Factory.Build(spawnInfo.guid, spawnInfo.entityType, spawnInfo.gameObject.transform.position);
+        createdEntity.transform.parent = _entityParent.transform;
         spawnedEntities.Add(spawnInfo.guid, createdEntity);
 
         if (spawnInfo.entityType == GameEntityType.Player)

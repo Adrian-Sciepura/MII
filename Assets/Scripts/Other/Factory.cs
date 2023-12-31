@@ -12,6 +12,8 @@ public static class Factory
         entityPrefab = UnityEngine.Object.Instantiate(entityPrefab);
 
         GameObject newEntity = UnityEngine.Object.Instantiate(entityPrefab.prefab, position, Quaternion.identity);
+        newEntity.tag = "Entity";
+        newEntity.name = entityPrefab.entityName;
         GameEntity gameEntity = newEntity.AddComponent<GameEntity>();
         gameEntity.GUID = GUID;
 
@@ -53,6 +55,7 @@ public static class Factory
 
         itemPrefab = UnityEngine.Object.Instantiate(itemPrefab);
         GameObject newObject = UnityEngine.Object.Instantiate(itemPrefab.itemPrefab, position + itemPrefab.itemPrefab.transform.position, Quaternion.identity);
+        newObject.name = itemPrefab.itemName;
         Item gameItem = newObject.AddComponent<Item>();
 
         foreach (var data in itemPrefab.data)
