@@ -10,6 +10,7 @@ public static class LevelManager
     {
         EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
         EventManager.Instance.Subscribe<OnEntityDieEvent>(EntityDeath);
+        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromGameObject);
     }
 
     private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)
@@ -19,23 +20,37 @@ public static class LevelManager
         SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
 
         foreach (SpawnInfo spawnInfo in spawnInfos)
-        {
-            GameEntity createdEntity = Factory.Build(spawnInfo.guid, spawnInfo.entityType, spawnInfo.gameObject.transform.position);
-            spawnedEntities.Add(spawnInfo.guid, createdEntity);
-
-            if (spawnInfo.entityType == GameEntityType.Player)
-            {
-                playerEntity = createdEntity;
-                playerEntity.inventory.Resize(4);
-            }
-
-            for(int i = spawnInfo.transform.childCount - 1; i >= 0 ; i--)
-                spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
-
-            Object.Destroy(spawnInfo.gameObject);
-        }
+            if (!spawnInfo.doNotCreateImmediately)
+                BuildFromSpawnInfo(spawnInfo);
 
         EventManager.Instance.Publish(new OnLevelSetupComplete());
+    }
+
+    private static void BuildFromGameObject(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
+    {
+        SpawnInfo spawnInfo = onSpawnEntityInteractionStarted.Data.spawnObject.GetComponent<SpawnInfo>();
+
+        if (spawnInfo != null)
+            BuildFromSpawnInfo(spawnInfo);
+
+        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<SpawnEntityInteractionItem>());
+    }
+
+    private static void BuildFromSpawnInfo(SpawnInfo spawnInfo)
+    {
+        GameEntity createdEntity = Factory.Build(spawnInfo.guid, spawnInfo.entityType, spawnInfo.gameObject.transform.position);
+        spawnedEntities.Add(spawnInfo.guid, createdEntity);
+
+        if (spawnInfo.entityType == GameEntityType.Player)
+        {
+            playerEntity = createdEntity;
+            playerEntity.inventory.Resize(4);
+        }
+
+        for (int i = spawnInfo.transform.childCount - 1; i >= 0; i--)
+            spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
+
+        Object.Destroy(spawnInfo.gameObject);
     }
 
     private static void EntityDeath(OnEntityDieEvent entityDieEvent)

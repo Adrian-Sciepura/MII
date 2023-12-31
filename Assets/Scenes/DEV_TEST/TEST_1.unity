@@ -176,6 +176,7 @@ MonoBehaviour:
   content:
   - rid: 1933934907192770561
   - rid: 1933934907192770562
+  - rid: 1933934997926051845
   references:
     version: 2
     RefIds:
@@ -183,12 +184,16 @@ MonoBehaviour:
       type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
-        message: Test message
+        message: After this dialogue
     - rid: 1933934907192770562
       type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
-        message: next
+        message: new enemy will be spawned
+    - rid: 1933934997926051845
+      type: {class: SpawnEntityInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        spawnObject: {fileID: 488707647}
 --- !u!58 &10979792
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -741,6 +746,53 @@ Transform:
   - {fileID: 738709283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &488707647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488707649}
+  - component: {fileID: 488707648}
+  m_Layer: 0
+  m_Name: SpawnEventTest
+  m_TagString: Entity
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &488707648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488707647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d27a2c294d80be42810f3af8e00a9a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 1
+  guid: 97e977a1-50c3-4c7c-9ee5-342a4254067b
+  doNotCreateImmediately: 1
+--- !u!4 &488707649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488707647}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.39, y: 0.25, z: 0.08257436}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 782217948}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522115143
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,6 +1049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 1
   guid: 14233739-e963-4cc3-99a9-26728306d9f6
+  doNotCreateImmediately: 0
 --- !u!4 &678874065
 Transform:
   m_ObjectHideFlags: 0
@@ -1156,6 +1209,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1745598147}
+  - {fileID: 488707649}
   - {fileID: 678874065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1674,7 +1728,7 @@ Transform:
   m_GameObject: {fileID: 1745598146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.3286457, y: -0.4648887, z: 0.08257436}
+  m_LocalPosition: {x: -4.81, y: -1.48, z: 0.08257436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1694,6 +1748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: 0
   guid: cdfd7a63-7532-428a-95c0-616ef7403298
+  doNotCreateImmediately: 0
 --- !u!1 &1770459634
 GameObject:
   m_ObjectHideFlags: 0
