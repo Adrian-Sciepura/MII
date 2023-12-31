@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda0bee7217bb8241ba68928c2cdb6c3, type: 3}
+  m_Name: PlayerEntity
+  m_EditorClassIdentifier: 
+  entityName: Player
+  displayName: Player
+  prefab: {fileID: 7303109128018231030, guid: 79f2ac2be8d94b547a09456f045e1771, type: 3}
+  entityData:
+  - rid: 5385340255301271561
+  - rid: 5385340255301271562
+  behaviourSystem:
+    rid: 5385340277076262917
+  movementSystem:
+    rid: 5385340277076262918
+  inventoryItems: 00000000
+  references:
+    version: 2
+    RefIds:
+    - rid: 5385340255301271561
+      type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
+      data:
+        health: 25
+        maxHealth: 50
+        isImmortal: 0
+        isKnockbackResistant: 0
+    - rid: 5385340255301271562
+      type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
+      data:
+        speed: 10
+        jumpForce: 8
+        groundLayer:
+          serializedVersion: 2
+          m_Bits: 64
+    - rid: 5385340277076262917
+      type: {class: PlayerBehaviourSystem, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5385340277076262918
+      type: {class: PlayerMovementSystem, ns: , asm: Assembly-CSharp}
+      data: 
