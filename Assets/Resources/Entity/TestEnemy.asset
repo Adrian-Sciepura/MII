@@ -21,7 +21,7 @@ MonoBehaviour:
   behaviourSystem:
     rid: 1933934880122732547
   movementSystem:
-    rid: 1933934880122732549
+    rid: 4984211611120566277
   inventoryItems: 
   references:
     version: 2
@@ -29,16 +29,13 @@ MonoBehaviour:
     - rid: 1933934880122732545
       type: {class: LandEntityData, ns: , asm: Assembly-CSharp}
       data:
-        speed: 10
-        jumpForce: 5
+        speed: 5
+        jumpForce: 8
         groundLayer:
           serializedVersion: 2
           m_Bits: 64
     - rid: 1933934880122732547
       type: {class: DoNothingBehaviourSystem, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 1933934880122732549
-      type: {class: BasicEnemyMovementSystem, ns: , asm: Assembly-CSharp}
       data: 
     - rid: 1933934997926051844
       type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
@@ -47,3 +44,6 @@ MonoBehaviour:
         maxHealth: 0
         isImmortal: 0
         isKnockbackResistant: 0
+    - rid: 4984211611120566277
+      type: {class: LandPlayerFollowerMovementSystem, ns: , asm: Assembly-CSharp}
+      data: 

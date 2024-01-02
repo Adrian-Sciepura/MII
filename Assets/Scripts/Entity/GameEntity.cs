@@ -56,7 +56,7 @@ public class GameEntity : MonoBehaviour
                 _movementSystem.Dispose();
 
             _movementSystem = value;
-            _movementSystem.SetContext(this);
+            _movementSystem.context = this;
         }
     }
 

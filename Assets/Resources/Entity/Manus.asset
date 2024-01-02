@@ -21,7 +21,7 @@ MonoBehaviour:
   behaviourSystem:
     rid: 1933934880122732547
   movementSystem:
-    rid: 1933934880122732549
+    rid: 4984211611120566278
   inventoryItems: 
   references:
     version: 2
@@ -37,9 +37,6 @@ MonoBehaviour:
     - rid: 1933934880122732547
       type: {class: DoNothingBehaviourSystem, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 1933934880122732549
-      type: {class: BasicEnemyMovementSystem, ns: , asm: Assembly-CSharp}
-      data: 
     - rid: 1933934997926051844
       type: {class: LivingEntityData, ns: , asm: Assembly-CSharp}
       data:
@@ -47,3 +44,6 @@ MonoBehaviour:
         maxHealth: 0
         isImmortal: 0
         isKnockbackResistant: 0
+    - rid: 4984211611120566278
+      type: {class: DoNothingMOvementSystem, ns: , asm: Assembly-CSharp}
+      data: 

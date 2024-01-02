@@ -1,6 +1,6 @@
 ﻿public interface IMovementSystem
 {
-    void Update();
-    void SetContext(GameEntity entity);
+    GameEntity context { get; set; }
+    void Update() { }
     void Dispose();
 }

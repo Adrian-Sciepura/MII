@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class LevelManager
@@ -21,6 +22,17 @@ public static class LevelManager
 
         _entityParent = GameObject.Find("Entity");
         SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
+
+        for (int i = 0; i < spawnInfos.Length; i++)
+        {
+            if (spawnInfos[i].entityType == GameEntityType.Player)
+            {
+                SpawnInfo temp = spawnInfos[0];
+                spawnInfos[0] = spawnInfos[i];
+                spawnInfos[i] = temp;
+                break;
+            }
+        }
 
         foreach (SpawnInfo spawnInfo in spawnInfos)
             if (!spawnInfo.doNotCreateImmediately)
