@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class InteractionManager
 {
-    private static readonly List<InteractionTrigger> _possibleInteractions = new List<InteractionTrigger>();
+    private static readonly List<Tuple<InteractionTrigger, GameObject>> _possibleInteractions = new List<Tuple<InteractionTrigger, GameObject>>();
 
     private static InteractionTrigger _currentInteraction = null;
     private static Type _currentInteractionItemType = null;
@@ -16,14 +16,29 @@ public static class InteractionManager
 
     public static void AddPossibleInteraction(InteractionTrigger trigger)
     {
-        if (trigger.CheckConditions())
+        if (trigger.CheckConditions() && !_possibleInteractions.Any(x => x.Item1 == trigger))
         {
-            _possibleInteractions.Add(trigger);
-            GameObject tag = UnityEngine.Object.Instantiate(
-                GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject,
-                new Vector3(trigger.transform.position.x, trigger.transform.position.y + 1.0f),
-                Quaternion.identity,
-                trigger.transform);
+            Transform parentTransform = trigger.transform.parent ?? trigger.transform;
+            Collider2D collider = parentTransform.GetComponent<Collider2D>();
+
+            GameObject tag = parentTransform.Find("InteractionTag(Clone)")?.gameObject;
+
+            if (tag == null)
+            {
+                Vector3 spawnPos = collider != null
+                ? new Vector3(parentTransform.position.x, parentTransform.position.y + collider.bounds.size.y * 0.5f)
+                : new Vector3(parentTransform.position.x, parentTransform.position.y + 1.0f);
+
+                tag = UnityEngine.Object.Instantiate(
+                    GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject,
+                    spawnPos,
+                    Quaternion.identity,
+                    parentTransform);
+
+                tag.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            }
+            
+            _possibleInteractions.Add(new Tuple<InteractionTrigger, GameObject>(trigger, tag));
         }
     }
 
@@ -31,14 +46,14 @@ public static class InteractionManager
     {
         for (int i = 0; i < _possibleInteractions.Count; i++)
         {
-            if (_possibleInteractions[i] == trigger)
+            if (_possibleInteractions[i].Item1 == trigger)
             {
-                GameObject interactionTag = trigger.transform.Find("InteractionTag(Clone)")?.gameObject;
-
-                if (interactionTag != null)
-                    UnityEngine.Object.Destroy(interactionTag);
-
+                GameObject tag = _possibleInteractions[i].Item2;
                 _possibleInteractions.RemoveAt(i);
+
+                if (!_possibleInteractions.Any(x => x.Item2 == tag))
+                    UnityEngine.Object.Destroy(tag);
+                
                 return;
             }
         }
@@ -72,7 +87,7 @@ public static class InteractionManager
 
         while (!succeded && _possibleInteractions.Count > 0)
         {
-            InteractionTrigger nearestInteraction = _possibleInteractions.FirstOrDefault();
+            InteractionTrigger nearestInteraction = _possibleInteractions.FirstOrDefault().Item1;
             if (nearestInteraction != null)
             {
                 if (StartInteraction(nearestInteraction))
@@ -127,12 +142,12 @@ public static class InteractionManager
 
         _possibleInteractions.Sort((x1, x2) =>
         {
-            int compareDistance = Vector3.Distance(playerPos, x1.transform.position).CompareTo(Vector3.Distance(playerPos, x2.transform.position));
+            int compareDistance = Vector3.Distance(playerPos, x2.Item1.transform.position).CompareTo(Vector3.Distance(playerPos, x1.Item1.transform.position));
 
             if(compareDistance != 0)
                 return compareDistance;
 
-            return x1.interactionParams.Priority.CompareTo(x2.interactionParams.Priority);
+            return x2.Item1.interactionParams.Priority.CompareTo(x1.Item1.interactionParams.Priority);
         });
     }
 }

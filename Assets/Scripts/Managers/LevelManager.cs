@@ -38,6 +38,11 @@ public static class LevelManager
             if (!spawnInfo.doNotCreateImmediately)
                 BuildFromSpawnInfo(spawnInfo);
 
+        InteractionTrigger[] interactions = Object.FindObjectsOfType<InteractionTrigger>();
+
+        foreach (InteractionTrigger interaction in interactions)
+            interaction.tag = "InteractionTrigger";
+
         EventManager.Instance.Publish(new OnLevelSetupComplete());
     }
 
