@@ -638,6 +638,108 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbf979f92ae42e34d856f37a2e5b99a0, type: 3}
+--- !u!1 &96289814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96289815}
+  - component: {fileID: 96289817}
+  - component: {fileID: 96289816}
+  m_Layer: 0
+  m_Name: ConditionInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &96289815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96289814}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 678874065}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &96289816
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96289814}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3
+--- !u!114 &96289817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96289814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48eba94d5f233444e9d647a6a7750569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionParams:
+    Priority: 10
+    freezeGameTime: 0
+    turnOffPlayerInput: 0
+  conditions:
+  - rid: 4984211611120566281
+  content:
+  - rid: 4984211611120566282
+  references:
+    version: 2
+    RefIds:
+    - rid: 4984211611120566281
+      type: {class: NBTCondition, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: cdfd7a63-7532-428a-95c0-616ef7403298
+        name: TestNBT
+        value: true
+    - rid: 4984211611120566282
+      type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        performerGUID: 14233739-e963-4cc3-99a9-26728306d9f6
+        message: NBT condition passed => displaying this dialogue
 --- !u!114 &209466100 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7255590092598152304, guid: fbf979f92ae42e34d856f37a2e5b99a0, type: 3}
@@ -796,7 +898,8 @@ Transform:
   m_LocalPosition: {x: -0.41, y: 1.2, z: 0.08257436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1538821270}
   m_Father: {fileID: 782217948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &522115143
@@ -1065,11 +1168,12 @@ Transform:
   m_GameObject: {fileID: 678874063}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00248972, y: -0, z: -0, w: 0.9999969}
-  m_LocalPosition: {x: -2.4, y: -1.64, z: 0.08}
+  m_LocalPosition: {x: 4.32, y: -1.24, z: 0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 10979790}
+  - {fileID: 96289815}
   m_Father: {fileID: 782217948}
   m_LocalEulerAnglesHint: {x: -0.285, y: 0, z: 0}
 --- !u!1 &738709279 stripped
@@ -1773,6 +1877,72 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!1 &1538821269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1538821270}
+  - component: {fileID: 1538821271}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1538821270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538821269}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 488707649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1538821271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538821269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48eba94d5f233444e9d647a6a7750569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionParams:
+    Priority: 0
+    freezeGameTime: 0
+    turnOffPlayerInput: 0
+  conditions: []
+  content:
+  - rid: 4984211611120566283
+  - rid: 4984211611120566284
+  references:
+    version: 2
+    RefIds:
+    - rid: 4984211611120566283
+      type: {class: SetNBTInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        GUID: cdfd7a63-7532-428a-95c0-616ef7403298
+        name: TestNBT
+        value: true
+    - rid: 4984211611120566284
+      type: {class: DialogueInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        performerGUID: 97e977a1-50c3-4c7c-9ee5-342a4254067b
+        message: NBT tag set, try interaction with previous npc
 --- !u!114 &1582647783 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7099208345174477463, guid: fbf979f92ae42e34d856f37a2e5b99a0, type: 3}
@@ -1821,7 +1991,7 @@ Transform:
   m_GameObject: {fileID: 1745598146}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.67, y: -0.95, z: 0.08257436}
+  m_LocalPosition: {x: -5.4, y: -1.76, z: 0.08257436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

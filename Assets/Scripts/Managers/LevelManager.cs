@@ -14,6 +14,7 @@ public static class LevelManager
         EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
         EventManager.Instance.Subscribe<OnEntityDieEvent>(EntityDeath);
         EventManager.Instance.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromGameObject);
+        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<SetNBTInteractionItem>>(SetNBT);
     }
 
     private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)
@@ -72,6 +73,29 @@ public static class LevelManager
             spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
 
         Object.Destroy(spawnInfo.gameObject);
+    }
+
+    private static void SetNBT(OnInteractionItemStartEvent<SetNBTInteractionItem> onSetNBTInteractionStarted)
+    {
+        GameEntity gameEntity;
+        if (spawnedEntities.TryGetValue(onSetNBTInteractionStarted.Data.GUID, out gameEntity))
+        {
+            bool found = false;
+            for (int i = 0; i < gameEntity.NBT.Count; i++)
+            {
+                if (gameEntity.NBT[i].Item1 == onSetNBTInteractionStarted.Data.name)
+                {
+                    found = true;
+                    gameEntity.NBT[i] = new System.Tuple<string, string>(gameEntity.NBT[i].Item1, onSetNBTInteractionStarted.Data.value);
+                    break;
+                }
+            }
+
+            if(!found)
+                gameEntity.NBT.Add(new System.Tuple<string, string>(onSetNBTInteractionStarted.Data.name, onSetNBTInteractionStarted.Data.value));
+        }
+
+        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<SetNBTInteractionItem>());
     }
 
     private static void EntityDeath(OnEntityDieEvent entityDieEvent)

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameEntityCategory
@@ -13,6 +15,7 @@ public class GameEntity : MonoBehaviour
 {
     public DataContainer<EntityData> entityData { get; private set; }
     public Inventory inventory { get; private set; }
+    public List<Tuple<string, string>> NBT { get; private set; }
 
     private int _heldItemInventorySlot = 0;
     private IBehaviourSystem _behaviourSystem;
@@ -85,6 +88,7 @@ public class GameEntity : MonoBehaviour
 
     private void Awake()
     {
+        NBT = new List<Tuple<string, string>>();
         entityData = new DataContainer<EntityData>();
         inventory = new Inventory(this);
     }
