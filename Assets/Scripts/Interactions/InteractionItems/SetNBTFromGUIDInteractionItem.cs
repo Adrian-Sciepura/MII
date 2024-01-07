@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class SetNBTFromGUIDInteractionItem : IInteractionItem
+public class SetNBTFromGUIDInteractionItem : InteractionItem
 {
     public string GUID;
     public string name;

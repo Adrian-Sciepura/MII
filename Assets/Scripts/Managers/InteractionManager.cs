@@ -1,22 +1,51 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-public static class InteractionManager
+public class InteractionManager : MonoBehaviour
 {
-    private static readonly List<Tuple<InteractionTrigger, GameObject>> _possibleInteractions = new List<Tuple<InteractionTrigger, GameObject>>();
+    private readonly List<Tuple<InteractionTrigger, GameObject>> _possibleInteractions = new List<Tuple<InteractionTrigger, GameObject>>();
 
-    private static InteractionTrigger _currentInteraction = null;
-    private static Type _currentInteractionItemType = null;
-    private static int _currentInteractionLength = 0;
-    private static int _currentInteractionIndex = 0;
-    
+    private static InteractionManager _instance;
+    private InteractionTrigger _currentInteraction = null;
+    private Type _currentInteractionItemType = null;
+    private int _currentInteractionLength = 0;
+    private int _currentInteractionIndex = 0;
+    private Coroutine _currentCoroutine;
+
+
+    private void Awake()
+    {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        _instance = this;
+
+        var interactionItems = Assembly
+            .GetExecutingAssembly()
+            .GetTypes()
+            .Where(t =>
+                !t.IsAbstract &&
+                t.IsSubclassOf(typeof(InteractionItem)));
+
+
+        foreach (var interactionItemType in interactionItems)
+        {
+            Type eventFinishType = typeof(OnInteractionItemFinishEvent<>).MakeGenericType(interactionItemType);
+            EventManager.Subscribe(eventFinishType, NextInteractionItem);
+        }
+    }
+
 
     public static void AddPossibleInteraction(InteractionTrigger trigger)
     {
-        if (trigger.CheckConditions() && !_possibleInteractions.Any(x => x.Item1 == trigger))
+        if (trigger.CheckConditions() && !_instance._possibleInteractions.Any(x => x.Item1 == trigger))
         {
             Transform parentTransform = trigger.transform.parent ?? trigger.transform;
             Collider2D collider = parentTransform.GetComponent<Collider2D>();
@@ -37,21 +66,21 @@ public static class InteractionManager
 
                 tag.GetComponent<SpriteRenderer>().sortingOrder = 10;
             }
-            
-            _possibleInteractions.Add(new Tuple<InteractionTrigger, GameObject>(trigger, tag));
+
+            _instance._possibleInteractions.Add(new Tuple<InteractionTrigger, GameObject>(trigger, tag));
         }
     }
 
     public static void RemovePossibleInteraction(InteractionTrigger trigger)
     {
-        for (int i = 0; i < _possibleInteractions.Count; i++)
+        for (int i = 0; i < _instance._possibleInteractions.Count; i++)
         {
-            if (_possibleInteractions[i].Item1 == trigger)
+            if (_instance._possibleInteractions[i].Item1 == trigger)
             {
-                GameObject tag = _possibleInteractions[i].Item2;
-                _possibleInteractions.RemoveAt(i);
+                GameObject tag = _instance._possibleInteractions[i].Item2;
+                _instance._possibleInteractions.RemoveAt(i);
 
-                if (!_possibleInteractions.Any(x => x.Item2 == tag))
+                if (!_instance._possibleInteractions.Any(x => x.Item2 == tag))
                     UnityEngine.Object.Destroy(tag);
                 
                 return;
@@ -59,35 +88,17 @@ public static class InteractionManager
         }
     }
 
-    public static void Setup()
-    {
-        var interactionItems = Assembly
-            .GetExecutingAssembly()
-            .GetTypes()
-            .Where(t => 
-                !t.IsAbstract &&
-                t.GetInterfaces().Contains(typeof(IInteractionItem)));
-
-
-        foreach (var interactionItemType in interactionItems)
-        {
-            Type eventFinishType = typeof(OnInteractionItemFinishEvent<>).MakeGenericType(interactionItemType);
-            EventManager.Subscribe(eventFinishType, NextInteractionItem);
-        }
-    }
-
-
     public static void StartNearestInteraction()
     {
-        if (_possibleInteractions.Count == 0 || LevelManager.PlayerEntity == null)
+        if (_instance._possibleInteractions.Count == 0 || LevelManager.PlayerEntity == null || _instance._currentCoroutine != null)
             return;
 
         bool succeded = false;
-        SortInteractions();
+        _instance.SortInteractions();
 
-        while (!succeded && _possibleInteractions.Count > 0)
+        while (!succeded && _instance._possibleInteractions.Count > 0)
         {
-            InteractionTrigger nearestInteraction = _possibleInteractions.FirstOrDefault().Item1;
+            InteractionTrigger nearestInteraction = _instance._possibleInteractions.FirstOrDefault().Item1;
             if (nearestInteraction != null)
             {
                 if (StartInteraction(nearestInteraction))
@@ -100,20 +111,20 @@ public static class InteractionManager
 
     public static bool StartInteraction(InteractionTrigger interactionSystem)
     {
-        if (_currentInteraction != null || interactionSystem.content.Count == 0)
+        if (_instance._currentInteraction != null || interactionSystem.content.Count == 0)
             return false;
 
-        _currentInteraction = interactionSystem;
-        _currentInteractionLength = _currentInteraction.content.Count;
-        _currentInteractionIndex = 0;
+        _instance._currentInteraction = interactionSystem;
+        _instance._currentInteractionLength = _instance._currentInteraction.content.Count;
+        _instance._currentInteractionIndex = 0;
 
-        EventManager.Publish(new OnInteractionStartEvent(_currentInteraction));
-        StartInteractionItem();
+        EventManager.Publish(new OnInteractionStartEvent(_instance._currentInteraction));
+        _instance.StartInteractionItem();
 
         return true;
     }
 
-    private static void NextInteractionItem(object e)
+    private void NextInteractionItem(object e)
     {
         if (_currentInteraction == null)
             return;
@@ -121,6 +132,10 @@ public static class InteractionManager
         if(_currentInteractionIndex >= _currentInteractionLength - 1)
         {
             EventManager.Publish(new OnInteractionFinishEvent());
+
+            if (_currentInteraction.interactionParams.destroyAfterPlay)
+                Destroy(_currentInteraction.gameObject);
+
             _currentInteraction = null;
             return;
         }
@@ -129,14 +144,30 @@ public static class InteractionManager
         StartInteractionItem();
     }
 
-    private static void StartInteractionItem()
+    private void StartInteractionItem()
+    {
+        int currentDelay;
+        if ((currentDelay = _currentInteraction.content[_currentInteractionIndex].delay) > 0)
+            _currentCoroutine = StartCoroutine(StartInteractionWithDelay());
+        else
+            StartInteractionItemNow();
+    }
+
+    private IEnumerator StartInteractionWithDelay()
+    {
+        yield return new WaitForSeconds(_currentInteraction.content[_currentInteractionIndex].delay);
+        StartInteractionItemNow();
+        _currentCoroutine = null;
+    }
+
+    private void StartInteractionItemNow()
     {
         _currentInteractionItemType = _currentInteraction.content[_currentInteractionIndex].GetType();
         Type eventStartType = typeof(OnInteractionItemStartEvent<>).MakeGenericType(_currentInteractionItemType);
         EventManager.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { _currentInteraction.content[_currentInteractionIndex] }));
     }
 
-    private static void SortInteractions()
+    private void SortInteractions()
     {
         Vector3 playerPos = LevelManager.PlayerEntity.transform.position;
 

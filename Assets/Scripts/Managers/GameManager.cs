@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
         GameDataManager.InitGameData();
         GameDataManager.input.Player.Enable();
-        InteractionManager.Setup();
     }
 
     private void Start() => EventManager.Publish(new OnHighPriorityLevelLoadEvent());

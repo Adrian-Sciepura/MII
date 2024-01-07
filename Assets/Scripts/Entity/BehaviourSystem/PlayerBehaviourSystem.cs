@@ -54,18 +54,12 @@ public class PlayerBehaviourSystem : BehaviourSystem
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("InteractionTrigger"))
-        {
-            Debug.Log("Entered interaction area");
             InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
-        }
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("InteractionTrigger"))
-        {
-            Debug.Log("Left interaction area");
             InteractionManager.RemovePossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
-        }
     }
 }

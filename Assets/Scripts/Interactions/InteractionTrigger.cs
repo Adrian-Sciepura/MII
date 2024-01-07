@@ -12,7 +12,7 @@ public class InteractionTrigger : MonoBehaviour
     public List<IInteractionCondition> conditions;
 
     [SerializeReference, SubclassSelector]
-    public List<IInteractionItem> content;
+    public List<InteractionItem> content;
 
     public bool CheckConditions() => !conditions.Any(condition => !condition.CheckCondition());
 }

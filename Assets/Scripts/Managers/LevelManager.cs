@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private GameObject _spawnEntityParent;
 
     private static LevelManager _instance;
-    
+
     public static Dictionary<string, GameEntity> SpawnedEntities => _instance._spawnedEntities;
     public static GameEntity PlayerEntity => _instance._playerEntity;
 
@@ -27,6 +27,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Subscribe<OnEntityDieEvent>(EntityDeath);
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem>>(SetNBTFromGUID);
         EventManager.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromPrefab);
+        EventManager.Subscribe<OnInteractionItemStartEvent<RemoveGameObjectInteractionItem>>(RemoveGameObject);
     }
 
     private void Start()
@@ -45,8 +46,20 @@ public class LevelManager : MonoBehaviour
             _spawnedEntities.Add(entity.GUID, entity);
     }
 
+    private void RemoveGameObject(OnInteractionItemStartEvent<RemoveGameObjectInteractionItem> onRemoveGameObjectInteractionStarted)
+    {
+        GameObject removeObject = onRemoveGameObjectInteractionStarted.Data.gameObjectToRemove;
+        GameEntity gameEntity;
+        
+        if((gameEntity = removeObject.GetComponent<GameEntity>()) != null && _instance._spawnedEntities.TryGetValue(gameEntity.GUID, out gameEntity))
+            _instance._spawnedEntities.Remove(gameEntity.GUID);
 
-    private static void BuildFromPrefab(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
+        Destroy(removeObject);
+        EventManager.Publish(new OnInteractionItemFinishEvent<RemoveGameObjectInteractionItem>());
+    }
+
+
+    private void BuildFromPrefab(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
     {
         SpawnInfo spawnInfo = onSpawnEntityInteractionStarted.Data.spawnObject.GetComponent<SpawnInfo>();
         if(spawnInfo != null)
@@ -69,7 +82,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Publish(new OnInteractionItemFinishEvent<SpawnEntityInteractionItem>());
     }
 
-    private static void SetNBTFromGUID(OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem> onSetNBTInteractionStarted)
+    private void SetNBTFromGUID(OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem> onSetNBTInteractionStarted)
     {
         GameEntity gameEntity;
         if (SpawnedEntities.TryGetValue(onSetNBTInteractionStarted.Data.GUID, out gameEntity) && gameEntity.EntityData != null)
@@ -106,7 +119,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Publish(new OnInteractionItemFinishEvent<SetNBTFromGUIDInteractionItem>());
     }
 
-    private static void EntityDeath(OnEntityDieEvent entityDieEvent)
+    private void EntityDeath(OnEntityDieEvent entityDieEvent)
     {
         SpawnedEntities[entityDieEvent.Entity.GUID] = null;
         Destroy(entityDieEvent.Entity.gameObject);
