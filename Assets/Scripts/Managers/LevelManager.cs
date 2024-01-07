@@ -1,107 +1,115 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public static class LevelManager
+public class LevelManager : MonoBehaviour
 {
-    public static readonly Dictionary<string, GameEntity> spawnedEntities = new Dictionary<string, GameEntity>();
-    public static GameEntity playerEntity { get; private set; }
+    [SerializeField]
+    private GameEntity _playerEntity;
+    private Dictionary<string, GameEntity> _spawnedEntities;
+    private GameObject _spawnEntityParent;
 
-    private static GameObject _entityParent;
+    private static LevelManager _instance;
+    
+    public static Dictionary<string, GameEntity> SpawnedEntities => _instance._spawnedEntities;
+    public static GameEntity PlayerEntity => _instance._playerEntity;
 
-    public static void Setup()
+    private void Awake()
     {
-        EventManager.Instance.Subscribe<OnHighPriorityLevelLoadEvent>(SetupEntitiesOnScene);
-        EventManager.Instance.Subscribe<OnEntityDieEvent>(EntityDeath);
-        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromGameObject);
-        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<SetNBTInteractionItem>>(SetNBT);
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        _instance = this;
+        _spawnedEntities = new Dictionary<string, GameEntity>();
+
+        EventManager.Subscribe<OnEntityDieEvent>(EntityDeath);
+        EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem>>(SetNBTFromGUID);
+        EventManager.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromPrefab);
     }
 
-    private static void SetupEntitiesOnScene(OnHighPriorityLevelLoadEvent e)
+    private void Start()
     {
-        spawnedEntities.Clear();
+        InteractionTrigger[] triggers = FindObjectsOfType<InteractionTrigger>();
 
-        _entityParent = GameObject.Find("Entity");
-        SpawnInfo[] spawnInfos = Object.FindObjectsOfType<SpawnInfo>();
+        foreach (InteractionTrigger trigger in triggers)
+            trigger.gameObject.tag = "InteractionTrigger";
 
-        for (int i = 0; i < spawnInfos.Length; i++)
+
+        _spawnEntityParent = GameObject.Find("Entity");
+
+        _spawnedEntities.Clear();
+        GameEntity[] gameEntities = FindObjectsOfType<GameEntity>();
+        foreach (var entity in gameEntities)
+            _spawnedEntities.Add(entity.GUID, entity);
+    }
+
+
+    private static void BuildFromPrefab(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
+    {
+        SpawnInfo spawnInfo = onSpawnEntityInteractionStarted.Data.spawnObject.GetComponent<SpawnInfo>();
+        if(spawnInfo != null)
         {
-            if (spawnInfos[i].entityType == GameEntityType.Player)
+            GameObject newObject = Instantiate(spawnInfo.prefab, spawnInfo.gameObject.transform.position, Quaternion.identity);
+
+            for (int i = spawnInfo.transform.childCount - 1; i >= 0; i--)
+                spawnInfo.transform.GetChild(i).transform.parent = newObject.transform;
+
+            GameEntity entityComponent = newObject.GetComponent<GameEntity>();
+
+            if (entityComponent != null)
             {
-                SpawnInfo temp = spawnInfos[0];
-                spawnInfos[0] = spawnInfos[i];
-                spawnInfos[i] = temp;
-                break;
+                newObject.transform.parent = _instance._spawnEntityParent.transform;
+                SpawnedEntities.Add(entityComponent.GUID, entityComponent);
             }
         }
 
-        foreach (SpawnInfo spawnInfo in spawnInfos)
-            if (!spawnInfo.doNotCreateImmediately)
-                BuildFromSpawnInfo(spawnInfo);
 
-        InteractionTrigger[] interactions = Object.FindObjectsOfType<InteractionTrigger>();
-
-        foreach (InteractionTrigger interaction in interactions)
-            interaction.tag = "InteractionTrigger";
-
-        EventManager.Instance.Publish(new OnLevelSetupComplete());
+        EventManager.Publish(new OnInteractionItemFinishEvent<SpawnEntityInteractionItem>());
     }
 
-    private static void BuildFromGameObject(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
-    {
-        SpawnInfo spawnInfo = onSpawnEntityInteractionStarted.Data.spawnObject.GetComponent<SpawnInfo>();
-
-        if (spawnInfo != null)
-            BuildFromSpawnInfo(spawnInfo);
-
-        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<SpawnEntityInteractionItem>());
-    }
-
-    private static void BuildFromSpawnInfo(SpawnInfo spawnInfo)
-    {
-        GameEntity createdEntity = Factory.Build(spawnInfo.guid, spawnInfo.entityType, spawnInfo.gameObject.transform.position);
-        createdEntity.transform.parent = _entityParent.transform;
-        spawnedEntities.Add(spawnInfo.guid, createdEntity);
-
-        if (spawnInfo.entityType == GameEntityType.Player)
-        {
-            playerEntity = createdEntity;
-            playerEntity.inventory.Resize(4);
-        }
-
-        for (int i = spawnInfo.transform.childCount - 1; i >= 0; i--)
-            spawnInfo.transform.GetChild(i).transform.parent = createdEntity.transform;
-
-        Object.Destroy(spawnInfo.gameObject);
-    }
-
-    private static void SetNBT(OnInteractionItemStartEvent<SetNBTInteractionItem> onSetNBTInteractionStarted)
+    private static void SetNBTFromGUID(OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem> onSetNBTInteractionStarted)
     {
         GameEntity gameEntity;
-        if (spawnedEntities.TryGetValue(onSetNBTInteractionStarted.Data.GUID, out gameEntity))
+        if (SpawnedEntities.TryGetValue(onSetNBTInteractionStarted.Data.GUID, out gameEntity) && gameEntity.EntityData != null)
         {
-            bool found = false;
-            for (int i = 0; i < gameEntity.NBT.Count; i++)
+            NBTEntityData nbtData = gameEntity.EntityData.GetData<NBTEntityData>();
+            if (nbtData == null)
             {
-                if (gameEntity.NBT[i].Item1 == onSetNBTInteractionStarted.Data.name)
+                gameEntity.EntityData.AddData<NBTEntityData>(new NBTEntityData());
+                nbtData = gameEntity.EntityData.GetData<NBTEntityData>();
+            }
+
+
+            bool found = false;
+            for (int i = 0; i < nbtData.Data.Count; i++)
+            {
+                if (nbtData.Data[i].Key == onSetNBTInteractionStarted.Data.name)
                 {
                     found = true;
-                    gameEntity.NBT[i] = new System.Tuple<string, string>(gameEntity.NBT[i].Item1, onSetNBTInteractionStarted.Data.value);
+                    nbtData.Data[i].Value = onSetNBTInteractionStarted.Data.value;
                     break;
                 }
             }
 
             if(!found)
-                gameEntity.NBT.Add(new System.Tuple<string, string>(onSetNBTInteractionStarted.Data.name, onSetNBTInteractionStarted.Data.value));
+            {
+                NBTData newNBTData = new NBTData();
+                newNBTData.Key = onSetNBTInteractionStarted.Data.name;
+                newNBTData.Value = onSetNBTInteractionStarted.Data.value;
+                nbtData.Data.Add(newNBTData);
+            }
+                
         }
 
-        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<SetNBTInteractionItem>());
+        EventManager.Publish(new OnInteractionItemFinishEvent<SetNBTFromGUIDInteractionItem>());
     }
 
     private static void EntityDeath(OnEntityDieEvent entityDieEvent)
     {
-        spawnedEntities[entityDieEvent.Entity.GUID] = null;
-        Object.Destroy(entityDieEvent.Entity.gameObject);
+        SpawnedEntities[entityDieEvent.Entity.GUID] = null;
+        Destroy(entityDieEvent.Entity.gameObject);
 
         Debug.Log("Entity died");
     }

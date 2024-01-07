@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa2c0ba2858ea34783f371d85504e53, type: 3}
+  m_Name: None
+  m_EditorClassIdentifier: 
+  itemName: NONE
+  displayName: None
+  itemPrefab: {fileID: 3870111384104691047, guid: 79223d67294e10c43abe2935d5549308, type: 3}
+  itemBehaviour:
+    rid: 4984211727368585223
+  data: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4984211727368585223
+      type: {class: DoNothingItemBehaviour, ns: , asm: Assembly-CSharp}
+      data: 

@@ -1,51 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[System.Serializable]
-public class PlayerBehaviourSystem : IBehaviourSystem
+public class PlayerBehaviourSystem : BehaviourSystem
 {
-    private GameEntity _context;
+    private GameEntity _entity;
     private LivingEntityData _healthData;
-
-    public GameEntity context
-    {
-        get => _context;
-        set
-        {
-            if (_context != null)
-                return;
-
-            _context = value;
-
-            GameDataManager.input.Player.Interaction.performed += InteractionButtonClicked;
-            GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
-            GameDataManager.input.Player.UseItem.performed += UseItem;
-
-            _healthData = context.entityData.GetData<LivingEntityData>();
-        }
-    }
-
-    public void OnTriggerEnter(Collider2D other)
-    {
-        if(other.CompareTag("InteractionTrigger"))
-            InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
-    }
-
-    public void OnTriggerLeave(Collider2D other)
-    {
-        if (other.CompareTag("InteractionTrigger"))
-            InteractionManager.RemovePossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
-    }
-
-    public void Dispose()
-    {
-        if(context == null)
-            return;
-
-        GameDataManager.input.Player.Interaction.performed -= InteractionButtonClicked;
-        GameDataManager.input.Player.Inventory.performed -= InventorySlotButtonClicked;
-        GameDataManager.input.Player.UseItem.performed -= UseItem;
-    }
 
     private void InteractionButtonClicked(InputAction.CallbackContext context)
     {
@@ -56,17 +15,57 @@ public class PlayerBehaviourSystem : IBehaviourSystem
     {
         int slotIndex = int.Parse(context.control.name) - 1;
 
-        if (slotIndex == _context.HeldItemInventorySlot)
+        if (slotIndex == _entity.HeldItemInventorySlot)
             return;
 
-        int oldIndex = _context.HeldItemInventorySlot;
-        _context.HeldItemInventorySlot = slotIndex;
+        int oldIndex = _entity.HeldItemInventorySlot;
+        _entity.HeldItemInventorySlot = slotIndex;
 
-        EventManager.Instance.Publish(new OnEntityChangeHeldItemEvent(_context, oldIndex));
+        EventManager.Publish(new OnEntityChangeHeldItemEvent(_entity, oldIndex));
     }
 
     private void UseItem(InputAction.CallbackContext context)
     {
-        _context.inventory.items[_context.HeldItemInventorySlot]?.Use();
+        _entity.HeldItem?.Use();
+    }
+
+    protected override void Awake()
+    {
+        GameDataManager.input.Player.Interaction.performed += InteractionButtonClicked;
+        GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
+        GameDataManager.input.Player.UseItem.performed += UseItem;
+
+        _entity = GetComponent<GameEntity>();
+        _healthData = GetComponent<EntityDataContainer>().GetData<LivingEntityData>();
+    }
+
+    protected override void Update()
+    {
+        
+    }
+
+    protected override void OnDestroy()
+    {
+        GameDataManager.input.Player.Interaction.performed -= InteractionButtonClicked;
+        GameDataManager.input.Player.Inventory.performed -= InventorySlotButtonClicked;
+        GameDataManager.input.Player.UseItem.performed -= UseItem;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("InteractionTrigger"))
+        {
+            Debug.Log("Entered interaction area");
+            InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
+        }
+    }
+
+    protected virtual void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("InteractionTrigger"))
+        {
+            Debug.Log("Left interaction area");
+            InteractionManager.RemovePossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
+        }
     }
 }

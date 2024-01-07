@@ -27,21 +27,24 @@ public class DialogUIController : MonoBehaviour
         _canvas.SetActive(false);
         _currentCoroutine = null;
         GameDataManager.input.Overlay.ContinueDialogue.performed += CloseDialogue;
-        EventManager.Instance.Subscribe<OnInteractionItemStartEvent<DialogueInteractionItem>>(DialogueEvent);
+        EventManager.Subscribe<OnInteractionItemStartEvent<DialogueInteractionItem>>(DialogueEvent);
     }
 
     private void OnDestroy()
     {
         GameDataManager.input.Overlay.ContinueDialogue.performed -= CloseDialogue;
 
-        EventManager.Instance.Unsubscribe<OnInteractionItemStartEvent<DialogueInteractionItem>>(DialogueEvent);
+        EventManager.Unsubscribe<OnInteractionItemStartEvent<DialogueInteractionItem>>(DialogueEvent);
     }
 
     private void DialogueEvent(OnInteractionItemStartEvent<DialogueInteractionItem> dialogueInteraction)
     {
         GameEntity sender;
-        if (!LevelManager.spawnedEntities.TryGetValue(dialogueInteraction.Data.performerGUID, out sender))
+        if (!LevelManager.SpawnedEntities.TryGetValue(dialogueInteraction.Data.performer.GUID, out sender))
+        {
+            EventManager.Publish(new OnInteractionItemFinishEvent<DialogueInteractionItem>());
             return;
+        }
 
         GameDataManager.input.Player.Disable();
         GameDataManager.input.Overlay.Enable();
@@ -49,7 +52,7 @@ public class DialogUIController : MonoBehaviour
         _currentDialogue = dialogueInteraction.Data;
 
         _canvas.SetActive(true);
-        _senderNameText.text = GameDataManager.entityRegistry[sender.EntityType].displayName;
+        _senderNameText.text = sender.EntityData.GetData<InteractionEntityData>()?.DisplayName ?? sender.GUID;
         _speakerImage.sprite = sender.GetComponent<SpriteRenderer>().sprite;
         _messageText.text = string.Empty;
 
@@ -74,7 +77,7 @@ public class DialogUIController : MonoBehaviour
 
         GameDataManager.input.Overlay.Disable();
         GameDataManager.input.Player.Enable();
-        EventManager.Instance.Publish(new OnInteractionItemFinishEvent<DialogueInteractionItem>());
+        EventManager.Publish(new OnInteractionItemFinishEvent<DialogueInteractionItem>());
     }
 
     private IEnumerator WriteText()

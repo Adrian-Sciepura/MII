@@ -11,8 +11,6 @@ public enum ItemAnimation
 public class Item : MonoBehaviour
 {
     private IItemBehaviour _itemBehaviour;
-
-    public readonly DataContainer<ItemData> itemData = new DataContainer<ItemData>();
     public Inventory inventory;
     public ItemType type;
 

@@ -1,44 +1,20 @@
 using UnityEngine;
 
-[System.Serializable]
-public abstract class WalkMovementSystemTemplate : IMovementSystem
+public abstract class WalkMovementSystemTemplate : MovementSystem
 {
-    protected GameEntity _context;
-
-    protected Transform _transform;
     protected Rigidbody2D _rigidBody;
     protected Animator _animator;
 
     protected LandEntityData _movementData;
 
     protected bool _isFacingRight;
-    
-    public virtual GameEntity context
+
+    protected override void Awake()
     {
-        get => _context;
-        set
-        {
-            if (_context != null)
-                return;
-
-            _context = value;
-
-            _isFacingRight = true;
-            _transform = _context.transform;
-            _rigidBody = _context.GetComponent<Rigidbody2D>();
-            _animator = _context.GetComponent<Animator>();
-            _movementData = _context.entityData.GetData<LandEntityData>();
-        }
-    }
-
-    public virtual void Dispose()
-    {
-
-    }
-
-    public virtual void Update()
-    {
-
+        _isFacingRight = true;
+        _rigidBody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        _movementData = GetComponent<GameEntity>().EntityData.GetData<LandEntityData>();
     }
 
     protected virtual void Jump()
@@ -50,13 +26,13 @@ public abstract class WalkMovementSystemTemplate : IMovementSystem
     protected virtual void Flip()
     {
         _isFacingRight = !_isFacingRight;
-        Vector3 localScale = _transform.localScale;
+        Vector3 localScale = transform.localScale;
         localScale.x *= -1;
-        _transform.localScale = localScale;
+        transform.localScale = localScale;
     }
 
     protected virtual bool IsGrounded()
     {
-        return Physics2D.Raycast(_transform.position, Vector2.down, 1.45f, _movementData.groundLayer);
+        return Physics2D.Raycast(transform.position, Vector2.down, 1.45f, _movementData.groundLayer);
     }
 }

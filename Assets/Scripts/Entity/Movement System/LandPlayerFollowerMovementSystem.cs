@@ -3,7 +3,6 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[System.Serializable]
 public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
 {
     protected Transform _target;
@@ -13,21 +12,17 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
     protected bool _reachedEndOfPath = false;
     protected Coroutine _updateCoroutine = null;
 
-    public override GameEntity context 
-    { 
-        get => _context; 
-        set
-        {
-            base.context = value;
+    protected override void Awake()
+    {
+        base.Awake();
 
-            _target = LevelManager.playerEntity.transform;
-            _seeker = _context.AddComponent<Seeker>();
+        _target = LevelManager.PlayerEntity.transform;
+        _seeker = this.AddComponent<Seeker>();
 
-            _updateCoroutine = _context.StartCoroutine(UpdatePath());
-        }
+        _updateCoroutine = StartCoroutine(UpdatePath());
     }
 
-    public override void Update()
+    protected override void Update()
     {
         if (_path == null)
             return;
@@ -62,10 +57,11 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
         _animator.SetBool("isGrounded", IsGrounded());
     }
 
-    public override void Dispose()
+
+    protected override void OnDestroy()
     {
-        _context.StopCoroutine(_updateCoroutine);
-        Object.Destroy(_seeker);
+        StopCoroutine(_updateCoroutine);
+        Destroy(_seeker);
     }
 
     protected void OnPathComplete(Path p)

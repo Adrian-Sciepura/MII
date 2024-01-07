@@ -17,25 +17,19 @@ public class PlayerUIController : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.Subscribe<OnLevelSetupComplete>(LevelStart);
-        EventManager.Instance.Subscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.Instance.Unsubscribe<OnLevelSetupComplete>(LevelStart);
-        EventManager.Instance.Unsubscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
-    }
-
-    private void LevelStart(OnLevelSetupComplete levelSetup)
-    {
+        EventManager.Subscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
         UpdatePlayerHealth();
         UpdatePlayerInventory();
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
+    }
+
     private void PlayerChangedHeldItem(OnEntityChangeHeldItemEvent entityChangeHeldItemEvent)
     {
-        if (entityChangeHeldItemEvent.Entity.EntityType != GameEntityType.Player)
+        if (entityChangeHeldItemEvent.Entity.EntityCategory != GameEntityCategory.Player)
             return;
 
         foreach (var slot in _inventorySlots)
@@ -46,23 +40,23 @@ public class PlayerUIController : MonoBehaviour
 
     private void UpdatePlayerHealth()
     {
-        LivingEntityData playerHealthData = LevelManager.playerEntity.entityData.GetData<LivingEntityData>();
+        LivingEntityData playerHealthData = LevelManager.PlayerEntity.EntityData.GetData<LivingEntityData>();
         _healthBarSlider.value = playerHealthData.health / (float)playerHealthData.maxHealth;
     }
 
     private void UpdatePlayerInventory()
     {
-        GameEntity playerEntity = LevelManager.playerEntity;
+        GameEntity playerEntity = LevelManager.PlayerEntity;
 
 
         for(int i = 0; i < 4; i++)
         {
-            if (playerEntity.inventory.size < i)
+            if (playerEntity.Inventory.MaxSize < i)
                 break;
 
             _inventorySlots[i].color = Color.white;
-            _inventorySlots[i].sprite = playerEntity.inventory.items[i] != null
-                ? GameDataManager.itemRegistry[playerEntity.inventory.items[i].type].itemPrefab.GetComponent<SpriteRenderer>().sprite
+            _inventorySlots[i].sprite = playerEntity.Inventory.Items[i] != ItemType.NONE
+                ? GameDataManager.itemRegistry[playerEntity.Inventory.Items[i]].itemPrefab.GetComponent<SpriteRenderer>().sprite
                 : _defaultSprite;
         }
 

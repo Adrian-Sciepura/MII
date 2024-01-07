@@ -15,7 +15,6 @@ public class GameTypesManager : AssetModificationProcessor
     {
         (string path, bool found)[] search = 
         {
-            ( "Assets/Resources/Entity", false ),
             ( "Assets/Resources/Item", false )
         };
 
@@ -29,10 +28,8 @@ public class GameTypesManager : AssetModificationProcessor
             }
         }
 
-        if (search[0].found)
-            RegenerateFile<EntityPrefabSO>("/Entity", "GameEntityType");
 
-        if (search[1].found)
+        if (search[0].found)
             RegenerateFile<ItemPrefabSO>("/Item", "ItemType");
 
         if (search.Any(x => x.found))

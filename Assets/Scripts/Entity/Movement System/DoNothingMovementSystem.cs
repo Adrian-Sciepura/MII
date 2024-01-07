@@ -1,10 +1,3 @@
-[System.Serializable]
-public class DoNothingMOvementSystem : IMovementSystem
+public class DoNothingMOvementSystem : MovementSystem
 {
-    public GameEntity context { get; set; }
-
-    public void Dispose()
-    {
-        
-    }
 }

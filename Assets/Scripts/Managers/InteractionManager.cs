@@ -72,14 +72,14 @@ public static class InteractionManager
         foreach (var interactionItemType in interactionItems)
         {
             Type eventFinishType = typeof(OnInteractionItemFinishEvent<>).MakeGenericType(interactionItemType);
-            EventManager.Instance.Subscribe(eventFinishType, NextInteractionItem);
+            EventManager.Subscribe(eventFinishType, NextInteractionItem);
         }
     }
 
 
     public static void StartNearestInteraction()
     {
-        if (_possibleInteractions.Count == 0 || LevelManager.playerEntity == null)
+        if (_possibleInteractions.Count == 0 || LevelManager.PlayerEntity == null)
             return;
 
         bool succeded = false;
@@ -107,7 +107,7 @@ public static class InteractionManager
         _currentInteractionLength = _currentInteraction.content.Count;
         _currentInteractionIndex = 0;
 
-        EventManager.Instance.Publish(new OnInteractionStartEvent(_currentInteraction));
+        EventManager.Publish(new OnInteractionStartEvent(_currentInteraction));
         StartInteractionItem();
 
         return true;
@@ -120,7 +120,7 @@ public static class InteractionManager
 
         if(_currentInteractionIndex >= _currentInteractionLength - 1)
         {
-            EventManager.Instance.Publish(new OnInteractionFinishEvent());
+            EventManager.Publish(new OnInteractionFinishEvent());
             _currentInteraction = null;
             return;
         }
@@ -133,12 +133,12 @@ public static class InteractionManager
     {
         _currentInteractionItemType = _currentInteraction.content[_currentInteractionIndex].GetType();
         Type eventStartType = typeof(OnInteractionItemStartEvent<>).MakeGenericType(_currentInteractionItemType);
-        EventManager.Instance.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { _currentInteraction.content[_currentInteractionIndex] }));
+        EventManager.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { _currentInteraction.content[_currentInteractionIndex] }));
     }
 
     private static void SortInteractions()
     {
-        Vector3 playerPos = LevelManager.playerEntity.transform.position;
+        Vector3 playerPos = LevelManager.PlayerEntity.transform.position;
 
         _possibleInteractions.Sort((x1, x2) =>
         {

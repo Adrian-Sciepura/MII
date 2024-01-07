@@ -1,12 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
-public class DoNothingBehaviourSystem : IBehaviourSystem
+public class DoNothingBehaviourSystem : BehaviourSystem
 {
-    public GameEntity context { get; set; }
-
-    public void Dispose()
-    {
-
-    }
 }

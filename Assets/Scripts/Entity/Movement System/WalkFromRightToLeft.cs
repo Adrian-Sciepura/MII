@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
 public class WalkFromRightToLeft : WalkMovementSystemTemplate
 {
     protected Vector3 _startPos;
@@ -9,30 +8,26 @@ public class WalkFromRightToLeft : WalkMovementSystemTemplate
 
     protected int _maxWalkDistance;
     protected float _checkDistance;
-
     protected int Horizontal => _isFacingRight ? 1 : -1;
-    public override GameEntity context
+
+
+    protected override void Awake()
     {
-        get => _context;
-        set
+        base.Awake();
+
+        Collider2D mainCollider = GetComponent<Collider2D>();
+
+        if (mainCollider != null)
         {
-            base.context = value;
-
-            Collider2D mainCollider = _context.GetComponent<Collider2D>();
-
-            if(mainCollider != null)
-            {
-                _checkDistance = 0.4f;
-                _doNotFallCheck = new Vector3(1.0f, -mainCollider.bounds.size.y * 0.7f - 0.05f, 0);
-                _wallCheck = new Vector3(mainCollider.bounds.size.x / 2 + 0.05f, -0.5f, 0);
-            }
-
-            _startPos = _context.transform.position;
+            _checkDistance = 0.4f;
+            _doNotFallCheck = new Vector3(1.0f, -mainCollider.bounds.size.y * 0.7f - 0.05f, 0);
+            _wallCheck = new Vector3(mainCollider.bounds.size.x / 2 + 0.05f, -0.5f, 0);
         }
-    }
-    
 
-    public override void Update()
+        _startPos = transform.position;
+    }
+
+    protected override void Update()
     {
         if (!CheckFallCollider() || CheckWallCollider())
             Flip();
@@ -42,13 +37,8 @@ public class WalkFromRightToLeft : WalkMovementSystemTemplate
         _animator.SetBool("isRunning", true);
     }
 
-    protected bool CheckFallCollider() => Physics2D.Raycast(_context.transform.position + _doNotFallCheck, Vector2.down, _checkDistance, _movementData.groundLayer);
-    protected bool CheckWallCollider() => Physics2D.Raycast(_context.transform.position + _wallCheck, Vector2.right * Horizontal, _checkDistance, _movementData.groundLayer);
-
-    public override void Dispose()
-    {
-
-    }
+    protected bool CheckFallCollider() => Physics2D.Raycast(transform.position + _doNotFallCheck, Vector2.down, _checkDistance, _movementData.groundLayer);
+    protected bool CheckWallCollider() => Physics2D.Raycast(transform.position + _wallCheck, Vector2.right * Horizontal, _checkDistance, _movementData.groundLayer);
 
     protected override void Flip()
     {

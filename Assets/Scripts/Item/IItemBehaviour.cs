@@ -10,7 +10,7 @@ public interface IItemBehaviour
             return;
 
         string animation = useAnimation.ToString().ToLower();
-        Animator ownerAnimator = context.inventory?.owner.GetComponent<Animator>();
+        Animator ownerAnimator = context.inventory.gameObject.GetComponent<Animator>();
         if(ownerAnimator != null)
         {
             AnimatorStateInfo animatorState = ownerAnimator.GetCurrentAnimatorStateInfo(0);
