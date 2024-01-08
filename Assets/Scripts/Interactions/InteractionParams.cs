@@ -11,4 +11,5 @@ public class InteractionParams
 {
     public InteractionPriority Priority = InteractionPriority.Regular;
     public bool destroyAfterPlay;
+    public bool instantPlay;
 }

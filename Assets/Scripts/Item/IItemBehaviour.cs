@@ -20,5 +20,5 @@ public interface IItemBehaviour
             ownerAnimator.SetTrigger(animation);
         }
     }
-    void OnCollision(Collider2D collision) { }
+    void OnTriggerEnter2D(Collider2D collision){ }
 }

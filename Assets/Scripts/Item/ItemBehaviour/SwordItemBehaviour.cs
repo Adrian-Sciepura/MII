@@ -20,7 +20,7 @@ public class SwordItemBehaviour : IItemBehaviour
         }
     }
 
-    public void OnCollision(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.isTrigger)
             return;

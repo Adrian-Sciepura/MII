@@ -27,5 +27,5 @@ public class Item : MonoBehaviour
     }
     
     public void Use() => _itemBehaviour.Use();
-    private void OnTriggerEnter2D(Collider2D collision) => _itemBehaviour.OnCollision(collision);
+    private void OnTriggerEnter2D(Collider2D collision) => _itemBehaviour.OnTriggerEnter2D(collision);
 }

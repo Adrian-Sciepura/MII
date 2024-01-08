@@ -39,8 +39,12 @@ public class LevelManager : MonoBehaviour
     {
         InteractionTrigger[] triggers = FindObjectsOfType<InteractionTrigger>();
 
+        LayerMask bonusMask = LayerMask.NameToLayer("Bonus");
         foreach (InteractionTrigger trigger in triggers)
+        {
             trigger.gameObject.tag = "InteractionTrigger";
+            trigger.gameObject.layer = bonusMask;
+        }
 
 
         _spawnEntityParent = GameObject.Find("Entity");

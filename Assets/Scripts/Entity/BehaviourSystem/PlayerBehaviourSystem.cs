@@ -5,6 +5,7 @@ public class PlayerBehaviourSystem : BehaviourSystem
 {
     private GameEntity _entity;
     private LivingEntityData _healthData;
+    private Collider2D _mainCollider;
 
     private void InteractionButtonClicked(InputAction.CallbackContext context)
     {
@@ -35,6 +36,7 @@ public class PlayerBehaviourSystem : BehaviourSystem
         GameDataManager.input.Player.Inventory.performed += InventorySlotButtonClicked;
         GameDataManager.input.Player.UseItem.performed += UseItem;
 
+        _mainCollider = GetComponent<Collider2D>();
         _entity = GetComponent<GameEntity>();
         _healthData = GetComponent<EntityDataContainer>().GetData<LivingEntityData>();
     }
@@ -51,10 +53,18 @@ public class PlayerBehaviourSystem : BehaviourSystem
         GameDataManager.input.Player.UseItem.performed -= UseItem;
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name);
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("InteractionTrigger"))
+        {
+            //Debug.Log(other.gameObject.name);
             InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
+        }
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)

@@ -50,6 +50,14 @@ public class InteractionManager : MonoBehaviour
             Transform parentTransform = trigger.transform.parent ?? trigger.transform;
             SpriteRenderer spriteRenderer = parentTransform.GetComponent<SpriteRenderer>();
 
+
+            if(trigger.interactionParams.instantPlay)
+            {
+                StartInteraction(trigger);
+                return;
+            }
+
+
             GameObject tag = parentTransform.Find("InteractionTag(Clone)")?.gameObject;
 
             if (tag == null)
