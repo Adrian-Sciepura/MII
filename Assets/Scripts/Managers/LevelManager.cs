@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -28,6 +30,9 @@ public class LevelManager : MonoBehaviour
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem>>(SetNBTFromGUID);
         EventManager.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromPrefab);
         EventManager.Subscribe<OnInteractionItemStartEvent<RemoveGameObjectInteractionItem>>(RemoveGameObject);
+        EventManager.Subscribe<OnInteractionItemStartEvent<ChangeActiveStateInteractionItem>>(ChangeActiveState);
+        EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGameObjectInteractionItem>>(SetNBTFromGameObject);
+        EventManager.Subscribe<OnInteractionItemStartEvent<ChangePlayerInputActiveStateInteractionItem>>(ChangePlayerInputActiveState);
     }
 
     private void Start()
@@ -46,6 +51,9 @@ public class LevelManager : MonoBehaviour
             _spawnedEntities.Add(entity.GUID, entity);
     }
 
+
+    #region Events
+
     private void RemoveGameObject(OnInteractionItemStartEvent<RemoveGameObjectInteractionItem> onRemoveGameObjectInteractionStarted)
     {
         GameObject removeObject = onRemoveGameObjectInteractionStarted.Data.gameObjectToRemove;
@@ -57,7 +65,6 @@ public class LevelManager : MonoBehaviour
         Destroy(removeObject);
         EventManager.Publish(new OnInteractionItemFinishEvent<RemoveGameObjectInteractionItem>());
     }
-
 
     private void BuildFromPrefab(OnInteractionItemStartEvent<SpawnEntityInteractionItem> onSpawnEntityInteractionStarted)
     {
@@ -88,35 +95,84 @@ public class LevelManager : MonoBehaviour
         if (SpawnedEntities.TryGetValue(onSetNBTInteractionStarted.Data.GUID, out gameEntity) && gameEntity.EntityData != null)
         {
             NBTEntityData nbtData = gameEntity.EntityData.GetData<NBTEntityData>();
+           
             if (nbtData == null)
             {
-                gameEntity.EntityData.AddData<NBTEntityData>(new NBTEntityData());
-                nbtData = gameEntity.EntityData.GetData<NBTEntityData>();
+                nbtData = new NBTEntityData();
+                gameEntity.EntityData.AddData(nbtData);
             }
 
+            NBTData setData = onSetNBTInteractionStarted.Data.data;
+            NBTData search = nbtData.Data.FirstOrDefault(x => x.Key == setData.Key);
 
-            bool found = false;
-            for (int i = 0; i < nbtData.Data.Count; i++)
+            if (search != null)
             {
-                if (nbtData.Data[i].Key == onSetNBTInteractionStarted.Data.name)
-                {
-                    found = true;
-                    nbtData.Data[i].Value = onSetNBTInteractionStarted.Data.value;
-                    break;
-                }
+                search.Value = setData.Value;
             }
-
-            if(!found)
+            else
             {
-                NBTData newNBTData = new NBTData();
-                newNBTData.Key = onSetNBTInteractionStarted.Data.name;
-                newNBTData.Value = onSetNBTInteractionStarted.Data.value;
-                nbtData.Data.Add(newNBTData);
+                NBTData newData = new NBTData();
+                newData.Key = setData.Key;
+                newData.Value = setData.Value;
+
+                nbtData.Data.Add(newData);
             }
-                
         }
 
         EventManager.Publish(new OnInteractionItemFinishEvent<SetNBTFromGUIDInteractionItem>());
+    }
+
+    private void SetNBTFromGameObject(OnInteractionItemStartEvent<SetNBTFromGameObjectInteractionItem> onSetNBTInteractionStarted)
+    {
+        NBTData setData = onSetNBTInteractionStarted.Data.data;
+        EntityDataContainer entityData = onSetNBTInteractionStarted.Data.entity?.EntityData;
+
+        if(entityData != null)
+        {
+            NBTEntityData nbtData = entityData.GetData<NBTEntityData>();
+            if (nbtData == null)
+            {
+                nbtData = new NBTEntityData();
+                entityData.AddData(nbtData);
+            }
+
+            NBTData search = nbtData.Data.FirstOrDefault(x => x.Key == setData.Key);
+
+            if (search != null)
+            {
+                search.Value = setData.Value;
+            }
+            else
+            {
+                NBTData newData = new NBTData();
+                newData.Key = setData.Key;
+                newData.Value = setData.Value;
+
+                nbtData.Data.Add(newData);
+            }
+        }
+
+        EventManager.Publish(new OnInteractionItemFinishEvent<SetNBTFromGameObjectInteractionItem>());
+    }
+
+    private void ChangeActiveState(OnInteractionItemStartEvent<ChangeActiveStateInteractionItem> onChangeStateInteractionStarted)
+    {
+        GameObject objectToChange = onChangeStateInteractionStarted.Data.gameObject;
+
+        if (objectToChange != null)
+            objectToChange.SetActive(onChangeStateInteractionStarted.Data.active);
+
+        EventManager.Publish(new OnInteractionItemFinishEvent<ChangeActiveStateInteractionItem>());
+    }
+
+    private void ChangePlayerInputActiveState(OnInteractionItemStartEvent<ChangePlayerInputActiveStateInteractionItem> onChangePlayerInputStateStarted)
+    {
+        if (onChangePlayerInputStateStarted.Data.active)
+            GameDataManager.input.Player.Enable();
+        else
+            GameDataManager.input.Player.Disable();
+
+        EventManager.Publish(new OnInteractionItemFinishEvent<ChangePlayerInputActiveStateInteractionItem>());
     }
 
     private void EntityDeath(OnEntityDieEvent entityDieEvent)
@@ -126,4 +182,6 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("Entity died");
     }
+
+    #endregion
 }

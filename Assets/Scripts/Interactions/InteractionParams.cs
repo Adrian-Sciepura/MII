@@ -10,7 +10,5 @@ public enum InteractionPriority
 public class InteractionParams
 {
     public InteractionPriority Priority = InteractionPriority.Regular;
-    public bool freezeGameTime;
-    public bool turnOffPlayerInput;
     public bool destroyAfterPlay;
 }

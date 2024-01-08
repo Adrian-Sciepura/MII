@@ -1,21 +1,24 @@
+using System.Linq;
+
 [System.Serializable]
 public class NBTFromGUIDCondition : IInteractionCondition
 {
     public string GUID;
-    public string name;
-    public string value;
+    public NBTData data;
 
     public bool CheckCondition()
     {
         GameEntity gameEntity;
         NBTEntityData nbtData;
 
-        if (!LevelManager.SpawnedEntities.TryGetValue(GUID, out gameEntity) || (nbtData = gameEntity.EntityData?.GetData<NBTEntityData>()) == null)
+        if (GUID == string.Empty || 
+            data == null ||
+            !LevelManager.SpawnedEntities.TryGetValue(GUID, out gameEntity) || 
+            (nbtData = gameEntity.EntityData?.GetData<NBTEntityData>()) == null)
             return false;
 
-        foreach(var nbt in nbtData.Data)
-            if (nbt.Key == name && nbt.Value == value)
-                return true;
+        if(nbtData.Data.FirstOrDefault(x => x.Key == data.Key && x.Value == data.Value) != null)
+            return true;
 
         return false;
     }

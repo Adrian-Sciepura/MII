@@ -48,21 +48,18 @@ public class InteractionManager : MonoBehaviour
         if (trigger.CheckConditions() && !_instance._possibleInteractions.Any(x => x.Item1 == trigger))
         {
             Transform parentTransform = trigger.transform.parent ?? trigger.transform;
-            Collider2D collider = parentTransform.GetComponent<Collider2D>();
+            SpriteRenderer spriteRenderer = parentTransform.GetComponent<SpriteRenderer>();
 
             GameObject tag = parentTransform.Find("InteractionTag(Clone)")?.gameObject;
 
             if (tag == null)
             {
-                Vector3 spawnPos = collider != null
-                ? new Vector3(parentTransform.position.x, parentTransform.position.y + collider.bounds.size.y * 0.5f)
-                : new Vector3(parentTransform.position.x, parentTransform.position.y + 1.0f);
+                GameObject prefab = GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject;
+                SpriteRenderer prefabRenderer = prefab.GetComponent<SpriteRenderer>();
 
-                tag = UnityEngine.Object.Instantiate(
-                    GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject,
-                    spawnPos,
-                    Quaternion.identity,
-                    parentTransform);
+                tag = Instantiate(prefab, parentTransform);
+                tag.transform.localPosition = new Vector3(0.0f, 2.0f, 0.0f);
+
 
                 tag.GetComponent<SpriteRenderer>().sortingOrder = 10;
             }
@@ -118,6 +115,10 @@ public class InteractionManager : MonoBehaviour
         _instance._currentInteractionLength = _instance._currentInteraction.content.Count;
         _instance._currentInteractionIndex = 0;
 
+        foreach (var item in _instance._possibleInteractions)
+            if(item.Item2.activeSelf)
+                item.Item2.SetActive(false);
+
         EventManager.Publish(new OnInteractionStartEvent(_instance._currentInteraction));
         _instance.StartInteractionItem();
 
@@ -131,12 +132,16 @@ public class InteractionManager : MonoBehaviour
 
         if(_currentInteractionIndex >= _currentInteractionLength - 1)
         {
-            EventManager.Publish(new OnInteractionFinishEvent());
-
             if (_currentInteraction.interactionParams.destroyAfterPlay)
                 Destroy(_currentInteraction.gameObject);
 
             _currentInteraction = null;
+
+            foreach (var item in _possibleInteractions)
+                if (!item.Item2.activeSelf)
+                    item.Item2.SetActive(true);
+
+            EventManager.Publish(new OnInteractionFinishEvent());
             return;
         }
 
