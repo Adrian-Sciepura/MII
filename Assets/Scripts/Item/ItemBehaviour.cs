@@ -47,7 +47,7 @@ public abstract class ItemBehaviour : MonoBehaviour
             return false;
 
         AnimatorStateInfo animatorState = _ownerAnimator.GetCurrentAnimatorStateInfo(0);
-        if (animatorState.IsName(_animationName) && animatorState.normalizedTime < 1.0f)
+        if (animatorState.IsName(_animationName))
             return true;
 
         return false;
