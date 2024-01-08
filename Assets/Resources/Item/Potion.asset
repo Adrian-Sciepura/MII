@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fa2c0ba2858ea34783f371d85504e53, type: 3}
-  m_Name: SwordItem
+  m_Name: Potion
   m_EditorClassIdentifier: 
-  itemName: Sword
-  displayName: Basic Sword
-  itemPrefab: {fileID: 6154555490077478058, guid: 746e6c6f877bee04ca4fb8804f7afd33, type: 3}
+  itemName: Potion
+  displayName: "Mikstura \u017Cycia"
+  itemPrefab: {fileID: 2295315383238493766, guid: 11b4ffcb934e83d47bc60c1c58f04e02, type: 3}
   itemData:
-  - rid: 4984211752547778565
+  - rid: 4984211752547778564
   references:
     version: 2
     RefIds:
-    - rid: 4984211752547778565
-      type: {class: WhiteWeaponItemData, ns: , asm: Assembly-CSharp}
+    - rid: 4984211752547778564
+      type: {class: HealingItemData, ns: , asm: Assembly-CSharp}
       data:
-        damage: 10
+        health: 10

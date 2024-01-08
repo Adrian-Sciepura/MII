@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -28,7 +29,7 @@ public class Inventory : MonoBehaviour
             _items = newItemsArray;
         }
 
-        _itemsCount = _items.Length;
+        _itemsCount = _items.Count(x => x != ItemType.NONE);
     }
     
     public Item TakeTheItemInHand(GameObject hand, int slot)
@@ -46,10 +47,11 @@ public class Inventory : MonoBehaviour
 
         int horizontal = gameObject.transform.localScale.x > 0 ? 1 : -1;
 
-        Item item = Factory.Build(_items[slot], hand.transform.position, horizontal);
+        Item item = Factory.Build(_items[slot], hand.transform.position, hand.transform.rotation, horizontal);
         item.inventory = this;
-        item.transform.localScale = new Vector2(horizontal, item.transform.localScale.y);
+        item.GetComponent<ItemBehaviour>().UpdateContext();
         item.transform.parent = hand.transform;
+        item.transform.localScale = new Vector2(horizontal, item.transform.localScale.y);
         return item;
 
         void DestroyCurrent()
@@ -99,10 +101,12 @@ public class Inventory : MonoBehaviour
             _items[slot] = item;
         }
 
+        GameEntity gameEntity = GetComponent<GameEntity>();
+        if (gameEntity != null)
+            EventManager.Publish(new OnEntityPickupItemEvent(gameEntity, item));
+
         _itemsCount++;
     }
-
-    // TODO after remove publish OnRemoveItemEvent -> entity can't hold removed item
 
     public void RemoveItem(ItemType item)
     {
@@ -111,6 +115,8 @@ public class Inventory : MonoBehaviour
             if (_items[i].Equals(item))
             {
                 _items[i] = ItemType.NONE;
+                RemoveItemFromHand();
+                _itemsCount--;
                 return;
             }
         }
@@ -122,5 +128,18 @@ public class Inventory : MonoBehaviour
             return;
 
         _items[slot] = ItemType.NONE;
+        _itemsCount--;
+        RemoveItemFromHand();
+    }
+
+    private void RemoveItemFromHand()
+    {
+        GameEntity gameEntity = gameObject.GetComponent<GameEntity>();
+        
+        if(gameEntity != null)
+        {
+            int currentSlot = gameEntity.HeldItemInventorySlot;
+            gameEntity.HeldItemInventorySlot = currentSlot;
+        }
     }
 }

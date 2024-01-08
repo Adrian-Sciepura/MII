@@ -63,9 +63,9 @@ public class InteractionManager : MonoBehaviour
             if (tag == null)
             {
                 GameObject prefab = GameDataManager.resourcesRegistry[("InteractionTag", typeof(GameObject))] as GameObject;
-                SpriteRenderer prefabRenderer = prefab.GetComponent<SpriteRenderer>();
 
                 tag = Instantiate(prefab, parentTransform);
+                tag.transform.rotation = Quaternion.identity;
                 tag.transform.localPosition = new Vector3(0.0f, 2.0f, 0.0f);
 
 

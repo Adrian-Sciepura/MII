@@ -10,22 +10,9 @@ public enum ItemAnimation
 
 public class Item : MonoBehaviour
 {
-    private IItemBehaviour _itemBehaviour;
+    [HideInInspector]
     public Inventory inventory;
     public ItemType type;
 
-    public IItemBehaviour itemBehaviour
-    {
-        set
-        {
-            if (_itemBehaviour != null)
-                _itemBehaviour.context = null;
-
-            _itemBehaviour = value;
-            _itemBehaviour.context = this;
-        }
-    }
-    
-    public void Use() => _itemBehaviour.Use();
-    private void OnTriggerEnter2D(Collider2D collision) => _itemBehaviour.OnTriggerEnter2D(collision);
+    public void Use() =>  GetComponent<ItemBehaviour>()?.Use();
 }

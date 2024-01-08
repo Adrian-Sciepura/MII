@@ -33,6 +33,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Subscribe<OnInteractionItemStartEvent<ChangeActiveStateInteractionItem>>(ChangeActiveState);
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGameObjectInteractionItem>>(SetNBTFromGameObject);
         EventManager.Subscribe<OnInteractionItemStartEvent<ChangePlayerInputActiveStateInteractionItem>>(ChangePlayerInputActiveState);
+        EventManager.Subscribe<OnInteractionItemStartEvent<AddItemToInventoryInteractionItem>>(AddItemToInventory);
     }
 
     private void Start()
@@ -56,7 +57,7 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    #region Events
+    #region Event handlers
 
     private void RemoveGameObject(OnInteractionItemStartEvent<RemoveGameObjectInteractionItem> onRemoveGameObjectInteractionStarted)
     {
@@ -179,12 +180,19 @@ public class LevelManager : MonoBehaviour
         EventManager.Publish(new OnInteractionItemFinishEvent<ChangePlayerInputActiveStateInteractionItem>());
     }
 
+    private void AddItemToInventory(OnInteractionItemStartEvent<AddItemToInventoryInteractionItem> onAddItemToInventoryInteractionStarted)
+    {
+        AddItemToInventoryInteractionItem data = onAddItemToInventoryInteractionStarted.Data;
+        if (data.inventory != null && data.item != ItemType.NONE)
+            data.inventory.AddItem(data.item);
+
+        EventManager.Publish(new OnInteractionItemFinishEvent<AddItemToInventoryInteractionItem>());
+    }
+
     private void EntityDeath(OnEntityDieEvent entityDieEvent)
     {
         SpawnedEntities[entityDieEvent.Entity.GUID] = null;
         Destroy(entityDieEvent.Entity.gameObject);
-
-        Debug.Log("Entity died");
     }
 
     #endregion

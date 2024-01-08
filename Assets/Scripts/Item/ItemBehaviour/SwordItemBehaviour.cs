@@ -1,45 +1,29 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SwordItemBehaviour : IItemBehaviour
+public class SwordItemBehaviour : ItemBehaviour
 {
-    private Item _context;
-    private WhiteWeaponItemData _damageInfo;
-    
-    public ItemAnimation useAnimation => ItemAnimation.Swing;
-    public Item context 
-    {
-        get => _context;
-        set
-        {
-            if (_context != null)
-                return;
+    protected WhiteWeaponItemData _damageInfo;
 
-            _context = value;
-            _damageInfo = _context.GetComponent<ItemDataContainer>().GetData<WhiteWeaponItemData>();
-        }
+    public override void UpdateContext()
+    {
+        base.UpdateContext();
+        _damageInfo = GetComponent<ItemDataContainer>().GetData<WhiteWeaponItemData>();
+        Animation = ItemAnimation.Swing;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.isTrigger)
             return;
 
-
         GameEntity entity = collision.GetComponent<GameEntity>();
 
-        if (_context == null)
-            Debug.Log("null context");
-        else if (_context.inventory == null)
-            Debug.Log("null inventory");
-
-
-
-        if (entity == null || collision.gameObject == _context.inventory.gameObject)
+        if (entity == null || _context == null || collision.gameObject == _context.inventory.gameObject)
             return;
 
 
-        string animation = useAnimation.ToString().ToLower();
+        string animation = _animation.ToString().ToLower();
         Animator ownerAnimator = _context.inventory.gameObject.GetComponent<Animator>();
         
         if (ownerAnimator != null)

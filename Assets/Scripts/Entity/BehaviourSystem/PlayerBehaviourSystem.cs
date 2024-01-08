@@ -21,8 +21,6 @@ public class PlayerBehaviourSystem : BehaviourSystem
 
         int oldIndex = _entity.HeldItemInventorySlot;
         _entity.HeldItemInventorySlot = slotIndex;
-
-        EventManager.Publish(new OnEntityChangeHeldItemEvent(_entity, oldIndex));
     }
 
     private void UseItem(InputAction.CallbackContext context)
@@ -53,18 +51,10 @@ public class PlayerBehaviourSystem : BehaviourSystem
         GameDataManager.input.Player.UseItem.performed -= UseItem;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
-
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("InteractionTrigger"))
-        {
-            //Debug.Log(other.gameObject.name);
             InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
-        }
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)

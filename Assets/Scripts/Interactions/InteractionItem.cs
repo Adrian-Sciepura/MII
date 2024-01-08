@@ -1,5 +1,5 @@
 [System.Serializable]
-public class InteractionItem
+public abstract class InteractionItem
 {
     public int delay;
 }

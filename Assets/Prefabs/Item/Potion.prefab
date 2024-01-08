@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6154555490077478058
+--- !u!1 &2295315383238493766
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7527484380203755413}
-  - component: {fileID: 5319463083454515249}
-  - component: {fileID: 4813331006305800399}
-  - component: {fileID: 3131331976955843955}
+  - component: {fileID: 3784225878048484149}
+  - component: {fileID: 2428368942556231529}
+  - component: {fileID: 8835588350910656175}
+  - component: {fileID: 8884327928449371016}
   m_Layer: 0
-  m_Name: sword
+  m_Name: Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7527484380203755413
+--- !u!4 &3784225878048484149
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154555490077478058}
+  m_GameObject: {fileID: 2295315383238493766}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.35073984, w: 0.93647295}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 41.065}
---- !u!212 &5319463083454515249
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2428368942556231529
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154555490077478058}
+  m_GameObject: {fileID: 2295315383238493766}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -75,24 +75,24 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4f4b3730cb977d144b41fcd8e14597c6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fca6ac5c4c4963b4e9961bad2f9dcc60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.745, y: 0.825}
+  m_Size: {x: 0.5, y: 0.825}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &4813331006305800399
-PolygonCollider2D:
+--- !u!61 &8835588350910656175
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154555490077478058}
+  m_GameObject: {fileID: 2295315383238493766}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -122,43 +122,24 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.745, y: 0.825}
-    newSize: {x: 0.745, y: 0.825}
+    oldSize: {x: 0.5, y: 0.825}
+    newSize: {x: 0.5, y: 0.825}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.0975, y: -0.29749998}
-      - {x: -0.037499998, y: -0.2725}
-      - {x: -0.022499999, y: -0.1875}
-      - {x: 0.19749999, y: -0.0325}
-      - {x: 0.3725, y: 0.0975}
-      - {x: 0.3725, y: 0.4125}
-      - {x: 0.2175, y: 0.4125}
-      - {x: 0.0775, y: 0.39249998}
-      - {x: 0.0525, y: 0.3775}
-      - {x: -0.2025, y: -0.0725}
-      - {x: -0.2575, y: -0.0625}
-      - {x: -0.2875, y: -0.1325}
-      - {x: -0.24749999, y: -0.18249999}
-      - {x: -0.3725, y: -0.2825}
-      - {x: -0.3725, y: -0.3825}
-      - {x: -0.3525, y: -0.4125}
-      - {x: -0.24249999, y: -0.4125}
-      - {x: -0.21249999, y: -0.3725}
-      - {x: -0.1525, y: -0.2725}
-  m_UseDelaunayMesh: 0
---- !u!114 &3131331976955843955
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.825}
+  m_EdgeRadius: 0
+--- !u!114 &8884327928449371016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6154555490077478058}
+  m_GameObject: {fileID: 2295315383238493766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78116582c7e088940aba2652a8eea2d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ab26a8fb48aa5d48803503df2e05bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -1,9 +1,4 @@
-using UnityEngine;
-
 [System.Serializable]
-public class DoNothingItemBehaviour : IItemBehaviour
+public class DoNothingItemBehaviour : ItemBehaviour
 {
-    public ItemAnimation useAnimation => ItemAnimation.None;
-
-    public Item context { get; set; }
 }

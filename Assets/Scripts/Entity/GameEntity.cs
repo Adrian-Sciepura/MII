@@ -77,8 +77,10 @@ public class GameEntity : MonoBehaviour
         {
             if(Inventory != null && value >= 0 && value < _inventory.MaxSize)
             {
+                int prevValue = _heldItemInventorySlot;
                 _heldItemInventorySlot = value;
                 _heldItem = _inventory.TakeTheItemInHand(_handObject, value);
+                EventManager.Publish(new OnEntityChangeHeldItemEvent(this, prevValue));
             }
         }
     }
@@ -119,12 +121,11 @@ public class GameEntity : MonoBehaviour
     private void Awake()
     {
         _guid = Guid.NewGuid().ToString();
-        _handObject = transform.Find("hand").gameObject;
-        _heldItemInventorySlot = 0;
     }
 
     private void Start()
     {
+        _handObject = transform.Find("hand").gameObject;
         HeldItemInventorySlot = 0;
     }
 }
