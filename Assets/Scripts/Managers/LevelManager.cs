@@ -191,6 +191,12 @@ public class LevelManager : MonoBehaviour
 
     private void EntityDeath(OnEntityDieEvent entityDieEvent)
     {
+        GameEntity entity = entityDieEvent.Entity;
+        PointsEntityData pointsEntityData = entity.EntityData?.GetData<PointsEntityData>();
+
+        if (pointsEntityData != null)
+            GameManager.AddPoints(pointsEntityData.points);
+
         SpawnedEntities[entityDieEvent.Entity.GUID] = null;
         Destroy(entityDieEvent.Entity.gameObject);
     }

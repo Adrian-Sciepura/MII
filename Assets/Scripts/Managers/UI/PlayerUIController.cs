@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,18 +16,36 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField]
     private Sprite _defaultSprite;
 
+    [SerializeField]
+    private TextMeshProUGUI _gameTimeText;
+
+    [SerializeField]
+    private TextMeshProUGUI _scoreText;
+
     private void Awake()
     {
         EventManager.Subscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
         EventManager.Subscribe<OnEntityDamageEvent>(OnPlayerDamage);
         EventManager.Subscribe<OnEntityHealEvent>(OnPlayerHeal);
         EventManager.Subscribe<OnEntityPickupItemEvent>(OnPlayerPickupItem);
+        EventManager.Subscribe<OnPointsValueChanged>(OnPointsValueChanged);
+    }
+
+    private void Update()
+    {
+        int time = (int)GameManager.GameTime;
+        _gameTimeText.text = string.Format("{0:00}:{1:00}", time / 60, time % 60);
     }
 
     private void Start()
     {
         UpdatePlayerHealth();
         UpdatePlayerInventory();
+    }
+    
+    private void OnPointsValueChanged(OnPointsValueChanged onPointsValueChangedEvent)
+    {
+        _scoreText.text = GameManager.Points.ToString("0000000");
     }
 
     private void OnPlayerPickupItem(OnEntityPickupItemEvent entityPickupItemEvent)

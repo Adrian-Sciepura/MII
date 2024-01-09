@@ -8,24 +8,45 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance { get; private set; }
-    public GameState gameState { get; private set; }
+    private static GameManager _instance;
+
+    private GameState _gameState;
+    private float _gameTime;
+    private int _points;
+    private int _keys;
+
+    public static GameManager Instance => _instance;
+    public static GameState GameState => _instance._gameState;
+    public static float GameTime => _instance._gameTime;
+    public static int Points => _instance._points;
+    public static int Keys => _instance._keys;
+
+
+    public static void AddKey() => _instance._keys++;
+    public static void AddPoints(int ammount)
+    {
+        _instance._points += ammount;
+        EventManager.Publish(new OnPointsValueChanged());
+    }
+
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this);
             return;
         }
 
-        instance = this;
-        gameState = GameState.PLAYING;
+        _instance = this;
+        _gameState = GameState.PLAYING;
 
         GameDataManager.InitGameData();
         GameDataManager.input.Player.Enable();
     }
 
-    private void Start() => EventManager.Publish(new OnHighPriorityLevelLoadEvent());
-    private void Update() => EventManager.Publish(new OnHighPriorityUpdateEvent());
+    private void Update()
+    {
+        _gameTime += Time.deltaTime;
+    }
 }

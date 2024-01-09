@@ -54,7 +54,14 @@ public class PlayerBehaviourSystem : BehaviourSystem
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("InteractionTrigger"))
+        {
             InteractionManager.AddPossibleInteraction(other.gameObject.GetComponent<InteractionTrigger>());
+        }
+        else if(other.CompareTag("Collectable"))
+        {
+            Collectable collectable = other.GetComponent<Collectable>();
+            collectable.Collect();
+        }
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)
