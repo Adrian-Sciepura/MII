@@ -55,22 +55,15 @@ public class PlayerUIController : MonoBehaviour
     {
         UpdatePlayerHealth();
         UpdatePlayerInventory();
-    }
-    
-    private void OnKeysValueChanged(OnKeysValueChanged onKeysValueChanged)
-    {
-        int collectedKeys = GameManager.Keys;
-        for (int i = 0; i < collectedKeys; i++)
-            keysImage[i].color = Color.white;
-
-        for (int i = collectedKeys; i < keysImage.Length; i++)
-            keysImage[i].color = Color.black;
+        UpdateKeys();
+        UpdatePoints();
     }
 
-    private void OnPointsValueChanged(OnPointsValueChanged onPointsValueChangedEvent)
-    {
-        _scoreText.text = GameManager.Points.ToString("0000000");
-    }
+    #region Event handlers
+
+    private void OnKeysValueChanged(OnKeysValueChanged onKeysValueChanged) => UpdateKeys();
+
+    private void OnPointsValueChanged(OnPointsValueChanged onPointsValueChangedEvent) => UpdatePoints();
 
     private void OnPlayerPickupItem(OnEntityPickupItemEvent entityPickupItemEvent)
     {
@@ -108,6 +101,23 @@ public class PlayerUIController : MonoBehaviour
             return;
 
         UpdatePlayerHealth();
+    }
+
+    #endregion
+
+    private void UpdatePoints()
+    {
+        _scoreText.text = GameManager.Points.ToString("0000000");
+    }
+
+    private void UpdateKeys()
+    {
+        int collectedKeys = GameManager.Keys;
+        for (int i = 0; i < collectedKeys; i++)
+            keysImage[i].color = Color.white;
+
+        for (int i = collectedKeys; i < keysImage.Length; i++)
+            keysImage[i].color = Color.black;
     }
 
     private void UpdatePlayerHealth()

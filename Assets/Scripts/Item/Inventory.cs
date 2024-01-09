@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class Inventory : MonoBehaviour
 
 
     public int MaxSize => _maxSize;
+    public int ItemCount => _itemsCount;
     public ItemType[] Items => _items;
 
 
@@ -30,6 +32,17 @@ public class Inventory : MonoBehaviour
         }
 
         _itemsCount = _items.Count(x => x != ItemType.NONE);
+    }
+
+    public void SetupInventoryFromValues(int maxSize, int itemCount, int[] items)
+    {
+        _maxSize = maxSize;
+        _itemsCount = itemCount;
+
+        _items = new ItemType[_maxSize];
+
+        for (int i = 0; i < _maxSize; i++)
+            _items[i] = (ItemType)items[i];
     }
     
     public Item TakeTheItemInHand(GameObject hand, int slot)

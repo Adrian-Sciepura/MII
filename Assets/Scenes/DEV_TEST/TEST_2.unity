@@ -2059,7 +2059,7 @@ MonoBehaviour:
       type: {class: ChangeSceneInteractionItem, ns: , asm: Assembly-CSharp}
       data:
         delay: 0
-        sceneName: TEST_2
+        sceneName: TEST_1
 --- !u!1 &1218819751
 GameObject:
   m_ObjectHideFlags: 0

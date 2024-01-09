@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class LevelManager : MonoBehaviour
     private GameEntity _playerEntity;
     private Dictionary<string, GameEntity> _spawnedEntities;
     private GameObject _spawnEntityParent;
+    private string _playerData;
 
     private static LevelManager _instance;
 
@@ -19,13 +22,14 @@ public class LevelManager : MonoBehaviour
         if (_instance != null && _instance != this)
         {
             _instance._playerEntity = this._playerEntity;
+            _instance.RestorePlayerData();
             Destroy(this);
             return;
         }
 
         _instance = this;
         _spawnedEntities = new Dictionary<string, GameEntity>();
-        
+
         EventManager.Subscribe<OnEntityDieEvent>(EntityDeath);
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem>>(SetNBTFromGUID);
         EventManager.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromPrefab);
@@ -34,9 +38,23 @@ public class LevelManager : MonoBehaviour
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGameObjectInteractionItem>>(SetNBTFromGameObject);
         EventManager.Subscribe<OnInteractionItemStartEvent<ChangePlayerInputActiveStateInteractionItem>>(ChangePlayerInputActiveState);
         EventManager.Subscribe<OnInteractionItemStartEvent<AddItemToInventoryInteractionItem>>(AddItemToInventory);
+        EventManager.Subscribe<OnInteractionItemStartEvent<ChangeSceneInteractionItem>>(ChangeScene);
     }
 
     private void Start()
+    {
+        SetupLevel();
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        if (this != _instance)
+            return;
+
+        SetupLevel();
+    }
+
+    private void SetupLevel()
     {
         InteractionTrigger[] triggers = FindObjectsOfType<InteractionTrigger>();
 
@@ -56,6 +74,36 @@ public class LevelManager : MonoBehaviour
             _spawnedEntities.Add(entity.GUID, entity);
     }
 
+    private void SavePlayer()
+    {
+        StringBuilder player = new StringBuilder();
+        Inventory playerInventory = _playerEntity.Inventory;
+
+        player.Append($"{playerInventory.MaxSize} {playerInventory.ItemCount} ");
+        
+        foreach (var item in playerInventory.Items)
+            player.Append($"{(int)item} ");
+
+        LivingEntityData playerHealthData = _playerEntity.EntityData.GetData<LivingEntityData>();
+        player.Append($"{playerHealthData.health} {playerHealthData.maxHealth}");
+        _playerData = player.ToString();
+    }
+
+    private void RestorePlayerData()
+    {
+        int[] values = _playerData.Split(' ').Select(int.Parse).ToArray();
+
+        int inventoryMaxSize = values[0];
+        int inventoryItemCount = values[1];
+
+        int[] inventoryItems = values.Skip(2).Take(inventoryMaxSize).ToArray();
+
+        int currentIndex = 2 + inventoryMaxSize;
+        _playerEntity.Inventory.SetupInventoryFromValues(inventoryMaxSize, inventoryItemCount, inventoryItems);
+        LivingEntityData playerHealthData = _playerEntity.EntityData.GetData<LivingEntityData>();
+        playerHealthData.health = values[currentIndex];
+        playerHealthData.maxHealth = values[currentIndex + 1];
+    }
 
     #region Event handlers
 
@@ -187,6 +235,13 @@ public class LevelManager : MonoBehaviour
             data.inventory.AddItem(data.item);
 
         EventManager.Publish(new OnInteractionItemFinishEvent<AddItemToInventoryInteractionItem>());
+    }
+
+    private void ChangeScene(OnInteractionItemStartEvent<ChangeSceneInteractionItem> onSceneChange)
+    {
+        SavePlayer();
+        SceneManager.LoadScene(onSceneChange.Data.sceneName);
+        EventManager.Publish(new OnInteractionItemFinishEvent<ChangeSceneInteractionItem>());
     }
 
     private void EntityDeath(OnEntityDieEvent entityDieEvent)
