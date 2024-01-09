@@ -31,6 +31,15 @@ public class PlayerUIController : MonoBehaviour
         EventManager.Subscribe<OnPointsValueChanged>(OnPointsValueChanged);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Unsubscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
+        EventManager.Unsubscribe<OnEntityDamageEvent>(OnPlayerDamage);
+        EventManager.Unsubscribe<OnEntityHealEvent>(OnPlayerHeal);
+        EventManager.Unsubscribe<OnEntityPickupItemEvent>(OnPlayerPickupItem);
+        EventManager.Unsubscribe<OnPointsValueChanged>(OnPointsValueChanged);
+    }
+
     private void Update()
     {
         int time = (int)GameManager.GameTime;
@@ -116,5 +125,4 @@ public class PlayerUIController : MonoBehaviour
                 ? GameDataManager.itemRegistry[itemType].itemPrefab.GetComponent<SpriteRenderer>().sprite
                 : _defaultSprite;
     }
-
 }

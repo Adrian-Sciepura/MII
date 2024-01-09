@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -19,13 +18,14 @@ public class LevelManager : MonoBehaviour
     {
         if (_instance != null && _instance != this)
         {
+            _instance._playerEntity = this._playerEntity;
             Destroy(this);
             return;
         }
 
         _instance = this;
         _spawnedEntities = new Dictionary<string, GameEntity>();
-
+        
         EventManager.Subscribe<OnEntityDieEvent>(EntityDeath);
         EventManager.Subscribe<OnInteractionItemStartEvent<SetNBTFromGUIDInteractionItem>>(SetNBTFromGUID);
         EventManager.Subscribe<OnInteractionItemStartEvent<SpawnEntityInteractionItem>>(BuildFromPrefab);

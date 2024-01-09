@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -43,10 +44,17 @@ public class GameManager : MonoBehaviour
 
         GameDataManager.InitGameData();
         GameDataManager.input.Player.Enable();
+        EventManager.Subscribe<OnInteractionItemStartEvent<ChangeSceneInteractionItem>>(ChangeScene);
     }
 
     private void Update()
     {
         _gameTime += Time.deltaTime;
+    }
+
+    private void ChangeScene(OnInteractionItemStartEvent<ChangeSceneInteractionItem> onSceneChange)
+    {
+        SceneManager.LoadScene(onSceneChange.Data.sceneName);
+        EventManager.Publish(new OnInteractionItemFinishEvent<ChangeSceneInteractionItem>());
     }
 }

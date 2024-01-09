@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
     private static EventManager _instance;
 
-    private Dictionary<Type, List<Action<object>>> _eventSubscribers;
+    private Dictionary<Type, List<Tuple<Action<object>, string>>> _eventSubscribers;
 
     private Queue<Tuple<Type, object>> _eventQueue;
 
@@ -19,8 +21,15 @@ public class EventManager : MonoBehaviour
         }
 
         _instance = this;
-        _eventSubscribers = new Dictionary<Type, List<Action<object>>>();
+        _eventSubscribers = new Dictionary<Type, List<Tuple<Action<object>, string>>>();
         _eventQueue = new Queue<Tuple<Type, object>>();
+
+        DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
+        _eventQueue.Clear();
     }
 
     private void Update()
@@ -30,13 +39,13 @@ public class EventManager : MonoBehaviour
         while(_eventQueue.Count > 0)
         {
             currentElement = _eventQueue.Dequeue();
-            List<Action<object>> subscribers;
+            List<Tuple<Action<object>, string>> subscribers;
 
             if (!_eventSubscribers.TryGetValue(currentElement.Item1, out subscribers))
                 continue;
 
             foreach (var subscriber in subscribers)
-                subscriber(currentElement.Item2);
+                subscriber.Item1(currentElement.Item2);
         }
     }
 
@@ -45,17 +54,19 @@ public class EventManager : MonoBehaviour
         Type eventType = typeof(TEvent);
 
         if (!_instance._eventSubscribers.ContainsKey(eventType))
-            _instance._eventSubscribers.Add(eventType, new List<Action<object>>());
+            _instance._eventSubscribers.Add(eventType, new List<Tuple<Action<object>, string>>());
 
-        _instance._eventSubscribers[eventType].Add(e => handler((TEvent)e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].Add(new(e => handler((TEvent)e), $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}"));
     }
 
     public static void Subscribe(Type eventType, Action<object> handler)
     {
         if (!_instance._eventSubscribers.ContainsKey(eventType))
-            _instance._eventSubscribers.Add(eventType, new List<Action<object>>());
+            _instance._eventSubscribers.Add(eventType, new List<Tuple<Action<object>, string>>());
 
-        _instance._eventSubscribers[eventType].Add(e => handler(e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].Add(new (handler, $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}"));
     }
 
     public static void Unsubscribe<TEvent>(Action<TEvent> handler)
@@ -65,7 +76,8 @@ public class EventManager : MonoBehaviour
         if (!_instance._eventSubscribers.ContainsKey(eventType))
             return;
 
-        _instance._eventSubscribers[eventType].Remove(e => handler((TEvent)e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].RemoveAll(x => x.Item2 == $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}");
     }
 
     public static void Publish<TEvent>(TEvent e)

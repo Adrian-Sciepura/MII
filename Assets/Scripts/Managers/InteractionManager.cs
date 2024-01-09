@@ -48,6 +48,15 @@ public class InteractionManager : MonoBehaviour
         EventManager.Subscribe<OnInteractionFinishEvent>(NextInteractionItem);
     }
 
+    private void Start()
+    {
+        _possibleInteractions.Clear();
+        _currentInteraction = null;
+        _currentInteractionLength = 0;
+        _currentInteractionIndex = 0;
+        _isSubInteractionRunning = false;
+        _currentCoroutine = null;
+    }
 
     public static void AddPossibleInteraction(InteractionTrigger trigger)
     {
