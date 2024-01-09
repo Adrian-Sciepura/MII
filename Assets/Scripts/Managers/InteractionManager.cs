@@ -16,6 +16,10 @@ public class InteractionManager : MonoBehaviour
     private int _currentInteractionIndex = 0;
     private Coroutine _currentCoroutine;
 
+    private List<InteractionItem> _subInteraction;
+    private int _subInteractionIndex = 0;
+    private bool _isSubInteractionRunning = false;
+
 
     private void Awake()
     {
@@ -40,6 +44,8 @@ public class InteractionManager : MonoBehaviour
             Type eventFinishType = typeof(OnInteractionItemFinishEvent<>).MakeGenericType(interactionItemType);
             EventManager.Subscribe(eventFinishType, NextInteractionItem);
         }
+
+        EventManager.Subscribe<OnInteractionFinishEvent>(NextInteractionItem);
     }
 
 
@@ -128,15 +134,31 @@ public class InteractionManager : MonoBehaviour
                 item.Item2.SetActive(false);
 
         EventManager.Publish(new OnInteractionStartEvent(_instance._currentInteraction));
-        _instance.StartInteractionItem();
+        _instance.StartInteractionItem(_instance._currentInteraction.content[_instance._currentInteractionIndex]);
 
         return true;
+    }
+
+    public static void StartSubInteraction(List<InteractionItem> interactions)
+    {
+        if (interactions.Count == 0)
+            return;
+
+        _instance._isSubInteractionRunning = true;
+        _instance._subInteractionIndex = -1;
+        _instance._subInteraction = interactions;
     }
 
     private void NextInteractionItem(object e)
     {
         if (_currentInteraction == null)
             return;
+
+        if(_isSubInteractionRunning)
+        {
+            NextSubInteractionItem(e);
+            return;
+        }
 
         if(_currentInteractionIndex >= _currentInteractionLength - 1)
         {
@@ -154,30 +176,44 @@ public class InteractionManager : MonoBehaviour
         }
 
         _currentInteractionIndex++;
-        StartInteractionItem();
+        StartInteractionItem(_currentInteraction.content[_currentInteractionIndex]);
     }
 
-    private void StartInteractionItem()
+    private void NextSubInteractionItem(object e)
     {
-        int currentDelay;
-        if ((currentDelay = _currentInteraction.content[_currentInteractionIndex].delay) > 0)
-            _currentCoroutine = StartCoroutine(StartInteractionWithDelay());
+        _subInteractionIndex++;
+
+        if (_subInteractionIndex >= _subInteraction.Count)
+        {
+            _isSubInteractionRunning = false;
+            _subInteraction = null;
+            EventManager.Publish(new OnInteractionFinishEvent());
+            return;
+        }
+        
+        StartInteractionItem(_subInteraction[_subInteractionIndex]);
+    }
+
+    private void StartInteractionItem(InteractionItem item)
+    {
+        if (item.delay > 0)
+            _currentCoroutine = StartCoroutine(StartInteractionWithDelay(item));
         else
-            StartInteractionItemNow();
+            StartInteractionItemNow(item);
     }
 
-    private IEnumerator StartInteractionWithDelay()
+    private IEnumerator StartInteractionWithDelay(InteractionItem item)
     {
-        yield return new WaitForSeconds(_currentInteraction.content[_currentInteractionIndex].delay);
-        StartInteractionItemNow();
+        yield return new WaitForSeconds(item.delay);
+        StartInteractionItemNow(item);
         _currentCoroutine = null;
     }
 
-    private void StartInteractionItemNow()
+    private void StartInteractionItemNow(InteractionItem item)
     {
-        _currentInteractionItemType = _currentInteraction.content[_currentInteractionIndex].GetType();
-        Type eventStartType = typeof(OnInteractionItemStartEvent<>).MakeGenericType(_currentInteractionItemType);
-        EventManager.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { _currentInteraction.content[_currentInteractionIndex] }));
+        Type interactionType = item.GetType();
+        Type eventStartType = typeof(OnInteractionItemStartEvent<>).MakeGenericType(interactionType);
+        EventManager.Publish(eventStartType, Activator.CreateInstance(eventStartType, new object[] { item }));
     }
 
     private void SortInteractions()
