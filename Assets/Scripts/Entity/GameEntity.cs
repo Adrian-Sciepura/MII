@@ -78,6 +78,7 @@ public class GameEntity : MonoBehaviour
             if(Inventory != null && value >= 0 && value < _inventory.MaxSize)
             {
                 int prevValue = _heldItemInventorySlot;
+                _heldItem?.GetComponent<ItemBehaviour>()?.StopUsing();
                 _heldItemInventorySlot = value;
                 _heldItem = _inventory.TakeTheItemInHand(_handObject, value);
                 EventManager.Publish(new OnEntityChangeHeldItemEvent(this, prevValue));

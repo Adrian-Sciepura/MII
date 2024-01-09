@@ -41,12 +41,17 @@ public abstract class ItemBehaviour : MonoBehaviour
         return true;
     }
 
+    public virtual void StopUsing()
+    {
+        _ownerAnimator.SetTrigger("abort");
+    }
+
     protected bool CheckIfInUse()
     {
         if (_ownerAnimator == null)
             return false;
 
-        AnimatorStateInfo animatorState = _ownerAnimator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo animatorState = _ownerAnimator.GetCurrentAnimatorStateInfo(1);
         if (animatorState.IsName(_animationName))
             return true;
 

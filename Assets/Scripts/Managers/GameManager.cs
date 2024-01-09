@@ -23,7 +23,15 @@ public class GameManager : MonoBehaviour
     public static int Keys => _instance._keys;
 
 
-    public static void AddKey() => _instance._keys++;
+    public static void AddKey()
+    {
+        if (_instance._keys == 3)
+            return;
+
+        _instance._keys++;
+        EventManager.Publish(new OnKeysValueChanged());
+
+    }
     public static void AddPoints(int ammount)
     {
         _instance._points += ammount;

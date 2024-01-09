@@ -22,6 +22,9 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _scoreText;
 
+    [SerializeField]
+    private Image[] keysImage;
+
     private void Awake()
     {
         EventManager.Subscribe<OnEntityChangeHeldItemEvent>(PlayerChangedHeldItem);
@@ -29,6 +32,7 @@ public class PlayerUIController : MonoBehaviour
         EventManager.Subscribe<OnEntityHealEvent>(OnPlayerHeal);
         EventManager.Subscribe<OnEntityPickupItemEvent>(OnPlayerPickupItem);
         EventManager.Subscribe<OnPointsValueChanged>(OnPointsValueChanged);
+        EventManager.Subscribe<OnKeysValueChanged>(OnKeysValueChanged);
     }
 
     private void OnDestroy()
@@ -38,6 +42,7 @@ public class PlayerUIController : MonoBehaviour
         EventManager.Unsubscribe<OnEntityHealEvent>(OnPlayerHeal);
         EventManager.Unsubscribe<OnEntityPickupItemEvent>(OnPlayerPickupItem);
         EventManager.Unsubscribe<OnPointsValueChanged>(OnPointsValueChanged);
+        EventManager.Unsubscribe<OnKeysValueChanged>(OnKeysValueChanged);
     }
 
     private void Update()
@@ -52,6 +57,16 @@ public class PlayerUIController : MonoBehaviour
         UpdatePlayerInventory();
     }
     
+    private void OnKeysValueChanged(OnKeysValueChanged onKeysValueChanged)
+    {
+        int collectedKeys = GameManager.Keys;
+        for (int i = 0; i < collectedKeys; i++)
+            keysImage[i].color = Color.white;
+
+        for (int i = collectedKeys; i < keysImage.Length; i++)
+            keysImage[i].color = Color.black;
+    }
+
     private void OnPointsValueChanged(OnPointsValueChanged onPointsValueChangedEvent)
     {
         _scoreText.text = GameManager.Points.ToString("0000000");
