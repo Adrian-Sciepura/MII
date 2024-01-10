@@ -13,19 +13,30 @@ public abstract class BehaviourSystem : MonoBehaviour
     protected virtual void OnDisable()
     { }
 
-    public virtual void ReceiveDamage(int ammount)
+    public virtual void ReceiveDamage(GameObject sender, int ammount)
     {
         GameEntity gameEntity = GetComponent<GameEntity>();
         LivingEntityData livingEntityData = gameEntity.EntityData?.GetData<LivingEntityData>();
 
-        if (livingEntityData == null || livingEntityData.isImmortal)
+        if (livingEntityData == null)
             return;
 
-        livingEntityData.health -= ammount;
-        GetComponent<FlashEffect>()?.Flash();
-        EventManager.Publish(new OnEntityDamageEvent(gameEntity, ammount));
+        if(!livingEntityData.isKnockbackResistant)
+        {
+            Vector2 knockbackForce = (sender.transform.position - transform.position).normalized;
+            knockbackForce.y = 0;
+            knockbackForce.x *= 12;
+            GetComponent<MovementSystem>()?.AddKnockback(knockbackForce);
+        }
 
-        if (livingEntityData.health <= 0)
-            EventManager.Publish(new OnEntityDieEvent(gameEntity));
+        if (!livingEntityData.isImmortal)
+        {
+            livingEntityData.health -= ammount;
+            GetComponent<FlashEffect>()?.Flash();
+            EventManager.Publish(new OnEntityDamageEvent(gameEntity, ammount));
+
+            if (livingEntityData.health <= 0)
+                EventManager.Publish(new OnEntityDieEvent(gameEntity));
+        }
     }
 }

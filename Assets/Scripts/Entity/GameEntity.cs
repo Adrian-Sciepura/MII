@@ -117,7 +117,7 @@ public class GameEntity : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(int ammount) => BehaviourSystem.ReceiveDamage(ammount);
+    public void ReceiveDamage(GameObject sender, int ammount) => BehaviourSystem.ReceiveDamage(sender, ammount);
 
     private void Awake()
     {

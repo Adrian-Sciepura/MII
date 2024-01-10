@@ -19,21 +19,10 @@ public class SwordItemBehaviour : ItemBehaviour
 
         GameEntity entity = collision.GetComponent<GameEntity>();
 
-        if (entity == null || _context == null || collision.gameObject == _context.inventory.gameObject)
+        if (entity == null || _context == null || collision.gameObject == _context.inventory.gameObject || !CheckIfInUse())
             return;
 
 
-        string animation = _animation.ToString().ToLower();
-        Animator ownerAnimator = _context.inventory.gameObject.GetComponent<Animator>();
-        
-        if (ownerAnimator != null)
-        {
-            AnimatorStateInfo animatorState = ownerAnimator.GetCurrentAnimatorStateInfo(0);
-            if (!animatorState.IsName(animation) || animatorState.normalizedTime >= 1.0f)
-                return;
-        }
-
-
-        entity.ReceiveDamage(_damageInfo.damage);
+        entity.ReceiveDamage(gameObject, _damageInfo.damage);
     }
 }

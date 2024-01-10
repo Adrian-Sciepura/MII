@@ -16,7 +16,7 @@ public sealed class PlayerMovementSystem : WalkMovementSystemTemplate
     {
         float horizontal = _input.Player.Move.ReadValue<Vector2>().x;
 
-        _rigidBody.velocity = new Vector2(horizontal * _movementData.speed, _rigidBody.velocity.y);
+        SetVelocity(horizontal * _movementData.speed, _rigidBody.velocity.y);
 
         if ((!_isFacingRight && horizontal > 0f) || (_isFacingRight && horizontal < 0f))
             Flip();
@@ -33,6 +33,6 @@ public sealed class PlayerMovementSystem : WalkMovementSystemTemplate
     private void Jump(InputAction.CallbackContext context)
     {
         if (IsGrounded())
-            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _movementData.jumpForce);
+            SetVelocity(_rigidBody.velocity.x, _movementData.jumpForce);
     }
 }

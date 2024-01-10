@@ -21,10 +21,9 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
     protected override void Start()
     {
         _target = LevelManager.PlayerEntity.transform;
-
         _updateCoroutine = StartCoroutine(UpdatePath());
     }
-
+        
     protected override void Update()
     {
         if (_path == null)
@@ -42,7 +41,7 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
 
         Vector2 direction = ((Vector2)_path.vectorPath[_currentWaypoint] - _rigidBody.position).normalized;
 
-        _rigidBody.velocity = new Vector2(_movementData.speed * direction.x, _rigidBody.velocity.y);
+        SetVelocity(_movementData.speed * direction.x, _rigidBody.velocity.y);
 
         float distance = Vector2.Distance(_rigidBody.position, _path.vectorPath[_currentWaypoint]);
 
@@ -63,7 +62,8 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
 
     protected override void OnDestroy()
     {
-        StopCoroutine(_updateCoroutine);
+        if (_updateCoroutine != null)
+            StopCoroutine(_updateCoroutine);
         Destroy(_seeker);
     }
 
