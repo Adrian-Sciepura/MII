@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
 
     public static void DestroySingleton()
     {
+        if (_instance == null)
+            return;
+
         Destroy(_instance.gameObject);
         _instance = null;
     }

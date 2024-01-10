@@ -5,19 +5,34 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField]
-    private Button newGameButton;
+    private Button _newGameButton;
 
     [SerializeField]
-    private Button quitButton;
+    private Button _quitButton;
 
     private void Awake()
     {
-        newGameButton.onClick.AddListener(NewGame);
-        quitButton.onClick.AddListener(Quit);
+        EventManager.DestroySingleton();
+        GameManager.DestroySingleton();
+        InteractionManager.DestroySingleton();
+        LevelManager.DestroySingleton();
+    }
+
+    private void Start()
+    {
+        _newGameButton.onClick.AddListener(NewGame);
+        _quitButton.onClick.AddListener(Quit);
+    }
+
+    private void OnDestroy()
+    {
+        _newGameButton.onClick.RemoveAllListeners();
+        _quitButton.onClick.RemoveAllListeners();
     }
 
     public void NewGame()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("audytorium");
     }
 

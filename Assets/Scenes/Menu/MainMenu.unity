@@ -1197,10 +1197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614816f83f347aa439719dd6e293ebf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newGameButton: {fileID: 1543270976}
-  continueGameButton: {fileID: 0}
-  settingsButton: {fileID: 0}
-  quitButton: {fileID: 1434671162}
+  _newGameButton: {fileID: 1543270976}
+  _quitButton: {fileID: 1434671162}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
