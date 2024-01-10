@@ -10,7 +10,9 @@ public class LevelManager : MonoBehaviour
     private GameEntity _playerEntity;
     private Dictionary<string, GameEntity> _spawnedEntities;
     private GameObject _spawnEntityParent;
+    private Vector3 _respawnPoint;
     private string _playerData;
+
 
     private static LevelManager _instance;
 
@@ -39,6 +41,7 @@ public class LevelManager : MonoBehaviour
         EventManager.Subscribe<OnInteractionItemStartEvent<ChangePlayerInputActiveStateInteractionItem>>(ChangePlayerInputActiveState);
         EventManager.Subscribe<OnInteractionItemStartEvent<AddItemToInventoryInteractionItem>>(AddItemToInventory);
         EventManager.Subscribe<OnInteractionItemStartEvent<ChangeSceneInteractionItem>>(ChangeScene);
+        EventManager.Subscribe<OnInteractionItemStartEvent<SetRespawnPointInteractionItem>>(SetRespawnPoint);
     }
 
     private void Start()
@@ -56,6 +59,7 @@ public class LevelManager : MonoBehaviour
 
     private void SetupLevel()
     {
+        _respawnPoint = _playerEntity.transform.position;
         InteractionTrigger[] triggers = FindObjectsOfType<InteractionTrigger>();
 
         LayerMask bonusMask = LayerMask.NameToLayer("Bonus");
@@ -67,7 +71,7 @@ public class LevelManager : MonoBehaviour
 
 
         _spawnEntityParent = GameObject.Find("Entity");
-
+        LayerMask enemyLayer = LayerMask.NameToLayer("Enemies");
         _spawnedEntities.Clear();
         GameEntity[] gameEntities = FindObjectsOfType<GameEntity>();
         foreach (var entity in gameEntities)
@@ -247,9 +251,28 @@ public class LevelManager : MonoBehaviour
         EventManager.Publish(new OnInteractionItemFinishEvent<ChangeSceneInteractionItem>());
     }
 
+    private void SetRespawnPoint(OnInteractionItemStartEvent<SetRespawnPointInteractionItem> onSetRespawnPointInteractionStarted)
+    {
+        _respawnPoint = onSetRespawnPointInteractionStarted.Data.position.position;
+        EventManager.Publish(new OnInteractionItemFinishEvent<SetRespawnPointInteractionItem>());
+    }
+
     private void EntityDeath(OnEntityDieEvent entityDieEvent)
     {
         GameEntity entity = entityDieEvent.Entity;
+        
+        if(entity.EntityCategory == GameEntityCategory.Player)
+        {
+            _playerEntity.transform.position = _respawnPoint;
+            
+            LivingEntityData playerHealthData = _playerEntity.EntityData.GetData<LivingEntityData>();
+            playerHealthData.health = playerHealthData.maxHealth;
+            EventManager.Publish(new OnEntityHealEvent(_playerEntity));
+
+            GameManager.IncreaseDeathCount();
+            return;
+        }
+        
         PointsEntityData pointsEntityData = entity.EntityData?.GetData<PointsEntityData>();
 
         if (pointsEntityData != null)
@@ -257,6 +280,7 @@ public class LevelManager : MonoBehaviour
 
         SpawnedEntities[entityDieEvent.Entity.GUID] = null;
         Destroy(entityDieEvent.Entity.gameObject);
+        GameManager.IncreaseKillCount();
     }
 
     #endregion

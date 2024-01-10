@@ -15,13 +15,16 @@ public class GameManager : MonoBehaviour
     private float _gameTime;
     private int _points;
     private int _keys;
+    private int _deathCount;
+    private int _killCount;
 
     public static GameManager Instance => _instance;
     public static GameState GameState => _instance._gameState;
     public static float GameTime => _instance._gameTime;
     public static int Points => _instance._points;
     public static int Keys => _instance._keys;
-
+    public static int DeathCount => _instance._deathCount;
+    public static int KillCount => _instance._killCount;
 
     public static void AddKey()
     {
@@ -30,13 +33,14 @@ public class GameManager : MonoBehaviour
 
         _instance._keys++;
         EventManager.Publish(new OnKeysValueChanged());
-
     }
     public static void AddPoints(int ammount)
     {
         _instance._points += ammount;
         EventManager.Publish(new OnPointsValueChanged());
     }
+    public static void IncreaseDeathCount() => _instance._deathCount++;
+    public static void IncreaseKillCount() => _instance._killCount++;
 
 
     private void Awake()

@@ -21,13 +21,8 @@ public abstract class BehaviourSystem : MonoBehaviour
         if (livingEntityData == null)
             return;
 
-        if(!livingEntityData.isKnockbackResistant)
-        {
-            Vector2 knockbackForce = (sender.transform.position - transform.position).normalized;
-            knockbackForce.y = 0;
-            knockbackForce.x *= 12;
-            GetComponent<MovementSystem>()?.AddKnockback(knockbackForce);
-        }
+        if (!livingEntityData.isKnockbackResistant)
+            AddKnockback(sender, 8);
 
         if (!livingEntityData.isImmortal)
         {
@@ -36,7 +31,18 @@ public abstract class BehaviourSystem : MonoBehaviour
             EventManager.Publish(new OnEntityDamageEvent(gameEntity, ammount));
 
             if (livingEntityData.health <= 0)
+            {
+                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 EventManager.Publish(new OnEntityDieEvent(gameEntity));
+            }
         }
+    }
+
+    public virtual void AddKnockback(GameObject sender, int strength)
+    {
+        Vector2 knockbackForce = (transform.position - sender.transform.position).normalized;
+        knockbackForce.y = 0;
+        knockbackForce.x *= strength;
+        GetComponent<MovementSystem>()?.AddKnockback(knockbackForce);
     }
 }
