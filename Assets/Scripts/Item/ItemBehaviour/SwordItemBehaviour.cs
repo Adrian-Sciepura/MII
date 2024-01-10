@@ -1,37 +1,28 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SwordItemBehaviour : IItemBehaviour
+public class SwordItemBehaviour : ItemBehaviour
 {
-    public ItemAnimation useAnimation => ItemAnimation.Swing;
-    public Item context {  get; set; }
+    protected WhiteWeaponItemData _damageInfo;
 
-    public void OnCollision(Collider2D collision)
+    public override void UpdateContext()
+    {
+        base.UpdateContext();
+        _damageInfo = GetComponent<ItemDataContainer>().GetData<WhiteWeaponItemData>();
+        Animation = ItemAnimation.Swing;
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.isTrigger)
             return;
 
-
         GameEntity entity = collision.GetComponent<GameEntity>();
 
-        if (entity == null || entity == context.inventory.owner)
+        if (entity == null || _context == null || collision.gameObject == _context.inventory.gameObject || !CheckIfInUse())
             return;
 
 
-        string animation = useAnimation.ToString().ToLower();
-        Animator ownerAnimator = context.inventory?.owner.GetComponent<Animator>();
-        if (ownerAnimator != null)
-        {
-            AnimatorStateInfo animatorState = ownerAnimator.GetCurrentAnimatorStateInfo(0);
-            if (!animatorState.IsName(animation) || animatorState.normalizedTime >= 1.0f)
-                return;
-        }
-
-
-
-        
-        entity.DealDamage(10);
+        entity.ReceiveDamage(gameObject, _damageInfo.damage);
     }
-
-    
 }

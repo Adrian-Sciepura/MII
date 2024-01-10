@@ -1,6 +1,10 @@
+using UnityEngine;
+
 [System.Serializable]
-public class DialogueInteractionItem : IInteractionItem
+public class DialogueInteractionItem : InteractionItem
 {
-    public string performerGUID;
+    public GameEntity performer;
+    
+    [TextArea]
     public string message;
 }

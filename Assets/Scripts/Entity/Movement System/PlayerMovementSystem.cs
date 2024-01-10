@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-[System.Serializable]
-public class PlayerMovementSystem : IMovementSystem
+public sealed class PlayerMovementSystem : WalkMovementSystemTemplate
 {
-    private GameEntity _context;
-
     private PlayerInputController _input;
-    private Transform _transform;
-    private Rigidbody2D _rigidBody;
-    private Animator _animator;
 
-    private LandEntityData _movementData;
+    protected override void Awake()
+    {
+        base.Awake();
+        _input = GameDataManager.input;
+        _input.Player.Jump.performed += Jump;
+    }
 
-    private bool _isFacingRight;
-
-    public void Update()
+    protected override void Update()
     {
         float horizontal = _input.Player.Move.ReadValue<Vector2>().x;
 
-        _rigidBody.velocity = new Vector2(horizontal * _movementData.speed, _rigidBody.velocity.y);
+        SetVelocity(horizontal * _movementData.speed, _rigidBody.velocity.y);
 
         if ((!_isFacingRight && horizontal > 0f) || (_isFacingRight && horizontal < 0f))
             Flip();
@@ -28,21 +25,7 @@ public class PlayerMovementSystem : IMovementSystem
         _animator.SetBool("isGrounded", IsGrounded());
     }
 
-    public void SetContext(GameEntity entity)
-    {
-        _context = entity;
-
-        _input = GameDataManager.input;
-        _input.Player.Jump.performed += Jump;
-
-        _isFacingRight = true;
-        _transform = _context.transform;
-        _rigidBody = _context.GetComponent<Rigidbody2D>();
-        _animator = _context.GetComponent<Animator>();
-        _movementData = _context.entityData.GetData<LandEntityData>();
-    }
-
-    public void Dispose()
+    protected override void OnDestroy()
     {
         _input.Player.Jump.performed -= Jump;
     }
@@ -50,19 +33,6 @@ public class PlayerMovementSystem : IMovementSystem
     private void Jump(InputAction.CallbackContext context)
     {
         if (IsGrounded())
-            _rigidBody.velocity = new Vector2(_rigidBody.velocity.x, _movementData.jumpForce);
-    }
-
-    private void Flip()
-    {
-        _isFacingRight = !_isFacingRight;
-        Vector3 localScale = _transform.localScale;
-        localScale.x *= -1;
-        _transform.localScale = localScale;
-    }
-
-    protected bool IsGrounded()
-    {
-        return Physics2D.Raycast(_transform.position, Vector2.down, 1.45f, _movementData.groundLayer);
+            SetVelocity(_rigidBody.velocity.x, _movementData.jumpForce);
     }
 }

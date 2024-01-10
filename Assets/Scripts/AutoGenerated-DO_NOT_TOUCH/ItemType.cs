@@ -1,4 +1,6 @@
 public enum ItemType
 {
-	Sword = 0,
+	NONE = 0,
+	Potion = 2,
+	Sword = 1,
 }

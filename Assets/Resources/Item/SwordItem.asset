@@ -14,18 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sword
   displayName: Basic Sword
-  itemPrefab: {fileID: 1038106785149150224, guid: 746e6c6f877bee04ca4fb8804f7afd33, type: 3}
-  itemBehaviour:
-    rid: 1933934997926051842
-  data:
-  - rid: 1933934997926051843
+  itemPrefab: {fileID: 6154555490077478058, guid: 746e6c6f877bee04ca4fb8804f7afd33, type: 3}
+  itemData:
+  - rid: 4984211752547778565
   references:
     version: 2
     RefIds:
-    - rid: 1933934997926051842
-      type: {class: SwordItemBehaviour, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 1933934997926051843
+    - rid: 4984211752547778565
       type: {class: WhiteWeaponItemData, ns: , asm: Assembly-CSharp}
       data:
-        damage: 0
+        damage: 10

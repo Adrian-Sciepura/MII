@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SpawnEntityInteractionItem : IInteractionItem
+public class SpawnEntityInteractionItem : InteractionItem
 {
     public GameObject spawnObject;
 }

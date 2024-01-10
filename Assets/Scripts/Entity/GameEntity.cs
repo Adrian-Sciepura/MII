@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum GameEntityCategory
@@ -11,97 +14,119 @@ public enum GameEntityCategory
 
 public class GameEntity : MonoBehaviour
 {
-    public DataContainer<EntityData> entityData { get; private set; }
-    public Inventory inventory { get; private set; }
-
+    [SerializeField]
+    private GameEntityCategory _entityCategory;
+    private Inventory _inventory;
+    private EntityDataContainer _entityData;
+    private BehaviourSystem _behaviourSystem;
+    private MovementSystem _movementSystem;
+    private GameObject _handObject;
+    private Item _heldItem;
     private int _heldItemInventorySlot = 0;
-    private IBehaviourSystem _behaviourSystem;
-    private IMovementSystem _movementSystem;
-    private GameEntityType _entityType;
     private string _guid;
+
+    public string GUID => _guid;
+    public GameEntityCategory EntityCategory => _entityCategory;
+    public Inventory Inventory
+    {
+        get
+        {
+            if(_inventory == null)
+                _inventory = GetComponent<Inventory>();
+
+            return _inventory;
+        }
+    }
+    public EntityDataContainer EntityData
+    {
+        get
+        {
+            if(_entityData == null)
+                _entityData = GetComponent<EntityDataContainer>();
+
+            return _entityData;
+        }
+    }
+
+    public BehaviourSystem BehaviourSystem
+    {
+        get
+        {
+            if (_behaviourSystem == null)
+                _behaviourSystem = GetComponents<BehaviourSystem>().FirstOrDefault(x => x.enabled);
+            
+            return _behaviourSystem;
+        }
+    }
+
+    public MovementSystem MovementSystem
+    {
+        get
+        {
+            if(_movementSystem == null)
+                _movementSystem = GetComponents<MovementSystem>().FirstOrDefault(x => x.enabled);
+
+            return _movementSystem;
+        }
+    }
 
     public int HeldItemInventorySlot
     {
         get => _heldItemInventorySlot;
         set
         {
-            if (value >= 0 && value < inventory.size)
+            if(Inventory != null && value >= 0 && value < _inventory.MaxSize)
             {
-                inventory.items[_heldItemInventorySlot]?.gameObject.SetActive(false);
+                int prevValue = _heldItemInventorySlot;
+                _heldItem?.GetComponent<ItemBehaviour>()?.StopUsing();
                 _heldItemInventorySlot = value;
-                inventory.items[_heldItemInventorySlot]?.gameObject?.SetActive(true);
+                _heldItem = _inventory.TakeTheItemInHand(_handObject, value);
+                EventManager.Publish(new OnEntityChangeHeldItemEvent(this, prevValue));
             }
         }
     }
 
-    public IBehaviourSystem BehaviourSystem
-    {
-        get => _behaviourSystem;
-        set
-        {
-            if (_behaviourSystem != null)
-                _behaviourSystem.Dispose();
+    public Item HeldItem => _heldItem;
 
-            _behaviourSystem = value;
-            _behaviourSystem.context = this;
+
+    public void SwitchMovementSystem<T>() where T : MovementSystem
+    {
+        if (MovementSystem is T)
+            return;
+
+        T newComponent = GetComponent<T>();
+        if (newComponent != null)
+        {
+            _movementSystem.enabled = false;
+            _movementSystem = newComponent;
+            newComponent.enabled = true;
         }
     }
 
-    public IMovementSystem MovementSystem
+    public void SwitchBehaviourSystem<T>() where T : BehaviourSystem
     {
-        get => _movementSystem;
-        set
-        {
-            if (_movementSystem != null)
-                _movementSystem.Dispose();
+        if(BehaviourSystem is T)
+            return;
 
-            _movementSystem = value;
-            _movementSystem.SetContext(this);
+        T newComponent = GetComponent<T>();
+        if(newComponent != null)
+        {
+            _behaviourSystem.enabled = false;
+            _behaviourSystem = newComponent;
+            newComponent.enabled = true;
         }
     }
 
-    public GameEntityType EntityType
-    {
-        get => _entityType;
-        set
-        {
-            if(_entityType == default)
-                _entityType = value;
-        }
-    }
-
-    public string GUID
-    {
-        get => _guid;
-        set
-        {
-            if(_guid == null)
-                _guid = value;
-        }
-    }
-
-    public void DealDamage(int ammount) => _behaviourSystem.ReceiveDamage(ammount);
-
+    public void ReceiveDamage(GameObject sender, int ammount) => BehaviourSystem.ReceiveDamage(sender, ammount);
 
     private void Awake()
     {
-        entityData = new DataContainer<EntityData>();
-        inventory = new Inventory(this);
+        _guid = Guid.NewGuid().ToString();
     }
 
-    private void Update()
+    private void Start()
     {
-        _behaviourSystem.Update();
-        _movementSystem.Update();
+        _handObject = transform.Find("hand").gameObject;
+        HeldItemInventorySlot = 0;
     }
-
-    private void OnDestroy()
-    {
-        _behaviourSystem.Dispose();
-        _movementSystem.Dispose();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision) => _behaviourSystem.OnTriggerEnter(collision);
-
-    private void OnTriggerExit2D(Collider2D collision) => _behaviourSystem.OnTriggerLeave(collision);
 }

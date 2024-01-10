@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public class DataContainer<T> where T : class
+[System.Serializable]
+public class DataContainer<T> : MonoBehaviour
 {
-    private List<T> _data;
-
-    public DataContainer()
-    {
-        _data = new List<T>();
-    }
+    [SerializeReference, SubclassSelector]
+    private List<T> _data = new List<T>();
 
     public T2 GetData<T2>() where T2 : class, T => _data.FirstOrDefault(data => data is T2) as T2;
 

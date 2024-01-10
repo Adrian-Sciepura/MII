@@ -71,6 +71,15 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0ad52fd-05dd-4425-ade2-b805938513ef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -205,6 +214,17 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58ccea3d-1aad-412e-aee2-bc66cddc491d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -226,7 +246,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                 {
                     ""name"": """",
                     ""id"": ""b3f1f825-9af7-47fb-969b-39c8cec3c4ee"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -246,6 +266,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // Overlay
         m_Overlay = asset.FindActionMap("Overlay", throwIfNotFound: true);
         m_Overlay_ContinueDialogue = m_Overlay.FindAction("ContinueDialogue", throwIfNotFound: true);
@@ -315,6 +336,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_UseItem;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInputController m_Wrapper;
@@ -324,6 +346,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -348,6 +371,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @UseItem.started += instance.OnUseItem;
             @UseItem.performed += instance.OnUseItem;
             @UseItem.canceled += instance.OnUseItem;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -367,6 +393,9 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
             @UseItem.started -= instance.OnUseItem;
             @UseItem.performed -= instance.OnUseItem;
             @UseItem.canceled -= instance.OnUseItem;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -437,6 +466,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
         void OnInteraction(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IOverlayActions
     {

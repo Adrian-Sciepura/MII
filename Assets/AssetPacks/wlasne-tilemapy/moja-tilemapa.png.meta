@@ -1,0 +1,2173 @@
+fileFormatVersion: 2
+guid: 5dc552b873d7bae4aadaf16ca953a09c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: moja-tilemapa_0
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 828f7aa646f524b42bfa4b4727d1eabd
+      internalID: -522007804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2a134c2370a9c94590e664eab52faad
+      internalID: 170116703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_2
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89fb2f726c2558c48942f85848fc1111
+      internalID: -504150174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_3
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 527b1a623ca3cf14e9d9203ca23e7609
+      internalID: -1542231682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_4
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54e749982c08dcb4cbc0819678d0560d
+      internalID: 1065935640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_5
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42708747be510b6469ac2b5f0b2efac1
+      internalID: -1144891951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_6
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 461474605fcfed047bef5cb56cc5bb6a
+      internalID: -1027650220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_7
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35a8de72756ea364bb774a8f7fdebf58
+      internalID: -158308760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_8
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3111b8b5bbc5129498f8c6336897c16d
+      internalID: 2008371927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_9
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1716069ec83e30d4d9031ecb853d925f
+      internalID: -1998659784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_10
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 755ac07d9391b4a40ae35af721f7613d
+      internalID: -1392550000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_11
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c3a16fe8ac4e0448a669416aacaa2d2
+      internalID: 841528115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_12
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8060d7ca6b3498408a1c23a20367875
+      internalID: -701874669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_13
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b939a1a676676f8429e9b5087870d91e
+      internalID: 2341957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_14
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 2577
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f047760aece429c46921b51170b2f11a
+      internalID: -1869836876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_15
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9386a2b74058f39429b5da28d5b06a98
+      internalID: -1573762002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_16
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e12f6ec75ac725c44b09d75a1ef91540
+      internalID: -355420874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_17
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74601cc28c800224f90e8d8936ca78f4
+      internalID: 46743531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_18
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51851368b9f06584e96c05084791f3d0
+      internalID: -134418920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_19
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebde5562e03bdd043aab180c96495b2a
+      internalID: 30085318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_20
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9d6ede20b573444091f0910ac8e1b9b
+      internalID: -1156813540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_21
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4129b1c7d9b131b499d64ba2c81d7813
+      internalID: 2017957536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_22
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7d04c2808bdad14ca3bd22fa60a06d6
+      internalID: -1382756496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_23
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a6b84a5e8a363149b7ea9f93a8eba3a
+      internalID: -1565716262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_24
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 622a59dc164917243acf749ee6ebbcc4
+      internalID: 608067470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_25
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09bcb68984cc416468154be92514bca4
+      internalID: 1144479220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_26
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ddfe398090022641b5a9e0d7773413b
+      internalID: 1198888015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_27
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c608d0f1dd63ab847b57c1b86a15ca9d
+      internalID: 1747926772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_28
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0d7f8cd23ce20b48be0feece5a55388
+      internalID: 62423234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_29
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8eb572698502c6489d89718271d53d5
+      internalID: -1191890471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_30
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2449
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 391555c5871101741ab46322f1829685
+      internalID: -973505307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_31
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29371daa77384cb4da8763530f58c6dd
+      internalID: 337884596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_32
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfad3c1e8ef3d2448b3c3e389b7b8d1a
+      internalID: 1049088965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_33
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03cc8f9da44ebe43a0f13d2e7d336d4
+      internalID: 915135445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_34
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a3786d00c946e84c9eb72af0f901a96
+      internalID: -1824889831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_35
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb4ce1632defac143a161912c68a3fbe
+      internalID: -436510771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_36
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8690b1a3d55e1646a07e182bc3185cf
+      internalID: -425513163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_37
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2988588e7aca72145a3a8a089417b3ca
+      internalID: -729289579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_38
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b30e1bd1ed9f2a0489110ef87229c62d
+      internalID: 140983830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_39
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 640e837af287ad840b6311f0106a8f06
+      internalID: 779517432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_40
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87452e1a6d54a0e40b7b86292b83b633
+      internalID: -220098372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_41
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d054c6f079e62394d806541bb0a62d12
+      internalID: 1783490980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_42
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a007484c08a54764b90f8725ebdcbe9f
+      internalID: -913423949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_43
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7383c08e54b21da4799d710cf49c56d6
+      internalID: -796824478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_44
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00820a197f2b5c34daef96814744015c
+      internalID: 1367146522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_45
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b681c9544ca577749ac8a7a81ee1fb18
+      internalID: -136021841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_46
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2321
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 730730bf49a1bfd43840dab3709b242c
+      internalID: 570522903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_47
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72315642c0016184a969882eeaedb06a
+      internalID: 1855566323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_48
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ede227c33689dca4db7970be71d1a620
+      internalID: 1806247995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_49
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8ca24a2cf91efc46904d731edec8ab0
+      internalID: -712293997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_50
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09229e768a920a748ac5e96187b7625d
+      internalID: 264305928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_51
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90e13cc02524779409e381bb31e1b416
+      internalID: -43660036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_52
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73c09d887ec666744954d42dbcce7b9a
+      internalID: 793288899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_53
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed9dee805c0444f4a939ec439ab257cb
+      internalID: 1967831984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_54
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f635e84cf49f664bbff3a96f20bfb9c
+      internalID: 153519892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_55
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6961a5b489a4ac54f91a084a1ae4dc60
+      internalID: 855635644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_56
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2193
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ecde3e32821cab4c858e014f185d4c5
+      internalID: 1165888117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_57
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 816f5889b30f9c14db2a20c4eaf9faaa
+      internalID: 934572796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_58
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31374949a8a173f4d8df7f3adbe178e7
+      internalID: 2119192953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_59
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 496c38812782f6845982e847b218a43a
+      internalID: -1997500092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_60
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dea31b3bd99f76b49b27bef46c82a0e6
+      internalID: 385363679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_61
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c246aa7ae65bcb4f9a8969714fef37e
+      internalID: -1953071331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_62
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3815107ac77654b9c1d21a6d2bca5b
+      internalID: 1036985029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_63
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b57e01fdbb4f233458ae06fc24e69971
+      internalID: -130037153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_64
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3c0059aae0266f40949c6e25a8b1c4f
+      internalID: -506958168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_65
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3bd4785361072b47b27f0716b0cb63d
+      internalID: 231951145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_66
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 2065
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65aa3302456d3ad48ba0125db8db59ea
+      internalID: 256301689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_67
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d968f5f4bf6d78545aeef474600de6a2
+      internalID: 1398072245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_68
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf9e2238e27cefa488f11f565a0e1bc3
+      internalID: -885520652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_69
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ec1d98baed07e479b8e474eadb98bb
+      internalID: 113595922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_70
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f78c0bbc0836b84ba9e72c8a183c337
+      internalID: 1653538589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_71
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5757f093de926464f8aeb62e6e114744
+      internalID: -1903374751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_72
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35d0e1db0fed2a14ebbe30f44f83eb9e
+      internalID: 799920405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_73
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1937
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4135017e978f53d43b0318e21c57f310
+      internalID: 632973987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_74
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be89ea1596ea0b446ac905110a71e566
+      internalID: -1147501208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_75
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f32c3e3c9ca4cc247baef79f16c86c1b
+      internalID: 959910432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_76
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6511b3865619e7741bcce24d346ff89b
+      internalID: 1017402165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_77
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4bf2522e6a24e44bb7384b42ac076d4
+      internalID: 295623801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_78
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c05d14839a32c4f4b8954da165c6c695
+      internalID: 1341489956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_79
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4afa55e5691f8c449beafae6863b00ed
+      internalID: -715591441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_80
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1809
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efd1b85a71ec61e4da6ed1be5812b6b0
+      internalID: -1804484011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_81
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1681
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b06be088b71b3d04aac2b035d58b3ec2
+      internalID: -488074837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_82
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1681
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0492da3daa0b9d64aa63296c9648cab3
+      internalID: 747161537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_83
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1681
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f25c1f29532e134cbde5ef59426fcf8
+      internalID: -213425508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_84
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1553
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf0c9b4074f98e343b15d632f54953b5
+      internalID: 1316623984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_85
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1553
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ad781a91eba86d49b2b71097f5dc514
+      internalID: -1643429985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_86
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1553
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5e3a9857455efe4cba016d33c74f433
+      internalID: -1627046501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_87
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1425
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84ec4ba067f2db3459fe0b19465e14bd
+      internalID: 359095635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_88
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1425
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ef1c591e639b9b4cbc1035e5b47834f
+      internalID: -2103151841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_89
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1425
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74302f0675bc3b541a6069b2ad2e7535
+      internalID: 1232615427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_90
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 1297
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 703ea64e2ea0401409d7747afb1b4a25
+      internalID: -1815901106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_91
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1297
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec32b56067feecd49bc0afceac93c5e5
+      internalID: 2033031727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: moja-tilemapa_92
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 1297
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ae01e720805a6246897553e68b8ca22
+      internalID: 53049320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      moja-tilemapa_0: -522007804
+      moja-tilemapa_1: 170116703
+      moja-tilemapa_10: -1392550000
+      moja-tilemapa_11: 841528115
+      moja-tilemapa_12: -701874669
+      moja-tilemapa_13: 2341957
+      moja-tilemapa_14: -1869836876
+      moja-tilemapa_15: -1573762002
+      moja-tilemapa_16: -355420874
+      moja-tilemapa_17: 46743531
+      moja-tilemapa_18: -134418920
+      moja-tilemapa_19: 30085318
+      moja-tilemapa_2: -504150174
+      moja-tilemapa_20: -1156813540
+      moja-tilemapa_21: 2017957536
+      moja-tilemapa_22: -1382756496
+      moja-tilemapa_23: -1565716262
+      moja-tilemapa_24: 608067470
+      moja-tilemapa_25: 1144479220
+      moja-tilemapa_26: 1198888015
+      moja-tilemapa_27: 1747926772
+      moja-tilemapa_28: 62423234
+      moja-tilemapa_29: -1191890471
+      moja-tilemapa_3: -1542231682
+      moja-tilemapa_30: -973505307
+      moja-tilemapa_31: 337884596
+      moja-tilemapa_32: 1049088965
+      moja-tilemapa_33: 915135445
+      moja-tilemapa_34: -1824889831
+      moja-tilemapa_35: -436510771
+      moja-tilemapa_36: -425513163
+      moja-tilemapa_37: -729289579
+      moja-tilemapa_38: 140983830
+      moja-tilemapa_39: 779517432
+      moja-tilemapa_4: 1065935640
+      moja-tilemapa_40: -220098372
+      moja-tilemapa_41: 1783490980
+      moja-tilemapa_42: -913423949
+      moja-tilemapa_43: -796824478
+      moja-tilemapa_44: 1367146522
+      moja-tilemapa_45: -136021841
+      moja-tilemapa_46: 570522903
+      moja-tilemapa_47: 1855566323
+      moja-tilemapa_48: 1806247995
+      moja-tilemapa_49: -712293997
+      moja-tilemapa_5: -1144891951
+      moja-tilemapa_50: 264305928
+      moja-tilemapa_51: -43660036
+      moja-tilemapa_52: 793288899
+      moja-tilemapa_53: 1967831984
+      moja-tilemapa_54: 153519892
+      moja-tilemapa_55: 855635644
+      moja-tilemapa_56: 1165888117
+      moja-tilemapa_57: 934572796
+      moja-tilemapa_58: 2119192953
+      moja-tilemapa_59: -1997500092
+      moja-tilemapa_6: -1027650220
+      moja-tilemapa_60: 385363679
+      moja-tilemapa_61: -1953071331
+      moja-tilemapa_62: 1036985029
+      moja-tilemapa_63: -130037153
+      moja-tilemapa_64: -506958168
+      moja-tilemapa_65: 231951145
+      moja-tilemapa_66: 256301689
+      moja-tilemapa_67: 1398072245
+      moja-tilemapa_68: -885520652
+      moja-tilemapa_69: 113595922
+      moja-tilemapa_7: -158308760
+      moja-tilemapa_70: 1653538589
+      moja-tilemapa_71: -1903374751
+      moja-tilemapa_72: 799920405
+      moja-tilemapa_73: 632973987
+      moja-tilemapa_74: -1147501208
+      moja-tilemapa_75: 959910432
+      moja-tilemapa_76: 1017402165
+      moja-tilemapa_77: 295623801
+      moja-tilemapa_78: 1341489956
+      moja-tilemapa_79: -715591441
+      moja-tilemapa_8: 2008371927
+      moja-tilemapa_80: -1804484011
+      moja-tilemapa_81: -488074837
+      moja-tilemapa_82: 747161537
+      moja-tilemapa_83: -213425508
+      moja-tilemapa_84: 1316623984
+      moja-tilemapa_85: -1643429985
+      moja-tilemapa_86: -1627046501
+      moja-tilemapa_87: 359095635
+      moja-tilemapa_88: -2103151841
+      moja-tilemapa_89: 1232615427
+      moja-tilemapa_9: -1998659784
+      moja-tilemapa_90: -1815901106
+      moja-tilemapa_91: 2033031727
+      moja-tilemapa_92: 53049320
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

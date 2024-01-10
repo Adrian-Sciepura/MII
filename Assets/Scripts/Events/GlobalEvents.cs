@@ -1,5 +1,3 @@
-public record OnHighPriorityLevelLoadEvent();
+public record OnPointsValueChanged();
 
-public record OnHighPriorityUpdateEvent();
-
-public record OnLevelSetupComplete();
+public record OnKeysValueChanged();

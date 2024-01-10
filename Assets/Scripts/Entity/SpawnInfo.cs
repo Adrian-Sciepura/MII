@@ -3,7 +3,5 @@ using UnityEngine;
 
 public class SpawnInfo : MonoBehaviour
 {
-    public GameEntityType entityType;
-    public string guid = Guid.NewGuid().ToString();
-    public bool doNotCreateImmediately = false;
+    public GameObject prefab;
 }

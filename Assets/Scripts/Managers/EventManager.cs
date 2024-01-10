@@ -1,24 +1,44 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public static EventManager Instance { get; private set; }
+    private static EventManager _instance;
 
-    private readonly Dictionary<Type, List<Action<object>>> _eventSubscribers = new Dictionary<Type, List<Action<object>>>();
+    private Dictionary<Type, List<Tuple<Action<object>, string>>> _eventSubscribers;
 
-    private readonly Queue<Tuple<Type, object>> _eventQueue = new Queue<Tuple<Type, object>>();
+    private Queue<Tuple<Type, object>> _eventQueue;
 
-    public void Awake()
+    public static void DestroySingleton()
     {
-        if (Instance != null && Instance != this)
+        if (_instance == null)
+            return;
+
+        Destroy(_instance.gameObject);
+        _instance = null;
+    }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
         {
             Destroy(this);
             return;
         }
 
-        Instance = this;
+        _instance = this;
+        _eventSubscribers = new Dictionary<Type, List<Tuple<Action<object>, string>>>();
+        _eventQueue = new Queue<Tuple<Type, object>>();
+
+        DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
+        _eventQueue.Clear();
     }
 
     private void Update()
@@ -28,58 +48,61 @@ public class EventManager : MonoBehaviour
         while(_eventQueue.Count > 0)
         {
             currentElement = _eventQueue.Dequeue();
-            List<Action<object>> subscribers;
+            List<Tuple<Action<object>, string>> subscribers;
 
             if (!_eventSubscribers.TryGetValue(currentElement.Item1, out subscribers))
                 continue;
 
             foreach (var subscriber in subscribers)
-                subscriber(currentElement.Item2);
+                subscriber.Item1(currentElement.Item2);
         }
     }
 
-    public void Subscribe<TEvent>(Action<TEvent> handler)
+    public static void Subscribe<TEvent>(Action<TEvent> handler)
     {
         Type eventType = typeof(TEvent);
 
-        if (!_eventSubscribers.ContainsKey(eventType))
-            _eventSubscribers.Add(eventType, new List<Action<object>>());
+        if (!_instance._eventSubscribers.ContainsKey(eventType))
+            _instance._eventSubscribers.Add(eventType, new List<Tuple<Action<object>, string>>());
 
-        _eventSubscribers[eventType].Add(e => handler((TEvent)e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].Add(new(e => handler((TEvent)e), $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}"));
     }
 
-    public void Subscribe(Type eventType, Action<object> handler)
+    public static void Subscribe(Type eventType, Action<object> handler)
     {
-        if (!_eventSubscribers.ContainsKey(eventType))
-            _eventSubscribers.Add(eventType, new List<Action<object>>());
+        if (!_instance._eventSubscribers.ContainsKey(eventType))
+            _instance._eventSubscribers.Add(eventType, new List<Tuple<Action<object>, string>>());
 
-        _eventSubscribers[eventType].Add(e => handler(e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].Add(new (handler, $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}"));
     }
 
-    public void Unsubscribe<TEvent>(Action<TEvent> handler)
+    public static void Unsubscribe<TEvent>(Action<TEvent> handler)
     {
         Type eventType = typeof(TEvent);
 
-        if (!_eventSubscribers.ContainsKey(eventType))
+        if (!_instance._eventSubscribers.ContainsKey(eventType))
             return;
 
-        _eventSubscribers[eventType].Remove(e => handler((TEvent)e));
+        MethodInfo methodInfo = handler.GetMethodInfo();
+        _instance._eventSubscribers[eventType].RemoveAll(x => x.Item2 == $"{methodInfo.DeclaringType.FullName}.{methodInfo.Name}");
     }
 
-    public void Publish<TEvent>(TEvent e)
+    public static void Publish<TEvent>(TEvent e)
     {
         Type eventType = typeof(TEvent);
-        _eventQueue.Enqueue(new(eventType, e));
+        _instance._eventQueue.Enqueue(new(eventType, e));
     }
 
-    public void Publish(object e)
+    public static void Publish(object e)
     {
         Type eventType = e.GetType();
-        _eventQueue.Enqueue(new(eventType, e));
+        _instance._eventQueue.Enqueue(new(eventType, e));
     }
 
-    public void Publish(Type eventType, object e)
+    public static void Publish(Type eventType, object e)
     {
-        _eventQueue.Enqueue(new(eventType, e));
+        _instance._eventQueue.Enqueue(new(eventType, e));
     }
 }
