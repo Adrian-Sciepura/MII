@@ -2813,6 +2813,7 @@ MonoBehaviour:
   - rid: 3763151333167202392
   content:
   - rid: 3763151333167202393
+  - rid: 4984211776454524938
   references:
     version: 2
     RefIds:
@@ -2827,6 +2828,11 @@ MonoBehaviour:
         performer: {fileID: 4766157169858587941}
         message: "Brawo! Uko\u0144czy\u0142e\u015B gr\u0119, je\u015Bli chcesz zobaczy\u0107
           dalsz\u0105 cz\u0119\u015B\u0107 - zag\u0142osuj na nasz projekt!"
+    - rid: 4984211776454524938
+      type: {class: ChangeSceneInteractionItem, ns: , asm: Assembly-CSharp}
+      data:
+        delay: 0
+        sceneName: EndMenu
 --- !u!1001 &252573746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18128,8 +18134,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 66.5478, y: 6.6426497, z: 0}
-    m_Extent: {x: 158.1347, y: 25.828548, z: 0}
+    m_Center: {x: 66.53775, y: 6.638851, z: 0}
+    m_Extent: {x: 158.14055, y: 25.83065, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -20440,8 +20446,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 4.6422, y: -1.2889999, z: 0}
-    m_Extent: {x: 4.9346004, y: 4.1240997, z: 0}
+    m_Center: {x: 4.64645, y: -1.27725, z: 0}
+    m_Extent: {x: 4.92805, y: 4.12805, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -140269,8 +140275,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.492
   m_LocalBounds:
-    m_Center: {x: 2.7239964, y: -1.0710685, z: 0}
-    m_Extent: {x: 4.7058496, y: 3.934449, z: 0}
+    m_Center: {x: 2.723473, y: -1.0679088, z: 0}
+    m_Extent: {x: 4.706373, y: 3.9376087, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

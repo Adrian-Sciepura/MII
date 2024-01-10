@@ -19,12 +19,22 @@ public class LevelManager : MonoBehaviour
     public static Dictionary<string, GameEntity> SpawnedEntities => _instance._spawnedEntities;
     public static GameEntity PlayerEntity => _instance._playerEntity;
 
+    public static void DestroySingleton()
+    {
+        Destroy(_instance.gameObject);
+        _instance = null;
+    }
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
         {
-            _instance._playerEntity = this._playerEntity;
-            _instance.RestorePlayerData();
+            if(this._playerEntity != null)
+            {
+                _instance._playerEntity = this._playerEntity;
+                _instance.RestorePlayerData();
+            }
+            
             Destroy(this);
             return;
         }

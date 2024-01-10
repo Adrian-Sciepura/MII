@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
     public static void IncreaseDeathCount() => _instance._deathCount++;
     public static void IncreaseKillCount() => _instance._killCount++;
 
+    public static void DestroySingleton()
+    {
+        Destroy(_instance.gameObject);
+        _instance = null;
+    }
 
     private void Awake()
     {

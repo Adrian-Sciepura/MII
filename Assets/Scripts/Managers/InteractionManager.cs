@@ -20,7 +20,11 @@ public class InteractionManager : MonoBehaviour
     private int _subInteractionIndex = 0;
     private bool _isSubInteractionRunning = false;
 
-
+    public static void DestroySingleton()
+    {
+        Destroy(_instance.gameObject);
+        _instance = null;
+    }
     private void Awake()
     {
         if(_instance != null && _instance != this)

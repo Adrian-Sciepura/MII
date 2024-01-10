@@ -12,6 +12,12 @@ public class EventManager : MonoBehaviour
 
     private Queue<Tuple<Type, object>> _eventQueue;
 
+    public static void DestroySingleton()
+    {
+        Destroy(_instance.gameObject);
+        _instance = null;
+    }
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
