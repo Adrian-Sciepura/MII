@@ -6,10 +6,14 @@ public abstract class MovementSystem : MonoBehaviour
     { }
     protected virtual void Update()
     { }
+    protected virtual void Start()
+    { }
     protected virtual void OnDestroy()
     { }
     protected virtual void OnEnable()
     { }
     protected virtual void OnDisable()
+    { }
+    protected virtual void OnDrawGizmos()
     { }
 }

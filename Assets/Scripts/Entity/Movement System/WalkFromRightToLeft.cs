@@ -9,21 +9,15 @@ public class WalkFromRightToLeft : WalkMovementSystemTemplate
     protected int _maxWalkDistance;
     protected float _checkDistance;
     protected int Horizontal => _isFacingRight ? 1 : -1;
-
+    protected RaycastElement _wallCheckData;
+    protected RaycastElement _fallCheckData;
 
     protected override void Awake()
     {
         base.Awake();
 
-        Collider2D mainCollider = GetComponent<Collider2D>();
-
-        if (mainCollider != null)
-        {
-            _checkDistance = 0.4f;
-            _doNotFallCheck = new Vector3(1.0f, -mainCollider.bounds.size.y * 0.7f - 0.05f, 0);
-            _wallCheck = new Vector3(mainCollider.bounds.size.x / 2 + 0.05f, -0.5f, 0);
-        }
-
+        _wallCheckData = _raycastData.wallCheck;
+        _fallCheckData = _raycastData.fallCheck;
         _startPos = transform.position;
     }
 
@@ -37,8 +31,19 @@ public class WalkFromRightToLeft : WalkMovementSystemTemplate
         _animator.SetBool("isRunning", true);
     }
 
-    protected bool CheckFallCollider() => Physics2D.Raycast(transform.position + _doNotFallCheck, Vector2.down, _checkDistance, _movementData.groundLayer);
-    protected bool CheckWallCollider() => Physics2D.Raycast(transform.position + _wallCheck, Vector2.right * Horizontal, _checkDistance, _movementData.groundLayer);
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        if(Application.isPlaying)
+        {
+            Gizmos.DrawWireCube(transform.position - transform.up * _fallCheckData.offset.x - transform.right * _fallCheckData.offset.y * Horizontal, _fallCheckData.size);
+            Gizmos.DrawWireCube(transform.position - transform.up * _wallCheckData.offset.x - transform.right * _wallCheckData.offset.y * Horizontal, _wallCheckData.size);
+        }
+    }
+
+
+    protected bool CheckFallCollider() => Physics2D.BoxCast(transform.position - transform.up * _fallCheckData.offset.x - transform.right * _fallCheckData.offset.y * Horizontal, _fallCheckData.size, 0, Vector2.zero, 0, _movementData.groundLayer);
+    protected bool CheckWallCollider() => Physics2D.BoxCast(transform.position - transform.up * _wallCheckData.offset.x - transform.right * _wallCheckData.offset.y * Horizontal, _wallCheckData.size, 0, Vector2.zero, 0, _movementData.groundLayer);
 
     protected override void Flip()
     {

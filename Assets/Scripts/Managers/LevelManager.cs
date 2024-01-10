@@ -71,7 +71,10 @@ public class LevelManager : MonoBehaviour
         _spawnedEntities.Clear();
         GameEntity[] gameEntities = FindObjectsOfType<GameEntity>();
         foreach (var entity in gameEntities)
+        {
             _spawnedEntities.Add(entity.GUID, entity);
+            entity.tag = "Entity";
+        }
     }
 
     private void SavePlayer()

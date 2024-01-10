@@ -15,9 +15,12 @@ public class LandPlayerFollowerMovementSystem : WalkFromRightToLeft
     protected override void Awake()
     {
         base.Awake();
-
-        _target = LevelManager.PlayerEntity.transform;
         _seeker = this.AddComponent<Seeker>();
+    }
+
+    protected override void Start()
+    {
+        _target = LevelManager.PlayerEntity.transform;
 
         _updateCoroutine = StartCoroutine(UpdatePath());
     }
