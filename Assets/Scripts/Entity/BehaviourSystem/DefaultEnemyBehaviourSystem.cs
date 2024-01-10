@@ -10,7 +10,7 @@ public class DefaultEnemyBehaviourSystem : BehaviourSystem
         if (other.tag == "Entity" && (playerEntity = other.GetComponent<GameEntity>()) != null && playerEntity.EntityCategory == GameEntityCategory.Player)
         {
             playerEntity.ReceiveDamage(gameObject, 25);
-            AddKnockback(playerEntity.gameObject, 2);
+            AddKnockback(playerEntity.gameObject, 3);
         }
     }
 }

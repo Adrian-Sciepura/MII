@@ -119,6 +119,7 @@ public class Inventory : MonoBehaviour
             EventManager.Publish(new OnEntityPickupItemEvent(gameEntity, item));
 
         _itemsCount++;
+        gameEntity.HeldItemInventorySlot = gameEntity.HeldItemInventorySlot;
     }
 
     public void RemoveItem(ItemType item)

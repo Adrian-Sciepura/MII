@@ -273,7 +273,7 @@ public class LevelManager : MonoBehaviour
         
         if(entity.EntityCategory == GameEntityCategory.Player)
         {
-            _playerEntity.transform.position = _respawnPoint;
+            _playerEntity.transform.position = new Vector3(_respawnPoint.x, _respawnPoint.y, _playerEntity.transform.position.z);
             
             LivingEntityData playerHealthData = _playerEntity.EntityData.GetData<LivingEntityData>();
             playerHealthData.health = playerHealthData.maxHealth;
